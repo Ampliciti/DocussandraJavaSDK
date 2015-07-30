@@ -1,16 +1,23 @@
-package com.docussandra.javasdk.impl;
+package com.docussandra.javasdk.dao.impl;
 
-import com.docussandra.javasdk.DatabaseDao;
+import com.docussandra.javasdk.Config;
+import com.docussandra.javasdk.dao.DatabaseDao;
+import com.docussandra.javasdk.dao.impl.parent.DaoParent;
 import com.strategicgains.docussandra.domain.objects.Database;
 import com.strategicgains.docussandra.domain.objects.Identifier;
 import java.util.List;
 
 /**
- *
+ * Database dao that accesses Docussandra via the REST API.
  * @author udeyoje
  */
-public class DatabaseDaoImpl implements DatabaseDao
+public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
 {
+
+    public DatabaseDaoImpl(Config config)
+    {
+        super(config);
+    }
 
     @Override
     public Database create(Database entity)

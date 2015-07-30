@@ -13,31 +13,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.docussandra.javasdk;
+package com.docussandra.javasdk.dao;
 
-import com.strategicgains.docussandra.domain.objects.Document;
 import com.strategicgains.docussandra.domain.objects.Identifier;
-import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
+import com.strategicgains.docussandra.domain.objects.Index;
+import java.util.List;
 
 /**
  *
  * @author udeyoje
  */
-public interface DocumentDao
+public interface IndexDao
 {
 
-    Document create(Document entity);
+    long countAll(Identifier id);
 
-    void delete(Document entity);
+    Index create(Index entity);
 
     void delete(Identifier id);
 
+    void delete(Index entity);
+
     boolean exists(Identifier identifier);
 
-    Document read(Identifier identifier);
+    /**
+     * Marks an index as "active" meaning that indexing has completed on it.
+     *
+     * @param entity Index to mark active.
+     */
+    void markActive(Index entity);
 
-    QueryResponseWrapper readAll(String database, String tableString, int limit, long offset);
+    Index read(Identifier identifier);
 
-    Document update(Document entity);
+    List<Index> readAll(Identifier id);
+
+    List<Index> readAll();
+
+    /**
+     * Same as readAll, but will read from the cache if available.
+     *
+     * @return
+     */
+    List<Index> readAllCached(Identifier id);
+
+    Index update(Index entity);
 
 }

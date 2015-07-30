@@ -13,33 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.docussandra.javasdk;
+package com.docussandra.javasdk.dao;
 
-import com.strategicgains.docussandra.domain.objects.Database;
+import com.strategicgains.docussandra.domain.objects.Document;
 import com.strategicgains.docussandra.domain.objects.Identifier;
-import java.util.List;
+import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
 
 /**
  *
  * @author udeyoje
  */
-public interface DatabaseDao
+public interface DocumentDao
 {
 
-    Database create(Database entity);
+    Document create(Document entity);
 
-    void delete(Database entity);
+    void delete(Document entity);
 
-    void delete(Identifier identifier);
+    void delete(Identifier id);
 
     boolean exists(Identifier identifier);
 
-    Database read(Identifier identifier);
+    Document read(Identifier identifier);
 
-    List<Database> readAll();
+    QueryResponseWrapper readAll(String database, String tableString, int limit, long offset);
 
-    List<Database> readAll(Identifier id);
-
-    Database update(Database entity);
+    Document update(Document entity);
 
 }

@@ -13,37 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.docussandra.javasdk;
+package com.docussandra.javasdk.dao;
 
+import com.strategicgains.docussandra.domain.objects.Database;
 import com.strategicgains.docussandra.domain.objects.Identifier;
-import com.strategicgains.docussandra.domain.objects.Table;
 import java.util.List;
 
 /**
  *
  * @author udeyoje
  */
-public interface TableDao
+public interface DatabaseDao
 {
 
-    long countAllTables(String database);
+    Database create(Database entity);
 
-    long countTableSize(String database, String tableName);
+    void delete(Database entity);
 
-    Table create(Table entity);
-
-    void delete(Table entity);
-
-    void delete(Identifier id);
+    void delete(Identifier identifier);
 
     boolean exists(Identifier identifier);
 
-    Table read(Identifier identifier);
+    Database read(Identifier identifier);
 
-    List<Table> readAll(Identifier id);
+    List<Database> readAll();
 
-    List<Table> readAll();
-    
-    Table update(Table entity);
-    
+    List<Database> readAll(Identifier id);
+
+    Database update(Database entity);
+
 }
