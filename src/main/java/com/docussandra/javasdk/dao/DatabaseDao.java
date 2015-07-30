@@ -15,6 +15,7 @@
  */
 package com.docussandra.javasdk.dao;
 
+import com.docussandra.javasdk.domain.DatabaseResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.strategicgains.docussandra.domain.objects.Database;
 import com.strategicgains.docussandra.domain.objects.Identifier;
@@ -35,14 +36,14 @@ public interface DatabaseDao
 
     void delete(Identifier identifier) throws RESTException;
 
-    boolean exists(Identifier identifier);
+    boolean exists(Identifier identifier) throws RESTException;
 
-    Database read(Identifier identifier);
+    DatabaseResponse read(Identifier identifier) throws RESTException, IOException;
 
-    List<Database> readAll();
+    List<Database> readAll() throws RESTException, IOException;
 
-    List<Database> readAll(Identifier id);
+    List<Database> readAll(Identifier id) throws RESTException, IOException;
 
-    Database update(Database entity);
+    DatabaseResponse update(Database entity) throws RESTException, IOException;
 
 }

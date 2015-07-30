@@ -46,37 +46,47 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     }
 
     @Override
-    public void delete(Identifier identifier)
+    public void delete(Identifier identifier) throws RESTException
+    {
+        super.doDeleteCall(super.createFullURL("") + "/" + identifier.getDatabaseName());
+    }
+
+    @Override
+    public boolean exists(Identifier identifier) throws RESTException
+    {
+        try{
+            super.doGetCall(super.createFullURL("") + "/" + identifier.getDatabaseName());
+            return true;
+        }catch(RESTException e){
+            if(e.getErrorCode() == 404){
+                return false;
+            } else {
+                throw e;
+            }
+        }
+    }
+
+    @Override
+    public DatabaseResponse read(Identifier identifier) throws RESTException, IOException
+    {
+        JSONObject response = super.doGetCall(super.createFullURL("") + "/" + identifier.getDatabaseName());
+        return r.readValue(response.toJSONString());
+    }
+
+    @Override
+    public List<Database> readAll() throws RESTException, IOException
     {
         throw new UnsupportedOperationException("Not done yet");
     }
 
     @Override
-    public boolean exists(Identifier identifier)
+    public List<Database> readAll(Identifier id) throws RESTException, IOException
     {
         throw new UnsupportedOperationException("Not done yet");
     }
 
     @Override
-    public Database read(Identifier identifier)
-    {
-        throw new UnsupportedOperationException("Not done yet");
-    }
-
-    @Override
-    public List<Database> readAll()
-    {
-        throw new UnsupportedOperationException("Not done yet");
-    }
-
-    @Override
-    public List<Database> readAll(Identifier id)
-    {
-        throw new UnsupportedOperationException("Not done yet");
-    }
-
-    @Override
-    public Database update(Database entity)
+    public DatabaseResponse update(Database entity) throws RESTException, IOException
     {
         throw new UnsupportedOperationException("Not done yet");
     }

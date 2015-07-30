@@ -24,31 +24,55 @@ import org.junit.Ignore;
  */
 public class DatabaseDaoImplTest
 {
+
     private Config config;
-    
+    private DatabaseDaoImpl instance;
+
     public DatabaseDaoImplTest()
     {
         config = new Config("https://docussandra.stg-prsn.com/", Config.Format.LONG);
+        instance = new DatabaseDaoImpl(config);
     }
-    
+
+    public static Database getTestDb()
+    {
+        Database entity = new Database("testdb");
+        entity.description("This was a db created by java sdk tests.");
+        return entity;
+    }
+
+    public void cleanupTestDb()
+    {
+        try
+        {
+            DatabaseDaoImpl instance = new DatabaseDaoImpl(config);
+            instance.delete(getTestDb());
+        } catch (Exception e)
+        {
+            ;//don't care
+        }
+    }
+
     @BeforeClass
     public static void setUpClass()
     {
     }
-    
+
     @AfterClass
     public static void tearDownClass()
     {
     }
-    
+
     @Before
     public void setUp()
     {
+        cleanupTestDb();
     }
-    
+
     @After
     public void tearDown()
     {
+        cleanupTestDb();
     }
 
     /**
@@ -58,10 +82,9 @@ public class DatabaseDaoImplTest
     public void testCreate() throws Exception
     {
         System.out.println("create");
-        Database entity = new Database("testdb");
-        DatabaseDaoImpl instance = new DatabaseDaoImpl(config);
-        Database expResult = entity;
-        DatabaseResponse result = instance.create(entity);
+
+        Database expResult = getTestDb();
+        DatabaseResponse result = instance.create(getTestDb());
         assertNotNull(result);
         assertEquals(expResult.getId(), result.getId());
         assertEquals(expResult.name(), result.name());
@@ -78,64 +101,66 @@ public class DatabaseDaoImplTest
      * Test of delete method, of class DatabaseDaoImpl.
      */
     @Test
-    @Ignore
     public void testDelete_Database() throws Exception
     {
         System.out.println("delete");
-        Database entity = null;
-        DatabaseDaoImpl instance = null;
+        instance.create(getTestDb());
+        Database entity = getTestDb();
         instance.delete(entity);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertFalse(instance.exists(new Identifier(getTestDb().name())));
     }
 
     /**
      * Test of delete method, of class DatabaseDaoImpl.
      */
     @Test
-    @Ignore
-    public void testDelete_Identifier()
+    public void testDelete_Identifier() throws Exception
     {
         System.out.println("delete");
-        Identifier identifier = null;
-        DatabaseDaoImpl instance = null;
-        instance.delete(identifier);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.create(getTestDb());
+        Database entity = getTestDb();
+        Identifier id = new Identifier(entity.name());
+        instance.delete(id);
+        assertFalse(instance.exists(id));
     }
 
     /**
      * Test of exists method, of class DatabaseDaoImpl.
      */
     @Test
-    @Ignore
-    public void testExists()
+    public void testExists() throws Exception
     {
         System.out.println("exists");
-        Identifier identifier = null;
-        DatabaseDaoImpl instance = null;
-        boolean expResult = false;
-        boolean result = instance.exists(identifier);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Database entity = getTestDb();
+        Identifier id = new Identifier(entity.name());
+        boolean result = instance.exists(id);
+        assertFalse(result);
+        instance.create(entity);
+        result = instance.exists(id);
+        assertTrue(result);
     }
 
     /**
      * Test of read method, of class DatabaseDaoImpl.
      */
     @Test
-    @Ignore
-    public void testRead()
+    public void testRead() throws Exception
     {
         System.out.println("read");
-        Identifier identifier = null;
-        DatabaseDaoImpl instance = null;
-        Database expResult = null;
-        Database result = instance.read(identifier);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Database entity = getTestDb();
+        instance.create(entity);
+        Identifier identifier = entity.getId();
+        Database expResult = entity;
+        DatabaseResponse result = instance.read(identifier);
+        assertEquals(expResult.getId(), result.getId());
+        assertEquals(expResult.name(), result.name());
+        assertEquals(expResult.description(), result.description());
+        assertNotNull(result.getLinks());
+        assertNotNull(result.getLinks().getCollections());
+        assertNotNull(result.getLinks().getSelf());
+        assertNotNull(result.getLinks().getUp());
+        assertNotNull(result.getUpdatedAt());
+        assertNotNull(result.getCreatedAt());
     }
 
     /**
@@ -143,7 +168,7 @@ public class DatabaseDaoImplTest
      */
     @Test
     @Ignore
-    public void testReadAll_0args()
+    public void testReadAll_0args() throws Exception
     {
         System.out.println("readAll");
         DatabaseDaoImpl instance = null;
@@ -159,7 +184,7 @@ public class DatabaseDaoImplTest
      */
     @Test
     @Ignore
-    public void testReadAll_Identifier()
+    public void testReadAll_Identifier() throws Exception
     {
         System.out.println("readAll");
         Identifier id = null;
@@ -176,7 +201,7 @@ public class DatabaseDaoImplTest
      */
     @Test
     @Ignore
-    public void testUpdate()
+    public void testUpdate() throws Exception
     {
         System.out.println("update");
         Database entity = null;
@@ -187,5 +212,5 @@ public class DatabaseDaoImplTest
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }
