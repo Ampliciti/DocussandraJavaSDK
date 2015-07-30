@@ -15,9 +15,12 @@
  */
 package com.docussandra.javasdk.dao;
 
+import com.docussandra.javasdk.exceptions.RESTException;
 import com.strategicgains.docussandra.domain.objects.Database;
 import com.strategicgains.docussandra.domain.objects.Identifier;
+import java.io.IOException;
 import java.util.List;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -26,11 +29,11 @@ import java.util.List;
 public interface DatabaseDao
 {
 
-    Database create(Database entity);
+    Database create(Database entity) throws ParseException, RESTException, IOException;
 
-    void delete(Database entity);
+    void delete(Database entity) throws RESTException;
 
-    void delete(Identifier identifier);
+    void delete(Identifier identifier) throws RESTException;
 
     boolean exists(Identifier identifier);
 

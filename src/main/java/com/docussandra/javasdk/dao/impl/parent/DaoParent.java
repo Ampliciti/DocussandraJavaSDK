@@ -86,15 +86,26 @@ public abstract class DaoParent
         StringBuilder toReturn = new StringBuilder(route);
         if (toReturn.toString().startsWith("/"))
         {
-            toReturn.substring(1);//remove the first slash for consistancy, will be added back later
+            toReturn = new StringBuilder(toReturn.substring(1));//remove the first slash for consistancy, will be added back later
         }
         if (config.getFormat().equals(Config.Format.LONG)) //if it's long format; we have some more work to do
         {
             int slash = toReturn.indexOf("/");
-            toReturn.insert(slash - 1, L_DATABASES);
+            if (slash == -1)
+            {
+                slash = 0;
+            }
+            toReturn.insert(slash, L_DATABASES);
             slash = toReturn.indexOf("/", slash + L_DATABASES.length() + 1);
-            toReturn.insert(slash - 1, L_TABLES);
+            if (slash != -1)
+            {
+                toReturn.insert(slash, L_TABLES);
+            }
             //TODO: finish this
+        }
+        if (toReturn.toString().startsWith("/"))//ugly; fix!
+        {
+            toReturn = new StringBuilder(toReturn.substring(1));//remove the first slash for consistancy, will be added back later
         }
         toReturn.insert(0, getBaseURL());//prepend the baseurl
         return toReturn.toString();
@@ -108,7 +119,7 @@ public abstract class DaoParent
      * body, the object will be empty.
      * @throws RESTException
      */
-    public JSONObject doGetCall(String url) throws RESTException
+    protected JSONObject doGetCall(String url) throws RESTException
     {
         HttpGet request = new HttpGet(url);
         request.setConfig(rc);
@@ -160,7 +171,7 @@ public abstract class DaoParent
      * body, the object will be empty.
      * @throws RESTException
      */
-    public JSONObject doPostCall(String url, JSONObject toPost) throws RESTException
+    protected JSONObject doPostCall(String url, JSONObject toPost) throws RESTException
     {
         HttpPost request = new HttpPost(url);
         request.setConfig(rc);
@@ -214,7 +225,7 @@ public abstract class DaoParent
      * body the object will be empty.
      * @throws RESTException
      */
-    public JSONObject doPutCall(String url, JSONObject toPost) throws RESTException
+    protected JSONObject doPutCall(String url, JSONObject toPost) throws RESTException
     {
         HttpPut request = new HttpPut(url);
         request.setConfig(rc);
@@ -265,7 +276,7 @@ public abstract class DaoParent
      * @param url to DELETE
      * @throws RESTException
      */
-    public void doDeleteCall(String url) throws RESTException
+    protected void doDeleteCall(String url) throws RESTException
     {
         HttpDelete request = new HttpDelete(url);
         request.setConfig(rc);
