@@ -19,6 +19,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -29,43 +30,29 @@ import java.util.List;
 public class TableDaoImpl extends DaoParent implements TableDao{
 
     private final JSONParser parser = new JSONParser();
-    private final ObjectReader r = SDKUtils.getObjectMapper().reader(DatabaseResponse.class);
+    private final ObjectReader jsonObjectReader = SDKUtils.getObjectMapper().reader(TableResponse.class);
 
     public TableDaoImpl(Config config)
     {
         super(config);
     }
 
-    public TableResponse create(Database databaseEntity, Table tableEntity) throws ParseException, RESTException {
+    @Override
+    public TableResponse create(Database databaseEntity, Table tableEntity) throws ParseException, RESTException, IOException {
         String tableJson = SDKUtils.createJSON(tableEntity);
         JSONObject response = super.doPostCall(super.createFullURL("") + "/" + databaseEntity.name() +
                 "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
-       return TableResponse;
+       return jsonObjectReader.readValue(response.toJSONString());
     }
 
     @Override
-    public long countAllTables(String database) {
-        return 0;
+    public void delete(Database databaseEntity,Table tableEntity) throws RESTException {
+        super.doDeleteCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + tableEntity.name());
     }
 
     @Override
-    public long countTableSize(String database, String tableName) {
-        return 0;
-    }
-
-    @Override
-    public Table create(Table entity) {
-        return null;
-    }
-
-    @Override
-    public void delete(Table entity) {
-
-    }
-
-    @Override
-    public void delete(Identifier id) {
-
+    public void delete(Database databaseEntity,Identifier id) throws RESTException {
+        super.doDeleteCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + id.getTableName());
     }
 
     @Override

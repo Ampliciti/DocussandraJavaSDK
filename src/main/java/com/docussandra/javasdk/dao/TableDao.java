@@ -15,8 +15,13 @@
  */
 package com.docussandra.javasdk.dao;
 
+import com.docussandra.javasdk.domain.TableResponse;
+import com.docussandra.javasdk.exceptions.RESTException;
+import com.strategicgains.docussandra.domain.objects.Database;
 import com.strategicgains.docussandra.domain.objects.Identifier;
 import com.strategicgains.docussandra.domain.objects.Table;
+import org.json.simple.parser.ParseException;
+
 import java.util.List;
 
 /**
@@ -26,15 +31,13 @@ import java.util.List;
 public interface TableDao
 {
 
-    long countAllTables(String database);
+    //long countTableSize(String database, String tableName);
 
-    long countTableSize(String database, String tableName);
+    TableResponse create(Database databaseEntity,Table entity) throws ParseException;
 
-    Table create(Table entity);
+    void delete(Database databaseEntity,Table entity) throws RESTException;
 
-    void delete(Table entity);
-
-    void delete(Identifier id);
+    void delete(Database databaseEntity,Identifier id) throws RESTException;
 
     boolean exists(Identifier identifier);
 
