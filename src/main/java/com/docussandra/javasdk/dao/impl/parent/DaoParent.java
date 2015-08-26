@@ -245,7 +245,7 @@ public abstract class DaoParent
             int responseCode = response.getStatusLine().getStatusCode();
             if (responseCode < 200 || responseCode >= 300)
             {
-                throw new RESTException("Error when doing a PUT call agaist: " + url + ". JSON put: " + toPost.toJSONString(), response);
+                throw new RESTException("Error when doing a PUT call against: " + url + ". JSON put: " + toPost.toJSONString(), response);
             }
 
             if (response.getEntity() != null)

@@ -1,13 +1,14 @@
 package com.docussandra.javasdk.domain;
 
 import com.docussandra.javasdk.domain.hal.HALObject;
+import com.strategicgains.docussandra.domain.objects.Table;
 import com.strategicgains.syntaxe.annotation.ChildValidation;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Created by upunych on 8/25/15.
  */
-public class TableResponse {
+public class TableResponse extends Table{
     @ChildValidation
     @JsonProperty
     private HALObject _links;

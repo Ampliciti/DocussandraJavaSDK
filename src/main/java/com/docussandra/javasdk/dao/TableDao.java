@@ -22,6 +22,7 @@ import com.strategicgains.docussandra.domain.objects.Identifier;
 import com.strategicgains.docussandra.domain.objects.Table;
 import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -31,22 +32,22 @@ import java.util.List;
 public interface TableDao
 {
 
-    //long countTableSize(String database, String tableName);
+    //TODO : long countTableSize(String database, String tableName);
 
-    TableResponse create(Database databaseEntity,Table entity) throws ParseException;
+    TableResponse create(Database databaseEntity,Table entity) throws ParseException, RESTException, IOException;
 
     void delete(Database databaseEntity,Table entity) throws RESTException;
 
     void delete(Database databaseEntity,Identifier id) throws RESTException;
 
-    boolean exists(Identifier identifier);
+    boolean exists(Database databaseEntity,Identifier id) throws RESTException;
 
-    Table read(Identifier identifier);
+    TableResponse read(Database databaseEntity,Identifier id) throws RESTException, IOException;
 
     List<Table> readAll(Identifier id);
 
     List<Table> readAll();
     
-    Table update(Table entity);
+    Table update(Database databaseEntity,Table tableEntity) throws ParseException, RESTException, IOException;
     
 }

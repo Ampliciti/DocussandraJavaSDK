@@ -56,27 +56,46 @@ public class TableDaoImpl extends DaoParent implements TableDao{
     }
 
     @Override
-    public boolean exists(Identifier identifier) {
-        return false;
+    public boolean exists(Database databaseEntity, Identifier id) throws RESTException {
+
+        try{
+            super.doGetCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + id.getTableName());
+            return true;
+        }catch(RESTException e){
+            if(e.getErrorCode() == 404){
+                return false;
+            } else {
+                throw e;
+            }
+        }
     }
 
     @Override
-    public Table read(Identifier identifier) {
-        return null;
+    public TableResponse read(Database databaseEntity,Identifier id) throws RESTException, IOException {
+        JSONObject response = super.doGetCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + id.getTableName());
+        return jsonObjectReader.readValue(response.toJSONString());
     }
 
+    //TODO: to convert jsons into lists
     @Override
     public List<Table> readAll(Identifier id) {
-        return null;
+        throw new UnsupportedOperationException("Not done yet");
     }
 
     @Override
     public List<Table> readAll() {
-        return null;
+        throw new UnsupportedOperationException("Not done yet");
     }
 
     @Override
-    public Table update(Table entity) {
-        return null;
+    public Table update(Database databaseEntity,Table tableEntity) throws ParseException, RESTException, IOException {
+        // running the put route
+        String tableJson = SDKUtils.createJSON(tableEntity);
+        JSONObject putResponse = super.doPostCall(super.createFullURL("") + "/" + databaseEntity.name() +
+                "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
+
+        // run the get route on the updated table
+        JSONObject getResponse = super.doGetCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + tableEntity.name());
+        return jsonObjectReader.readValue(getResponse.toJSONString());
     }
 }
