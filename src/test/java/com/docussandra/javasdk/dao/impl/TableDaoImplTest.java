@@ -152,11 +152,10 @@ public class TableDaoImplTest
         System.out.println("read table");
         tableImplInstance.create(getTestDb(), getTestTable());
         TableResponse result = tableImplInstance.read(getTestDb(), getTestTable().getId());
-        assertEquals(getTestDb().getId(), result.getId());
-        assertEquals(getTestDb().name(), result.name());
-        assertEquals(getTestDb().description(), result.description());
+        assertEquals(getTestTable().getId(), result.getId());
+        assertEquals(getTestTable().name(), result.name());
+        assertEquals(getTestTable().description(), result.description());
         assertNotNull(result.getLinks());
-        assertNotNull(result.getLinks().getCollections());
         assertNotNull(result.getLinks().getSelf());
         assertNotNull(result.getLinks().getUp());
         assertNotNull(result.getUpdatedAt());
@@ -170,9 +169,14 @@ public class TableDaoImplTest
     public void testUpdate() throws Exception
     {
         System.out.println("update table");
-
-        Table result = tableImplInstance.update(getTestDb(), getTestTable());
-        assertEquals(getTestTable(), result);
+        tableImplInstance.create(getTestDb(), getTestTable());//create
+        Table updated = getTestTable();
+        updated.description("This is a new description.");
+        Table result = tableImplInstance.update(getTestDb(), updated);
+        assertEquals(updated.description(), result.description());
+        assertEquals(updated.getId(), result.getId());
+        assertNotSame(updated.getUpdatedAt(), result.getUpdatedAt());
+        
     }
 
 }

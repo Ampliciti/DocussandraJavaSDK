@@ -99,7 +99,7 @@ public class TableDaoImpl extends DaoParent implements TableDao
     {
         // running the put route
         String tableJson = SDKUtils.createJSON(tableEntity);
-        JSONObject putResponse = super.doPostCall(super.createFullURL("") + "/" + databaseEntity.name()
+        /*JSONObject putResponse = */super.doPutCall(super.createFullURL("") + "/" + databaseEntity.name()
                 + "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
 
         // run the get route on the updated table
