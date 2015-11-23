@@ -58,7 +58,6 @@ public class TableDaoImpl extends DaoParent implements TableDao
     @Override
     public boolean exists(Database databaseEntity, Identifier id) throws RESTException
     {
-
         try
         {
             super.doGetCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + id.getTableName());

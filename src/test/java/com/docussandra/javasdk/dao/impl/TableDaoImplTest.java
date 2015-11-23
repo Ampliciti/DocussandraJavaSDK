@@ -42,6 +42,7 @@ public class TableDaoImplTest
         Table entity = new Table();
         entity.name("testtable");
         entity.description("This was a table created by java sdk tests.");
+        entity.database(getTestDb());
         return entity;
     }
 
@@ -94,6 +95,7 @@ public class TableDaoImplTest
         assertNotNull(result);
         assertEquals(expTableResult.name(), result.name());
         assertEquals(expTableResult.description(), result.description());
+        assertEquals(expTableResult.getId(), result.getId());
         assertNotNull(result.getLinks());
         assertNotNull(result.getLinks().getSelf());
         assertNotNull(result.getLinks().getUp());
