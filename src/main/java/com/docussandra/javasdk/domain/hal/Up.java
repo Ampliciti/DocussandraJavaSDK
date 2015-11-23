@@ -13,8 +13,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class Up
 {
-    @JsonProperty
     private String href;
+     
+    private String title;
 
     /**
      * @return the href
@@ -30,6 +31,22 @@ public class Up
     public void setHref(String href)
     {
         this.href = href;
+    }
+
+    /**
+     * @return the title
+     */
+    public String getTitle()
+    {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(String title)
+    {
+        this.title = title;
     }
 
 }

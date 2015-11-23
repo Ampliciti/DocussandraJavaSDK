@@ -92,11 +92,9 @@ public class TableDaoImplTest
         Table expTableResult = getTestTable();
         TableResponse result = tableImplInstance.create(getTestDb(), getTestTable());
         assertNotNull(result);
-        assertEquals(expTableResult.getId(), result.getId());
         assertEquals(expTableResult.name(), result.name());
         assertEquals(expTableResult.description(), result.description());
         assertNotNull(result.getLinks());
-        assertNotNull(result.getLinks().getCollections());
         assertNotNull(result.getLinks().getSelf());
         assertNotNull(result.getLinks().getUp());
         assertNotNull(result.getUpdatedAt());

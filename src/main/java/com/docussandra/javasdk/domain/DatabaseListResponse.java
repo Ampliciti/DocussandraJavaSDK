@@ -2,9 +2,8 @@ package com.docussandra.javasdk.domain;
 
 import com.docussandra.javasdk.SDKUtils;
 import com.docussandra.javasdk.domain.hal.HALObject;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.strategicgains.syntaxe.annotation.ChildValidation;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.ObjectReader;
 
 /**
  *
@@ -12,16 +11,12 @@ import org.codehaus.jackson.map.ObjectReader;
  */
 public class DatabaseListResponse
 {
-    
-    private final ObjectReader r = SDKUtils.getObjectMapper().reader(DatabaseResponse.class);
 
     @ChildValidation
-    @JsonProperty
     private HALObject _links;
     
     @ChildValidation
-    @JsonProperty("_embedded")
-    private DatabaseEmbedded embedded;
+    private DatabaseEmbedded _embedded;
 
     /**
      * @return the _links
@@ -40,18 +35,18 @@ public class DatabaseListResponse
     }
 
     /**
-     * @return the embedded
+     * @return the _embedded
      */
     public DatabaseEmbedded getEmbedded()
     {
-        return embedded;
+        return _embedded;
     }
 
     /**
-     * @param embedded the embedded to set
+     * @param embedded the _embedded to set
      */
     public void setEmbedded(DatabaseEmbedded embedded)
     {
-        this.embedded = embedded;
+        this._embedded = embedded;
     }
 }
