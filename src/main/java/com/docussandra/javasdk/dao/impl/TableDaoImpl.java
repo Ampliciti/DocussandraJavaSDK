@@ -4,6 +4,7 @@ import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.SDKUtils;
 import com.docussandra.javasdk.dao.TableDao;
 import com.docussandra.javasdk.dao.impl.parent.DaoParent;
+import com.docussandra.javasdk.domain.TableListResponse;
 import com.docussandra.javasdk.domain.TableResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -28,6 +29,7 @@ public class TableDaoImpl extends DaoParent implements TableDao
 
     private final JSONParser parser = new JSONParser();
     private final ObjectReader jsonObjectReader = SDKUtils.getObjectMapper().reader(TableResponse.class);
+    private final ObjectReader rList = SDKUtils.getObjectMapper().reader(TableListResponse.class);
 
     public TableDaoImpl(Config config)
     {
@@ -82,9 +84,11 @@ public class TableDaoImpl extends DaoParent implements TableDao
     }
 
     @Override
-    public List<Table> readAll()
+    public List<TableResponse> readAll(Database db) throws RESTException, IOException
     {
-        throw new UnsupportedOperationException("Not done yet");
+        JSONObject response = super.doGetCall(super.createFullURL("") + "/" + db.name() + "/");
+        TableListResponse objectResponse = rList.readValue(response.toJSONString());
+        return objectResponse.getEmbedded().getTables();
     }
 
     @Override
@@ -92,7 +96,8 @@ public class TableDaoImpl extends DaoParent implements TableDao
     {
         // running the put route
         String tableJson = SDKUtils.createJSON(tableEntity);
-        /*JSONObject putResponse = */super.doPutCall(super.createFullURL("") + "/" + databaseEntity.name()
+        /*JSONObject putResponse = */
+        super.doPutCall(super.createFullURL("") + "/" + databaseEntity.name()
                 + "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
 
         // run the get route on the updated table

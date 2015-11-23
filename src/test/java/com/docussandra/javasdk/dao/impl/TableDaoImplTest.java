@@ -1,6 +1,8 @@
 package com.docussandra.javasdk.dao.impl;
 
 import com.docussandra.javasdk.Config;
+import static com.docussandra.javasdk.dao.impl.DatabaseDaoImplTest.getTestDb;
+import com.docussandra.javasdk.domain.DatabaseResponse;
 import com.docussandra.javasdk.domain.TableResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.strategicgains.docussandra.domain.objects.Database;
@@ -9,6 +11,8 @@ import org.json.simple.parser.ParseException;
 import org.junit.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -160,6 +164,50 @@ public class TableDaoImplTest
         assertNotNull(result.getLinks().getUp());
         assertNotNull(result.getUpdatedAt());
         assertNotNull(result.getCreatedAt());
+    }
+    
+     /**
+     * Test of readAll method, of class DatabaseDaoImpl.
+     */
+    @Test
+    public void testReadAll() throws Exception
+    {
+        System.out.println("readAll");
+        //setup
+        Table test1 = getTestTable();
+        tableImplInstance.create(getTestDb(), test1);
+        Table test2 = getTestTable();
+        test2.name("testdb2");
+        test2.description("Second descript");
+        tableImplInstance.create(getTestDb(),test2);
+        List<Table> expResult = new ArrayList<>();
+        expResult.add(test1);
+        expResult.add(test2);
+        List<TableResponse> results = tableImplInstance.readAll(getTestDb());
+        //ugly assert because there might be other DBs in the DB
+        for (Table expected : expResult)
+        {
+            boolean found = false;
+            Table match = null;
+            for (Table result : results)
+            {
+                if (expected.getId().equals(result.getId()))
+                {
+                    found = true;
+                    match = result;
+                    break;
+                }
+            }
+            if (found)
+            {
+                assertEquals(expected.description(), match.description());
+            } else
+            {
+                fail("Expected response: " + expResult.toString() + " was not found.");
+            }
+
+        }
+
     }
 
     /**

@@ -162,7 +162,7 @@ public class DatabaseDaoImplTest
      * Test of readAll method, of class DatabaseDaoImpl.
      */
     @Test
-    public void testReadAll_0args() throws Exception
+    public void testReadAll() throws Exception
     {
         System.out.println("readAll");
         //setup
@@ -170,6 +170,7 @@ public class DatabaseDaoImplTest
         instance.create(test1);
         Database test2 = getTestDb();
         test2.name("testdb2");
+        //test2.description("second descript");//TODO: this is probably a bug in the open source version of Docussandra
         instance.create(test2);
         List<Database> expResult = new ArrayList<>();
         expResult.add(test1);
