@@ -88,9 +88,11 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     }
 
     @Override
-    public DatabaseResponse update(Database entity) throws RESTException, IOException
+    public DatabaseResponse update(Database entity) throws RESTException, IOException, ParseException
     {
-        throw new UnsupportedOperationException("Not done yet");
+        String entityJson = SDKUtils.createJSON(entity);
+        JSONObject response = super.doPostCall(super.createFullURL("") + "/" + entity.getId().getDatabaseName(), (JSONObject) parser.parse(entityJson));
+        return r.readValue(response.toJSONString());
     }
 
 }

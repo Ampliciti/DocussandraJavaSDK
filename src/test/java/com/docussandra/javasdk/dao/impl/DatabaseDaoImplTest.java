@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 
 /**
  *
@@ -206,17 +205,16 @@ public class DatabaseDaoImplTest
      * Test of update method, of class DatabaseDaoImpl.
      */
     @Test
-    @Ignore
     public void testUpdate() throws Exception
     {
         System.out.println("update");
-        Database entity = null;
-        DatabaseDaoImpl instance = null;
-        Database expResult = null;
+        Database entity = getTestDb();
+        instance.create(entity);//create
+        entity.description("This is a new database description. It should be different than before.");
+        Database expResult = entity;
         Database result = instance.update(entity);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult.description(), result.description());
+        assertEquals(expResult.getId(), result.getId());
     }
 
 }

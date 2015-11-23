@@ -42,6 +42,6 @@ public interface DatabaseDao
 
     List<DatabaseResponse> readAll() throws RESTException, IOException;
 
-    DatabaseResponse update(Database entity) throws RESTException, IOException;
+    DatabaseResponse update(Database entity) throws RESTException, IOException, ParseException;
 
 }
