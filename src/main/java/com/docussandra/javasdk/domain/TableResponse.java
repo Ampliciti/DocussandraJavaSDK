@@ -8,7 +8,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * Created by upunych on 8/25/15.
  */
-public class TableResponse extends Table{
+public class TableResponse extends Table
+{
+
     @ChildValidation
     @JsonProperty
     private HALObject _links;
