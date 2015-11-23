@@ -88,12 +88,6 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     }
 
     @Override
-    public List<DatabaseResponse> readAll(Identifier id) throws RESTException, IOException
-    {
-        throw new UnsupportedOperationException("Not done yet");
-    }
-
-    @Override
     public DatabaseResponse update(Database entity) throws RESTException, IOException
     {
         throw new UnsupportedOperationException("Not done yet");
