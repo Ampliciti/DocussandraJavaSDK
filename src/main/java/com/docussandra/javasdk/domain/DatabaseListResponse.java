@@ -1,8 +1,6 @@
 package com.docussandra.javasdk.domain;
 
-import com.docussandra.javasdk.SDKUtils;
 import com.docussandra.javasdk.domain.hal.HALObject;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.strategicgains.syntaxe.annotation.ChildValidation;
 
 /**
