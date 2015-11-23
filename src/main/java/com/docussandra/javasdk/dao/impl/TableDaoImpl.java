@@ -4,16 +4,11 @@ import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.SDKUtils;
 import com.docussandra.javasdk.dao.TableDao;
 import com.docussandra.javasdk.dao.impl.parent.DaoParent;
-import com.docussandra.javasdk.domain.DatabaseResponse;
 import com.docussandra.javasdk.domain.TableResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.strategicgains.docussandra.domain.objects.Database;
 import com.strategicgains.docussandra.domain.objects.Identifier;
 import com.strategicgains.docussandra.domain.objects.Table;
-import com.strategicgains.hyperexpress.HyperExpress;
-import com.strategicgains.hyperexpress.builder.TokenBinder;
-import com.strategicgains.hyperexpress.builder.TokenResolver;
-import com.strategicgains.hyperexpress.builder.UrlBuilder;
 import org.codehaus.jackson.map.ObjectReader;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -40,7 +35,7 @@ public class TableDaoImpl extends DaoParent implements TableDao{
     @Override
     public TableResponse create(Database databaseEntity, Table tableEntity) throws ParseException, RESTException, IOException {
         String tableJson = SDKUtils.createJSON(tableEntity);
-        JSONObject response = super.doPostCall(super.createFullURL("") + "/" + databaseEntity.name() +
+        JSONObject response = super.doPostCall(super.createFullURL("") + databaseEntity.name() +
                 "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
        return jsonObjectReader.readValue(response.toJSONString());
     }
