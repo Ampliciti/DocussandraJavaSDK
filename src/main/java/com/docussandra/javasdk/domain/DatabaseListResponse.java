@@ -2,13 +2,7 @@ package com.docussandra.javasdk.domain;
 
 import com.docussandra.javasdk.SDKUtils;
 import com.docussandra.javasdk.domain.hal.HALObject;
-import com.strategicgains.docussandra.domain.objects.Database;
 import com.strategicgains.syntaxe.annotation.ChildValidation;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.ObjectReader;
 
