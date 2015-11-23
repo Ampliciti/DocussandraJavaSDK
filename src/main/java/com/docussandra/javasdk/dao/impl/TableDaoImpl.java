@@ -18,11 +18,13 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Table dao that accesses Docussandra to manipulate the tables via the REST API.
+ * Table dao that accesses Docussandra to manipulate the tables via the REST
+ * API.
  *
  * Created by upunych on 8/25/15.
  */
-public class TableDaoImpl extends DaoParent implements TableDao{
+public class TableDaoImpl extends DaoParent implements TableDao
+{
 
     private final JSONParser parser = new JSONParser();
     private final ObjectReader jsonObjectReader = SDKUtils.getObjectMapper().reader(TableResponse.class);
@@ -33,61 +35,73 @@ public class TableDaoImpl extends DaoParent implements TableDao{
     }
 
     @Override
-    public TableResponse create(Database databaseEntity, Table tableEntity) throws ParseException, RESTException, IOException {
+    public TableResponse create(Database databaseEntity, Table tableEntity) throws ParseException, RESTException, IOException
+    {
         String tableJson = SDKUtils.createJSON(tableEntity);
-        JSONObject response = super.doPostCall(super.createFullURL("") + databaseEntity.name() +
-                "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
-       return jsonObjectReader.readValue(response.toJSONString());
+        JSONObject response = super.doPostCall(super.createFullURL("") + databaseEntity.name()
+                + "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
+        return jsonObjectReader.readValue(response.toJSONString());
     }
 
     @Override
-    public void delete(Database databaseEntity,Table tableEntity) throws RESTException {
+    public void delete(Database databaseEntity, Table tableEntity) throws RESTException
+    {
         super.doDeleteCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + tableEntity.name());
     }
 
     @Override
-    public void delete(Database databaseEntity,Identifier id) throws RESTException {
+    public void delete(Database databaseEntity, Identifier id) throws RESTException
+    {
         super.doDeleteCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + id.getTableName());
     }
 
     @Override
-    public boolean exists(Database databaseEntity, Identifier id) throws RESTException {
+    public boolean exists(Database databaseEntity, Identifier id) throws RESTException
+    {
 
-        try{
+        try
+        {
             super.doGetCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + id.getTableName());
             return true;
-        }catch(RESTException e){
-            if(e.getErrorCode() == 404){
+        } catch (RESTException e)
+        {
+            if (e.getErrorCode() == 404)
+            {
                 return false;
-            } else {
+            } else
+            {
                 throw e;
             }
         }
     }
 
     @Override
-    public TableResponse read(Database databaseEntity,Identifier id) throws RESTException, IOException {
+    public TableResponse read(Database databaseEntity, Identifier id) throws RESTException, IOException
+    {
         JSONObject response = super.doGetCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + id.getTableName());
         return jsonObjectReader.readValue(response.toJSONString());
     }
 
     //TODO: to convert jsons into lists
     @Override
-    public List<Table> readAll(Identifier id) {
+    public List<Table> readAll(Identifier id)
+    {
         throw new UnsupportedOperationException("Not done yet");
     }
 
     @Override
-    public List<Table> readAll() {
+    public List<Table> readAll()
+    {
         throw new UnsupportedOperationException("Not done yet");
     }
 
     @Override
-    public Table update(Database databaseEntity,Table tableEntity) throws ParseException, RESTException, IOException {
+    public Table update(Database databaseEntity, Table tableEntity) throws ParseException, RESTException, IOException
+    {
         // running the put route
         String tableJson = SDKUtils.createJSON(tableEntity);
-        JSONObject putResponse = super.doPostCall(super.createFullURL("") + "/" + databaseEntity.name() +
-                "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
+        JSONObject putResponse = super.doPostCall(super.createFullURL("") + "/" + databaseEntity.name()
+                + "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
 
         // run the get route on the updated table
         JSONObject getResponse = super.doGetCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + tableEntity.name());
