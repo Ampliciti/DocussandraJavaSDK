@@ -121,6 +121,7 @@ public abstract class DaoParent
      */
     protected JSONObject doGetCall(String url) throws RESTException
     {
+        logger.debug("Attempting to GET: " + url);
         HttpGet request = new HttpGet(url);
         request.setConfig(rc);
         // add request header
@@ -143,6 +144,7 @@ public abstract class DaoParent
             if (response.getEntity() != null)
             {
                 responseString = IOUtils.toString(response.getEntity().getContent());
+                logger.debug("Result from GET call: " + responseString);
                 return (JSONObject) parser.parse(responseString);
             } else
             {
