@@ -81,13 +81,6 @@ public class TableDaoImpl extends DaoParent implements TableDao
         return jsonObjectReader.readValue(response.toJSONString());
     }
 
-    //TODO: to convert jsons into lists
-    @Override
-    public List<Table> readAll(Identifier id)
-    {
-        throw new UnsupportedOperationException("Not done yet");
-    }
-
     @Override
     public List<Table> readAll()
     {

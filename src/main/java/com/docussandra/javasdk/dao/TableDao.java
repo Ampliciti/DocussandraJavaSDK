@@ -44,8 +44,6 @@ public interface TableDao
 
     TableResponse read(Database databaseEntity,Identifier id) throws RESTException, IOException;
 
-    List<Table> readAll(Identifier id);
-
     List<Table> readAll();
     
     Table update(Database databaseEntity,Table tableEntity) throws ParseException, RESTException, IOException;
