@@ -40,9 +40,9 @@ public interface DatabaseDao
 
     DatabaseResponse read(Identifier identifier) throws RESTException, IOException;
 
-    List<Database> readAll() throws RESTException, IOException;
+    List<DatabaseResponse> readAll() throws RESTException, IOException;
 
-    List<Database> readAll(Identifier id) throws RESTException, IOException;
+    List<DatabaseResponse> readAll(Identifier id) throws RESTException, IOException;
 
     DatabaseResponse update(Database entity) throws RESTException, IOException;
 

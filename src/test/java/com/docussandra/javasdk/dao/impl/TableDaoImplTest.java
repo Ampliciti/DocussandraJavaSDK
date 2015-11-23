@@ -24,7 +24,7 @@ public class TableDaoImplTest {
 
     public TableDaoImplTest()
     {
-        config = new Config("https://docussandra.stg-prsn.com/", Config.Format.LONG);
+        config = new Config("http://localhost:8081/", Config.Format.SHORT);
         dbImplInstance = new DatabaseDaoImpl(config);
         tableImplInstance = new TableDaoImpl(config);
     }

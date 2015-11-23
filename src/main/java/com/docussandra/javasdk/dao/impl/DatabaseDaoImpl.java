@@ -4,6 +4,7 @@ import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.SDKUtils;
 import com.docussandra.javasdk.dao.DatabaseDao;
 import com.docussandra.javasdk.dao.impl.parent.DaoParent;
+import com.docussandra.javasdk.domain.DatabaseListResponse;
 import com.docussandra.javasdk.domain.DatabaseResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.strategicgains.docussandra.domain.objects.Database;
@@ -25,6 +26,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
 
     private final JSONParser parser = new JSONParser();
     private final ObjectReader r = SDKUtils.getObjectMapper().reader(DatabaseResponse.class);
+    private final ObjectReader rList = SDKUtils.getObjectMapper().reader(DatabaseListResponse.class);
 
     public DatabaseDaoImpl(Config config)
     {
@@ -54,13 +56,17 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     @Override
     public boolean exists(Identifier identifier) throws RESTException
     {
-        try{
+        try
+        {
             super.doGetCall(super.createFullURL("") + "/" + identifier.getDatabaseName());
             return true;
-        }catch(RESTException e){
-            if(e.getErrorCode() == 404){
+        } catch (RESTException e)
+        {
+            if (e.getErrorCode() == 404)
+            {
                 return false;
-            } else {
+            } else
+            {
                 throw e;
             }
         }
@@ -74,13 +80,15 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     }
 
     @Override
-    public List<Database> readAll() throws RESTException, IOException
+    public List<DatabaseResponse> readAll() throws RESTException, IOException
     {
-        throw new UnsupportedOperationException("Not done yet");
+        JSONObject response = super.doGetCall(super.createFullURL("") + "/");
+        DatabaseListResponse objectResponse = rList.readValue(response.toJSONString());
+        return objectResponse.getEmbedded().getDatabases();
     }
 
     @Override
-    public List<Database> readAll(Identifier id) throws RESTException, IOException
+    public List<DatabaseResponse> readAll(Identifier id) throws RESTException, IOException
     {
         throw new UnsupportedOperationException("Not done yet");
     }

@@ -4,6 +4,7 @@ import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.domain.DatabaseResponse;
 import com.strategicgains.docussandra.domain.objects.Database;
 import com.strategicgains.docussandra.domain.objects.Identifier;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -25,7 +26,7 @@ public class DatabaseDaoImplTest
 
     public DatabaseDaoImplTest()
     {
-        config = new Config("https://docussandra.stg-prsn.com/", Config.Format.LONG);
+        config = new Config("http://localhost:8081/", Config.Format.SHORT);
         instance = new DatabaseDaoImpl(config);
     }
 
@@ -162,16 +163,43 @@ public class DatabaseDaoImplTest
      * Test of readAll method, of class DatabaseDaoImpl.
      */
     @Test
-    @Ignore
     public void testReadAll_0args() throws Exception
     {
         System.out.println("readAll");
-        DatabaseDaoImpl instance = null;
-        List<Database> expResult = null;
-        List<Database> result = instance.readAll();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //setup
+        Database test1 = getTestDb();
+        instance.create(test1);
+        Database test2 = getTestDb();
+        test2.name("testdb2");
+        instance.create(test2);
+        List<Database> expResult = new ArrayList<>();
+        expResult.add(test1);
+        expResult.add(test2);
+        List<DatabaseResponse> results = instance.readAll();
+        //ugly assert because there might be other DBs in the DB
+        for (Database expected : expResult)
+        {
+            boolean found = false;
+            Database match = null;
+            for (Database result : results)
+            {
+                if (expected.getId().equals(result.getId()))
+                {
+                    found = true;
+                    match = result;
+                    break;
+                }
+            }
+            if (found)
+            {
+                assertEquals(expected.description(), match.description());
+            } else
+            {
+                fail("Expected response: " + expResult.toString() + " was not found.");
+            }
+
+        }
+
     }
 
     /**
@@ -185,7 +213,7 @@ public class DatabaseDaoImplTest
         Identifier id = null;
         DatabaseDaoImpl instance = null;
         List<Database> expResult = null;
-        List<Database> result = instance.readAll(id);
+        List<DatabaseResponse> result = instance.readAll(id);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
