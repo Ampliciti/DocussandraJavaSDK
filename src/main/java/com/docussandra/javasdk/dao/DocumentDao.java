@@ -15,9 +15,14 @@
  */
 package com.docussandra.javasdk.dao;
 
+import com.docussandra.javasdk.exceptions.RESTException;
 import com.strategicgains.docussandra.domain.objects.Document;
 import com.strategicgains.docussandra.domain.objects.Identifier;
 import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
+import com.strategicgains.docussandra.domain.objects.Table;
+import java.io.IOException;
+import java.util.UUID;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -26,18 +31,18 @@ import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
 public interface DocumentDao
 {
 
-    Document create(Document entity);
+    Document create(Table table, Document entity) throws RESTException, ParseException, IOException;
 
-    void delete(Document entity);
+    void delete(Table table, UUID id) throws RESTException;
 
-    void delete(Identifier id);
+    void delete(Identifier identifier) throws RESTException;
+            
+    boolean exists(Identifier identifier) throws RESTException;
 
-    boolean exists(Identifier identifier);
+    Document read(Identifier identifier) throws RESTException, IOException;
 
-    Document read(Identifier identifier);
+    QueryResponseWrapper readAll(String database, String tableString, int limit, long offset) throws RESTException;
 
-    QueryResponseWrapper readAll(String database, String tableString, int limit, long offset);
-
-    Document update(Document entity);
+    Document update(Document entity) throws RESTException;
 
 }
