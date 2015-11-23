@@ -203,23 +203,6 @@ public class DatabaseDaoImplTest
     }
 
     /**
-     * Test of readAll method, of class DatabaseDaoImpl.
-     */
-    @Test
-    @Ignore
-    public void testReadAll_Identifier() throws Exception
-    {
-        System.out.println("readAll");
-        Identifier id = null;
-        DatabaseDaoImpl instance = null;
-        List<Database> expResult = null;
-        List<DatabaseResponse> result = instance.readAll(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of update method, of class DatabaseDaoImpl.
      */
     @Test
