@@ -175,6 +175,7 @@ public abstract class DaoParent
      */
     protected JSONObject doPostCall(String url, JSONObject toPost) throws RESTException
     {
+        logger.debug("Attempting to POST: " + url + ", payload: " + toPost.toJSONString());
         HttpPost request = new HttpPost(url);
         request.setConfig(rc);
         // add request header
@@ -199,6 +200,7 @@ public abstract class DaoParent
             if (response.getEntity() != null)
             {
                 responseString = IOUtils.toString(response.getEntity().getContent());
+                logger.debug("Result from POST call: " + responseString);
                 return (JSONObject) parser.parse(responseString);
             } else
             {
@@ -229,6 +231,7 @@ public abstract class DaoParent
      */
     protected JSONObject doPutCall(String url, JSONObject toPost) throws RESTException
     {
+        logger.debug("Attempting to PUT: " + url + ", payload: " + toPost.toJSONString());
         HttpPut request = new HttpPut(url);
         request.setConfig(rc);
         // add request header
@@ -253,6 +256,7 @@ public abstract class DaoParent
             if (response.getEntity() != null)
             {
                 responseString = IOUtils.toString(response.getEntity().getContent());
+                logger.debug("Result from PUT call: " + responseString);
                 return (JSONObject) parser.parse(responseString);
             } else
             {
@@ -280,6 +284,7 @@ public abstract class DaoParent
      */
     protected void doDeleteCall(String url) throws RESTException
     {
+        logger.debug("Attempting to DELETE: " + url);
         HttpDelete request = new HttpDelete(url);
         request.setConfig(rc);
         // add request header
