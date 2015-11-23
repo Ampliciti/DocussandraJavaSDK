@@ -16,7 +16,8 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by upunych on 8/25/15.
  */
-public class TableDaoImplTest {
+public class TableDaoImplTest
+{
 
     private Config config;
     private DatabaseDaoImpl dbImplInstance;
@@ -39,7 +40,7 @@ public class TableDaoImplTest {
     public static Table getTestTable()
     {
         Table entity = new Table();
-        entity.name("testTable");
+        entity.name("testtable");
         entity.description("This was a table created by java sdk tests.");
         return entity;
     }
@@ -68,7 +69,8 @@ public class TableDaoImplTest {
     }
 
     @Before
-    public void setUp() throws ParseException, IOException, RESTException {
+    public void setUp() throws ParseException, IOException, RESTException
+    {
         cleanupTestDb();
         dbImplInstance.create(getTestDb());
     }
@@ -88,7 +90,7 @@ public class TableDaoImplTest {
         System.out.println("create table");
 
         Table expTableResult = getTestTable();
-        TableResponse result = tableImplInstance.create(getTestDb(),getTestTable());
+        TableResponse result = tableImplInstance.create(getTestDb(), getTestTable());
         assertNotNull(result);
         assertEquals(expTableResult.getId(), result.getId());
         assertEquals(expTableResult.name(), result.name());
@@ -108,11 +110,11 @@ public class TableDaoImplTest {
     public void testDelete_Database() throws Exception
     {
         System.out.println("delete table");
-        tableImplInstance.create(getTestDb(),getTestTable());
+        tableImplInstance.create(getTestDb(), getTestTable());
         Database dbEntity = getTestDb();
         Table tableEntity = getTestTable();
-        tableImplInstance.delete(dbEntity,tableEntity);
-        assertFalse(tableImplInstance.exists(getTestDb(),tableEntity.getId()));
+        tableImplInstance.delete(dbEntity, tableEntity);
+        assertFalse(tableImplInstance.exists(getTestDb(), tableEntity.getId()));
     }
 
     /**
@@ -122,9 +124,9 @@ public class TableDaoImplTest {
     public void testDelete_Identifier() throws Exception
     {
         System.out.println("delete");
-        tableImplInstance.create(getTestDb(),getTestTable());
-        tableImplInstance.delete(getTestDb(),getTestTable().getId());
-        assertFalse(tableImplInstance.exists(getTestDb(),getTestTable().getId()));
+        tableImplInstance.create(getTestDb(), getTestTable());
+        tableImplInstance.delete(getTestDb(), getTestTable().getId());
+        assertFalse(tableImplInstance.exists(getTestDb(), getTestTable().getId()));
     }
 
     /**
@@ -134,10 +136,10 @@ public class TableDaoImplTest {
     public void testExists() throws Exception
     {
         System.out.println("table exists");
-        boolean result = tableImplInstance.exists(getTestDb(),getTestTable().getId());
+        boolean result = tableImplInstance.exists(getTestDb(), getTestTable().getId());
         assertFalse(result);
-        tableImplInstance.create(getTestDb(),getTestTable());
-        result = tableImplInstance.exists(getTestDb(),getTestTable().getId());
+        tableImplInstance.create(getTestDb(), getTestTable());
+        result = tableImplInstance.exists(getTestDb(), getTestTable().getId());
         assertTrue(result);
     }
 
@@ -148,8 +150,8 @@ public class TableDaoImplTest {
     public void testRead() throws Exception
     {
         System.out.println("read table");
-        tableImplInstance.create(getTestDb(),getTestTable());
-        TableResponse result = tableImplInstance.read(getTestDb(),getTestTable().getId());
+        tableImplInstance.create(getTestDb(), getTestTable());
+        TableResponse result = tableImplInstance.read(getTestDb(), getTestTable().getId());
         assertEquals(getTestDb().getId(), result.getId());
         assertEquals(getTestDb().name(), result.name());
         assertEquals(getTestDb().description(), result.description());
@@ -169,7 +171,7 @@ public class TableDaoImplTest {
     {
         System.out.println("update table");
 
-        Table result = tableImplInstance.update(getTestDb(),getTestTable());
+        Table result = tableImplInstance.update(getTestDb(), getTestTable());
         assertEquals(getTestTable(), result);
     }
 
