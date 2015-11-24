@@ -24,24 +24,33 @@ import java.util.List;
 import org.json.simple.parser.ParseException;
 
 /**
+ * Database dao that accesses Docussandra via the REST API.
  *
  * @author udeyoje
  */
 public interface DatabaseDao
 {
 
-    Database create(Database entity) throws ParseException, RESTException, IOException;
+    /**
+     * Creates a new database.
+     * @param entity Database to create.
+     * @return The database that was created.
+     * @throws ParseException
+     * @throws RESTException
+     * @throws IOException 
+     */
+    public Database create(Database entity) throws ParseException, RESTException, IOException;
 
-    void delete(Database entity) throws RESTException;
+    public void delete(Database entity) throws RESTException;
 
-    void delete(Identifier identifier) throws RESTException;
+    public void delete(Identifier identifier) throws RESTException;
 
-    boolean exists(Identifier identifier) throws RESTException;
+    public boolean exists(Identifier identifier) throws RESTException;
 
-    DatabaseResponse read(Identifier identifier) throws RESTException, IOException;
+    public DatabaseResponse read(Identifier identifier) throws RESTException, IOException;
 
-    List<DatabaseResponse> readAll() throws RESTException, IOException;
+    public List<DatabaseResponse> readAll() throws RESTException, IOException;
 
-    DatabaseResponse update(Database entity) throws RESTException, IOException, ParseException;
+    public DatabaseResponse update(Database entity) throws RESTException, IOException, ParseException;
 
 }
