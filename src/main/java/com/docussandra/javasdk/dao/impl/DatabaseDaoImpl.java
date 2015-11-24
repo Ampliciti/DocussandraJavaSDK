@@ -21,75 +21,71 @@ import org.json.simple.parser.ParseException;
  *
  * @author udeyoje
  */
-public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
-{
+public class DatabaseDaoImpl extends DaoParent implements DatabaseDao {
 
     private final JSONParser parser = new JSONParser();
     private final ObjectReader r = SDKUtils.getObjectMapper().reader(DatabaseResponse.class);
     private final ObjectReader rList = SDKUtils.getObjectMapper().reader(DatabaseListResponse.class);
 
-    public DatabaseDaoImpl(Config config)
-    {
+    public DatabaseDaoImpl(Config config) {
         super(config);
     }
 
+    /**
+     * Creates a new database.
+     *
+     * @param entity Database to create.
+     * @return The database that was created.
+     * @throws ParseException If there was a problem understanding the response.
+     * @throws RESTException If there was a problem making the call.
+     * @throws IOException If there was a problem de-serializing the JSON.
+     */
     @Override
-    public DatabaseResponse create(Database entity) throws ParseException, RESTException, IOException
-    {
+    public DatabaseResponse create(Database entity) throws ParseException, RESTException, IOException {
         String entityJson = SDKUtils.createJSON(entity);
         JSONObject response = super.doPostCall(super.createFullURL("") + "/" + entity.name(), (JSONObject) parser.parse(entityJson));
         return r.readValue(response.toJSONString());
     }
 
     @Override
-    public void delete(Database entity) throws RESTException
-    {
+    public void delete(Database entity) throws RESTException {
         super.doDeleteCall(super.createFullURL("") + "/" + entity.name());
     }
 
     @Override
-    public void delete(Identifier identifier) throws RESTException
-    {
+    public void delete(Identifier identifier) throws RESTException {
         super.doDeleteCall(super.createFullURL("") + "/" + identifier.getDatabaseName());
     }
 
     @Override
-    public boolean exists(Identifier identifier) throws RESTException
-    {
-        try
-        {
+    public boolean exists(Identifier identifier) throws RESTException {
+        try {
             super.doGetCall(super.createFullURL("") + "/" + identifier.getDatabaseName());
             return true;
-        } catch (RESTException e)
-        {
-            if (e.getErrorCode() == 404)
-            {
+        } catch (RESTException e) {
+            if (e.getErrorCode() == 404) {
                 return false;
-            } else
-            {
+            } else {
                 throw e;
             }
         }
     }
 
     @Override
-    public DatabaseResponse read(Identifier identifier) throws RESTException, IOException
-    {
+    public DatabaseResponse read(Identifier identifier) throws RESTException, IOException {
         JSONObject response = super.doGetCall(super.createFullURL("") + "/" + identifier.getDatabaseName());
         return r.readValue(response.toJSONString());
     }
 
     @Override
-    public List<DatabaseResponse> readAll() throws RESTException, IOException
-    {
+    public List<DatabaseResponse> readAll() throws RESTException, IOException {
         JSONObject response = super.doGetCall(super.createFullURL("") + "/");
         DatabaseListResponse objectResponse = rList.readValue(response.toJSONString());
         return objectResponse.getEmbedded().getDatabases();
     }
 
     @Override
-    public DatabaseResponse update(Database entity) throws RESTException, IOException, ParseException
-    {
+    public DatabaseResponse update(Database entity) throws RESTException, IOException, ParseException {
         String entityJson = SDKUtils.createJSON(entity);
         JSONObject response = super.doPostCall(super.createFullURL("") + "/" + entity.getId().getDatabaseName(), (JSONObject) parser.parse(entityJson));
         return r.readValue(response.toJSONString());

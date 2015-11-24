@@ -35,9 +35,9 @@ public interface DatabaseDao
      * Creates a new database.
      * @param entity Database to create.
      * @return The database that was created.
-     * @throws ParseException
-     * @throws RESTException
-     * @throws IOException 
+     * @throws ParseException If there was a problem understanding the response.
+     * @throws RESTException If there was a problem making the call.
+     * @throws IOException If there was a problem de-serializing the JSON.
      */
     public Database create(Database entity) throws ParseException, RESTException, IOException;
 
