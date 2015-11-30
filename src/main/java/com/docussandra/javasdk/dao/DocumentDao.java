@@ -25,7 +25,7 @@ import java.util.UUID;
 import org.json.simple.parser.ParseException;
 
 /**
- *
+ * Document dao that accesses Docussandra to manipulate the documents.
  * @author udeyoje
  */
 public interface DocumentDao
