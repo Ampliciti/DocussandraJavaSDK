@@ -41,7 +41,7 @@ public interface DocumentDao
 
     Document read(Identifier identifier) throws RESTException, IOException;
 
-    QueryResponseWrapper readAll(String database, String tableString, int limit, long offset) throws RESTException;
+    QueryResponseWrapper readAll(Identifier identifier, int limit, long offset) throws RESTException, IOException;
 
     Document update(Document entity) throws RESTException;
 

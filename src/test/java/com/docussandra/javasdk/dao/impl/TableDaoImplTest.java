@@ -3,6 +3,7 @@ package com.docussandra.javasdk.dao.impl;
 import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.domain.TableResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
+import com.docussandra.javasdk.testhelper.TestUtils;
 import com.strategicgains.docussandra.domain.objects.Database;
 import com.strategicgains.docussandra.domain.objects.Table;
 import org.json.simple.parser.ParseException;
@@ -32,34 +33,6 @@ public class TableDaoImplTest
         tableImplInstance = new TableDaoImpl(config);
     }
 
-    public static Database getTestDb()
-    {
-        Database entity = new Database("testdb");
-        entity.description("This was a db created by java sdk tests.");
-        return entity;
-    }
-
-    public static Table getTestTable()
-    {
-        Table entity = new Table();
-        entity.name("testtable");
-        entity.description("This was a table created by java sdk tests.");
-        entity.database(getTestDb());
-        return entity;
-    }
-
-    public void cleanupTestDb()
-    {
-        try
-        {
-            DatabaseDaoImpl tableImplInstance = new DatabaseDaoImpl(config);
-            tableImplInstance.delete(getTestDb());
-        } catch (Exception e)
-        {
-            ;//don't care
-        }
-    }
-
     @BeforeClass
     public static void setUpClass()
     {
@@ -74,14 +47,14 @@ public class TableDaoImplTest
     @Before
     public void setUp() throws ParseException, IOException, RESTException
     {
-        cleanupTestDb();
-        dbImplInstance.create(getTestDb());
+        TestUtils.cleanupTestDb(config);
+        dbImplInstance.create(TestUtils.getTestDb());
     }
 
     @After
     public void tearDown()
     {
-        cleanupTestDb();
+        TestUtils.cleanupTestDb(config);
     }
 
     /**
@@ -92,8 +65,8 @@ public class TableDaoImplTest
     {
         System.out.println("create table");
 
-        Table expTableResult = getTestTable();
-        TableResponse result = tableImplInstance.create(getTestDb(), getTestTable());
+        Table expTableResult = TestUtils.getTestTable();
+        TableResponse result = tableImplInstance.create(TestUtils.getTestDb(), TestUtils.getTestTable());
         assertNotNull(result);
         assertEquals(expTableResult.name(), result.name());
         assertEquals(expTableResult.description(), result.description());
@@ -112,11 +85,11 @@ public class TableDaoImplTest
     public void testDelete_Database() throws Exception
     {
         System.out.println("delete table");
-        tableImplInstance.create(getTestDb(), getTestTable());
-        Database dbEntity = getTestDb();
-        Table tableEntity = getTestTable();
+        tableImplInstance.create(TestUtils.getTestDb(), TestUtils.getTestTable());
+        Database dbEntity = TestUtils.getTestDb();
+        Table tableEntity = TestUtils.getTestTable();
         tableImplInstance.delete(dbEntity, tableEntity);
-        assertFalse(tableImplInstance.exists(getTestDb(), tableEntity.getId()));
+        assertFalse(tableImplInstance.exists(TestUtils.getTestDb(), tableEntity.getId()));
     }
 
     /**
@@ -126,9 +99,9 @@ public class TableDaoImplTest
     public void testDelete_Identifier() throws Exception
     {
         System.out.println("delete");
-        tableImplInstance.create(getTestDb(), getTestTable());
-        tableImplInstance.delete(getTestDb(), getTestTable().getId());
-        assertFalse(tableImplInstance.exists(getTestDb(), getTestTable().getId()));
+        tableImplInstance.create(TestUtils.getTestDb(), TestUtils.getTestTable());
+        tableImplInstance.delete(TestUtils.getTestDb(), TestUtils.getTestTable().getId());
+        assertFalse(tableImplInstance.exists(TestUtils.getTestDb(), TestUtils.getTestTable().getId()));
     }
 
     /**
@@ -138,10 +111,10 @@ public class TableDaoImplTest
     public void testExists() throws Exception
     {
         System.out.println("table exists");
-        boolean result = tableImplInstance.exists(getTestDb(), getTestTable().getId());
+        boolean result = tableImplInstance.exists(TestUtils.getTestDb(), TestUtils.getTestTable().getId());
         assertFalse(result);
-        tableImplInstance.create(getTestDb(), getTestTable());
-        result = tableImplInstance.exists(getTestDb(), getTestTable().getId());
+        tableImplInstance.create(TestUtils.getTestDb(), TestUtils.getTestTable());
+        result = tableImplInstance.exists(TestUtils.getTestDb(), TestUtils.getTestTable().getId());
         assertTrue(result);
     }
 
@@ -152,19 +125,19 @@ public class TableDaoImplTest
     public void testRead() throws Exception
     {
         System.out.println("read table");
-        tableImplInstance.create(getTestDb(), getTestTable());
-        TableResponse result = tableImplInstance.read(getTestDb(), getTestTable().getId());
-        assertEquals(getTestTable().getId(), result.getId());
-        assertEquals(getTestTable().name(), result.name());
-        assertEquals(getTestTable().description(), result.description());
+        tableImplInstance.create(TestUtils.getTestDb(), TestUtils.getTestTable());
+        TableResponse result = tableImplInstance.read(TestUtils.getTestDb(), TestUtils.getTestTable().getId());
+        assertEquals(TestUtils.getTestTable().getId(), result.getId());
+        assertEquals(TestUtils.getTestTable().name(), result.name());
+        assertEquals(TestUtils.getTestTable().description(), result.description());
         assertNotNull(result.getLinks());
         assertNotNull(result.getLinks().getSelf());
         assertNotNull(result.getLinks().getUp());
         assertNotNull(result.getUpdatedAt());
         assertNotNull(result.getCreatedAt());
     }
-    
-     /**
+
+    /**
      * Test of readAll method, of class DatabaseDaoImpl.
      */
     @Test
@@ -172,16 +145,16 @@ public class TableDaoImplTest
     {
         System.out.println("readAll");
         //setup
-        Table test1 = getTestTable();
-        tableImplInstance.create(getTestDb(), test1);
-        Table test2 = getTestTable();
+        Table test1 = TestUtils.getTestTable();
+        tableImplInstance.create(TestUtils.getTestDb(), test1);
+        Table test2 = TestUtils.getTestTable();
         test2.name("testdb2");
         test2.description("Second descript");
-        tableImplInstance.create(getTestDb(),test2);
+        tableImplInstance.create(TestUtils.getTestDb(), test2);
         List<Table> expResult = new ArrayList<>();
         expResult.add(test1);
         expResult.add(test2);
-        List<TableResponse> results = tableImplInstance.readAll(getTestDb());
+        List<TableResponse> results = tableImplInstance.readAll(TestUtils.getTestDb());
         //ugly assert because there might be other DBs in the DB
         for (Table expected : expResult)
         {
@@ -215,14 +188,14 @@ public class TableDaoImplTest
     public void testUpdate() throws Exception
     {
         System.out.println("update table");
-        tableImplInstance.create(getTestDb(), getTestTable());//create
-        Table updated = getTestTable();
+        tableImplInstance.create(TestUtils.getTestDb(), TestUtils.getTestTable());//create
+        Table updated = TestUtils.getTestTable();
         updated.description("This is a new description.");
-        Table result = tableImplInstance.update(getTestDb(), updated);
+        Table result = tableImplInstance.update(TestUtils.getTestDb(), updated);
         assertEquals(updated.description(), result.description());
         assertEquals(updated.getId(), result.getId());
         assertNotSame(updated.getUpdatedAt(), result.getUpdatedAt());
-        
+
     }
 
 }

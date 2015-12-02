@@ -2,6 +2,7 @@ package com.docussandra.javasdk.dao.impl;
 
 import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.domain.DatabaseResponse;
+import com.docussandra.javasdk.testhelper.TestUtils;
 import com.strategicgains.docussandra.domain.objects.Database;
 import com.strategicgains.docussandra.domain.objects.Identifier;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * Test for the database dao.
  * @author udeyoje
  */
 public class DatabaseDaoImplTest
@@ -27,25 +28,6 @@ public class DatabaseDaoImplTest
     {
         config = new Config("http://localhost:8081/", Config.Format.SHORT);
         instance = new DatabaseDaoImpl(config);
-    }
-
-    public static Database getTestDb()
-    {
-        Database entity = new Database("testdb");
-        entity.description("This was a db created by java sdk tests.");
-        return entity;
-    }
-
-    public void cleanupTestDb()
-    {
-        try
-        {
-            DatabaseDaoImpl instance = new DatabaseDaoImpl(config);
-            instance.delete(getTestDb());
-        } catch (Exception e)
-        {
-            ;//don't care
-        }
     }
 
     @BeforeClass
@@ -61,13 +43,13 @@ public class DatabaseDaoImplTest
     @Before
     public void setUp()
     {
-        cleanupTestDb();
+        TestUtils.cleanupTestDb(config);
     }
 
     @After
     public void tearDown()
     {
-        cleanupTestDb();
+        TestUtils.cleanupTestDb(config);
     }
 
     /**
@@ -78,8 +60,8 @@ public class DatabaseDaoImplTest
     {
         System.out.println("create");
 
-        Database expResult = getTestDb();
-        DatabaseResponse result = instance.create(getTestDb());
+        Database expResult = TestUtils.getTestDb();
+        DatabaseResponse result = instance.create(TestUtils.getTestDb());
         assertNotNull(result);
         assertEquals(expResult.getId(), result.getId());
         assertEquals(expResult.name(), result.name());
@@ -99,10 +81,10 @@ public class DatabaseDaoImplTest
     public void testDelete_Database() throws Exception
     {
         System.out.println("delete");
-        instance.create(getTestDb());
-        Database entity = getTestDb();
+        instance.create(TestUtils.getTestDb());
+        Database entity = TestUtils.getTestDb();
         instance.delete(entity);
-        assertFalse(instance.exists(new Identifier(getTestDb().name())));
+        assertFalse(instance.exists(new Identifier(TestUtils.getTestDb().name())));
     }
 
     /**
@@ -112,8 +94,8 @@ public class DatabaseDaoImplTest
     public void testDelete_Identifier() throws Exception
     {
         System.out.println("delete");
-        instance.create(getTestDb());
-        Database entity = getTestDb();
+        instance.create(TestUtils.getTestDb());
+        Database entity = TestUtils.getTestDb();
         Identifier id = new Identifier(entity.name());
         instance.delete(id);
         assertFalse(instance.exists(id));
@@ -126,7 +108,7 @@ public class DatabaseDaoImplTest
     public void testExists() throws Exception
     {
         System.out.println("exists");
-        Database entity = getTestDb();
+        Database entity = TestUtils.getTestDb();
         Identifier id = new Identifier(entity.name());
         boolean result = instance.exists(id);
         assertFalse(result);
@@ -142,7 +124,7 @@ public class DatabaseDaoImplTest
     public void testRead() throws Exception
     {
         System.out.println("read");
-        Database entity = getTestDb();
+        Database entity = TestUtils.getTestDb();
         instance.create(entity);
         Identifier identifier = entity.getId();
         Database expResult = entity;
@@ -166,9 +148,9 @@ public class DatabaseDaoImplTest
     {
         System.out.println("readAll");
         //setup
-        Database test1 = getTestDb();
+        Database test1 = TestUtils.getTestDb();
         instance.create(test1);
-        Database test2 = getTestDb();
+        Database test2 = TestUtils.getTestDb();
         test2.name("testdb2");
         //test2.description("second descript");//TODO: this is probably a bug in the open source version of Docussandra
         instance.create(test2);
@@ -209,7 +191,7 @@ public class DatabaseDaoImplTest
     public void testUpdate() throws Exception
     {
         System.out.println("update");
-        Database entity = getTestDb();
+        Database entity = TestUtils.getTestDb();
         instance.create(entity);//create
         entity.description("This is a new database description. It should be different than before.");
         Database expResult = entity;

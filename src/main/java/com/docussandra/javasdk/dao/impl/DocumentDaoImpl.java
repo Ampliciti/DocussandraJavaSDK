@@ -30,6 +30,7 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
     private final JSONParser parser = new JSONParser();
     private final ObjectReader r = SDKUtils.getObjectMapper().reader(DocumentResponse.class);
     private final ObjectReader rList = SDKUtils.getObjectMapper().reader(DocumentListResponse.class);
+    private final ObjectReader rQuery = SDKUtils.getObjectMapper().reader(QueryResponseWrapper.class);
 
     public DocumentDaoImpl(Config config)
     {
@@ -95,9 +96,14 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
     }
 
     @Override
-    public QueryResponseWrapper readAll(String database, String tableString, int limit, long offset) throws RESTException
+    public QueryResponseWrapper readAll(Identifier identifier, int limit, long offset) throws RESTException, IOException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (identifier.size() < 2)
+        {
+            throw new IllegalArgumentException("Identifier not precise enough. Needs Database and Table. " + identifier.toString());
+        }
+        JSONObject response = super.doGetCall(super.createFullURL("") + "/" + identifier.getDatabaseName() + "/" + identifier.getTableName() + "/");
+        return rQuery.readValue(response.toJSONString());
     }
 
     @Override
