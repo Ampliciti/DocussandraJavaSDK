@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -47,6 +48,7 @@ public class DocumentDaoImplTest
      * Test of create method, of class DocumentDaoImpl.
      */
     @Test
+    @Ignore
     public void testCreate() throws Exception
     {
         System.out.println("create");
@@ -64,6 +66,7 @@ public class DocumentDaoImplTest
      * Test of delete method, of class DocumentDaoImpl.
      */
     @Test
+    @Ignore
     public void testDelete_Table_UUID() throws Exception
     {
         System.out.println("delete");
@@ -79,6 +82,7 @@ public class DocumentDaoImplTest
      * Test of delete method, of class DocumentDaoImpl.
      */
     @Test
+    @Ignore
     public void testDelete_Identifier() throws Exception
     {
         System.out.println("delete");
@@ -93,6 +97,7 @@ public class DocumentDaoImplTest
      * Test of exists method, of class DocumentDaoImpl.
      */
     @Test
+    @Ignore
     public void testExists() throws Exception
     {
         System.out.println("exists");
@@ -109,6 +114,7 @@ public class DocumentDaoImplTest
      * Test of read method, of class DocumentDaoImpl.
      */
     @Test
+    @Ignore
     public void testRead() throws Exception
     {
         System.out.println("read");
@@ -125,6 +131,7 @@ public class DocumentDaoImplTest
      * Test of readAll method, of class DocumentDaoImpl.
      */
     @Test
+    @Ignore
     public void testReadAll() throws Exception
     {
         System.out.println("readAll");
@@ -143,6 +150,7 @@ public class DocumentDaoImplTest
      * Test of update method, of class DocumentDaoImpl.
      */
     @Test
+    @Ignore
     public void testUpdate() throws Exception
     {
         System.out.println("update");
