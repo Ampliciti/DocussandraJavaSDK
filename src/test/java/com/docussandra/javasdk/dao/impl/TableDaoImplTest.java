@@ -1,8 +1,6 @@
 package com.docussandra.javasdk.dao.impl;
 
 import com.docussandra.javasdk.Config;
-import static com.docussandra.javasdk.dao.impl.DatabaseDaoImplTest.getTestDb;
-import com.docussandra.javasdk.domain.DatabaseResponse;
 import com.docussandra.javasdk.domain.TableResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.strategicgains.docussandra.domain.objects.Database;
