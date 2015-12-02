@@ -1,5 +1,7 @@
 package com.docussandra.javasdk.dao.impl;
 
+import com.docussandra.javasdk.Config;
+import com.docussandra.javasdk.testhelper.TestUtils;
 import com.strategicgains.docussandra.domain.objects.Document;
 import com.strategicgains.docussandra.domain.objects.Identifier;
 import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
@@ -20,8 +22,17 @@ import org.junit.Ignore;
 public class DocumentDaoImplTest
 {
     
+    private Config config;
+    private DatabaseDaoImpl dbImplInstance;
+    private TableDaoImpl tableImplInstance;
+    private DocumentDaoImpl documentImplInstance;
+
     public DocumentDaoImplTest()
     {
+        config = new Config("http://localhost:8081/", Config.Format.SHORT);
+        dbImplInstance = new DatabaseDaoImpl(config);
+        tableImplInstance = new TableDaoImpl(config);
+        documentImplInstance = new DocumentDaoImpl(config);
     }
     
     @BeforeClass
@@ -52,11 +63,10 @@ public class DocumentDaoImplTest
     public void testCreate() throws Exception
     {
         System.out.println("create");
-        Table table = null;
+        Table table = TestUtils.getTestTable();
         Document entity = null;
-        DocumentDaoImpl instance = null;
         Document expResult = null;
-        Document result = instance.create(table, entity);
+        Document result = documentImplInstance.create(table, entity);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
