@@ -57,7 +57,7 @@ public class RESTException extends Exception {
             rd = new BufferedReader(isr);
             String responseBody = IOUtils.toString(rd);
             if(responseBody != null){
-                message.append("The body of the response was: ");
+                message.append(" The body of the response was: ");
                 message.append(responseBody);
             }
         } catch (Exception e) {
