@@ -17,6 +17,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.strategicgains.docussandra</groupId>
+            <artifactId>docussandra-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.13</version>
@@ -71,6 +76,10 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.5.4</version>
         </dependency>
-
+        <!--<dependency>
+            <groupId>de.undercouch</groupId>
+            <artifactId>bson4jackson</artifactId>
+            <version>2.5.0</version>
+        </dependency>-->
     </dependencies>
 </project>

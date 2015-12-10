@@ -6,6 +6,7 @@ import com.strategicgains.docussandra.domain.objects.Document;
 import com.strategicgains.docussandra.domain.objects.Identifier;
 import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
 import com.strategicgains.docussandra.domain.objects.Table;
+import java.util.Date;
 import java.util.UUID;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,55 +22,67 @@ import org.junit.Ignore;
  */
 public class DocumentDaoImplTest
 {
-    
+
     private Config config;
-    private DatabaseDaoImpl dbImplInstance;
-    private TableDaoImpl tableImplInstance;
-    private DocumentDaoImpl documentImplInstance;
+    private DocumentDaoImpl instance;
 
     public DocumentDaoImplTest()
     {
         config = new Config("http://localhost:8081/", Config.Format.SHORT);
-        dbImplInstance = new DatabaseDaoImpl(config);
-        tableImplInstance = new TableDaoImpl(config);
-        documentImplInstance = new DocumentDaoImpl(config);
+        instance = new DocumentDaoImpl(config);
     }
-    
+
     @BeforeClass
     public static void setUpClass()
     {
     }
-    
+
     @AfterClass
     public static void tearDownClass()
     {
     }
-    
+
     @Before
     public void setUp()
     {
+        TestUtils.insertTestDb(config);
+        TestUtils.insertTestTable(config);
     }
-    
+
     @After
     public void tearDown()
     {
+        TestUtils.cleanupTestDb(config);
     }
 
     /**
      * Test of create method, of class DocumentDaoImpl.
      */
     @Test
-    @Ignore
     public void testCreate() throws Exception
     {
         System.out.println("create");
         Table table = TestUtils.getTestTable();
-        Document entity = null;
-        Document expResult = null;
-        Document result = documentImplInstance.create(table, entity);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Document entity = TestUtils.getTestDocument();
+        Document expResult = entity;
+        long start = new Date().getTime();
+        Document result = instance.create(table, entity);
+
+        assertEquals(expResult.databaseName(), result.databaseName());
+        assertEquals(expResult.tableName(), result.tableName());
+        assertEquals(expResult.object(), result.object());
+        assertNotNull(entity.getCreatedAt());
+        assertNotNull(entity.getUpdatedAt());
+        long max_time_interval = 2000;
+        //long now = new Date().getTime();
+        if (entity.getCreatedAt().getTime() - start > max_time_interval)
+        {
+            fail("Created at time does not appear to be correct.");
+        }
+        if (entity.getUpdatedAt().getTime() - start > max_time_interval)
+        {
+            fail("Updated at time does not appear to be correct.");
+        }
     }
 
     /**
@@ -80,12 +93,11 @@ public class DocumentDaoImplTest
     public void testDelete_Table_UUID() throws Exception
     {
         System.out.println("delete");
-        Table table = null;
-        UUID id = null;
-        DocumentDaoImpl instance = null;
+        Table table = TestUtils.getTestTable();
+        UUID id = instance.create(TestUtils.getTestTable(), TestUtils.getTestDocument()).getUuid();
+        assertTrue(instance.exists(TestUtils.getTestDocument().getId()));
         instance.delete(table, id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertFalse(instance.exists(TestUtils.getTestDocument().getId()));
     }
 
     /**
@@ -96,11 +108,11 @@ public class DocumentDaoImplTest
     public void testDelete_Identifier() throws Exception
     {
         System.out.println("delete");
-        Identifier identifier = null;
-        DocumentDaoImpl instance = null;
+        Identifier identifier = TestUtils.getTestDocument().getId();
+        instance.create(TestUtils.getTestTable(), TestUtils.getTestDocument());
+        assertTrue(instance.exists(identifier));
         instance.delete(identifier);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertFalse(instance.exists(identifier));
     }
 
     /**
@@ -111,13 +123,14 @@ public class DocumentDaoImplTest
     public void testExists() throws Exception
     {
         System.out.println("exists");
-        Identifier identifier = null;
-        DocumentDaoImpl instance = null;
+        Identifier identifier = TestUtils.getTestDocument().getId();
         boolean expResult = false;
         boolean result = instance.exists(identifier);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.create(TestUtils.getTestTable(), TestUtils.getTestDocument());
+        expResult = true;
+        result = instance.exists(identifier);
+        assertEquals(expResult, result);
     }
 
     /**
@@ -172,5 +185,5 @@ public class DocumentDaoImplTest
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }
