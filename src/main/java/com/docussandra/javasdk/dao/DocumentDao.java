@@ -30,6 +30,7 @@ import org.json.simple.parser.ParseException;
  */
 public interface DocumentDao
 {
+    //TODO: Javadoc -- pressed for time right now, will come back to this
 
     public Document create(Table table, Document entity) throws RESTException, ParseException, IOException;
 
