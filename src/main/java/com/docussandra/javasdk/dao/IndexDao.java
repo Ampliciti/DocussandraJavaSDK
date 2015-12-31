@@ -15,9 +15,13 @@
  */
 package com.docussandra.javasdk.dao;
 
+import com.docussandra.javasdk.domain.IndexResponse;
+import com.docussandra.javasdk.exceptions.RESTException;
 import com.strategicgains.docussandra.domain.objects.Identifier;
 import com.strategicgains.docussandra.domain.objects.Index;
+import java.io.IOException;
 import java.util.List;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -28,13 +32,13 @@ public interface IndexDao
 
     public long countAll(Identifier id);
 
-    public Index create(Index entity);
+    public IndexResponse create(Index entity) throws ParseException, RESTException, IOException;
 
-    public void delete(Identifier id);
+    public void delete(Identifier id) throws RESTException;
 
-    public void delete(Index entity);
+    public void delete(Index entity) throws RESTException;
 
-    public boolean exists(Identifier identifier);
+    public boolean exists(Identifier identifier) throws RESTException;
 
     /**
      * Marks an index as "active" meaning that indexing has completed on it.
@@ -43,7 +47,7 @@ public interface IndexDao
      */
     public void markActive(Index entity);
 
-    public Index read(Identifier identifier);
+    public Index read(Identifier identifier) throws RESTException, IOException;
 
     public List<Index> readAll(Identifier id);
 

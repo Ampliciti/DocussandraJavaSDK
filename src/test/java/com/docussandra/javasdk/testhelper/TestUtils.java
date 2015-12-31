@@ -6,8 +6,13 @@ import com.docussandra.javasdk.dao.impl.DatabaseDaoImpl;
 import com.docussandra.javasdk.dao.impl.TableDaoImpl;
 import com.strategicgains.docussandra.domain.objects.Database;
 import com.strategicgains.docussandra.domain.objects.Document;
+import com.strategicgains.docussandra.domain.objects.FieldDataType;
+import com.strategicgains.docussandra.domain.objects.Index;
+import com.strategicgains.docussandra.domain.objects.IndexField;
 import com.strategicgains.docussandra.domain.objects.Table;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -119,6 +124,18 @@ public class TestUtils
         {
             ; //don't care
         }
+    }
+
+    public static Index getTestIndex()
+    {
+        Index entity = new Index();
+        entity.setName("testindex");
+        entity.setTable(TestUtils.getTestTable());
+        List<IndexField> fields = new ArrayList<>();
+        fields.add(new IndexField("test", FieldDataType.TEXT));
+        fields.add(new IndexField("test1", FieldDataType.INTEGER));
+        entity.setFields(fields);
+        return entity;
     }
 
 }
