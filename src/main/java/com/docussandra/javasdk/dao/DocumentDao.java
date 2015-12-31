@@ -31,18 +31,18 @@ import org.json.simple.parser.ParseException;
 public interface DocumentDao
 {
 
-    Document create(Table table, Document entity) throws RESTException, ParseException, IOException;
+    public Document create(Table table, Document entity) throws RESTException, ParseException, IOException;
 
-    void delete(Table table, UUID id) throws RESTException;
+    public void delete(Table table, UUID id) throws RESTException;
 
-    void delete(Identifier identifier) throws RESTException;
+    public void delete(Identifier identifier) throws RESTException;
             
-    boolean exists(Identifier identifier) throws RESTException;
+    public boolean exists(Identifier identifier) throws RESTException;
 
-    Document read(Identifier identifier) throws RESTException, IOException;
+    public Document read(Identifier identifier) throws RESTException, IOException;
 
-    QueryResponseWrapper readAll(Identifier identifier, int limit, long offset) throws RESTException, IOException;
+    public QueryResponseWrapper readAll(Identifier identifier, int limit, long offset) throws RESTException, IOException;
 
-    Document update(Document entity) throws RESTException;
+    public Document update(Document entity) throws RESTException;
 
 }

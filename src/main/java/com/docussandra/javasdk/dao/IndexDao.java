@@ -26,36 +26,36 @@ import java.util.List;
 public interface IndexDao
 {
 
-    long countAll(Identifier id);
+    public long countAll(Identifier id);
 
-    Index create(Index entity);
+    public Index create(Index entity);
 
-    void delete(Identifier id);
+    public void delete(Identifier id);
 
-    void delete(Index entity);
+    public void delete(Index entity);
 
-    boolean exists(Identifier identifier);
+    public boolean exists(Identifier identifier);
 
     /**
      * Marks an index as "active" meaning that indexing has completed on it.
      *
      * @param entity Index to mark active.
      */
-    void markActive(Index entity);
+    public void markActive(Index entity);
 
-    Index read(Identifier identifier);
+    public Index read(Identifier identifier);
 
-    List<Index> readAll(Identifier id);
+    public List<Index> readAll(Identifier id);
 
-    List<Index> readAll();
+    public List<Index> readAll();
 
     /**
      * Same as readAll, but will read from the cache if available.
      *
      * @return
      */
-    List<Index> readAllCached(Identifier id);
+    public List<Index> readAllCached(Identifier id);
 
-    Index update(Index entity);
+    public Index update(Index entity);
 
 }
