@@ -15,9 +15,12 @@
  */
 package com.docussandra.javasdk.dao;
 
+import com.docussandra.javasdk.exceptions.RESTException;
 import com.strategicgains.docussandra.domain.objects.Query;
 import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
 import com.strategicgains.docussandra.exception.IndexParseException;
+import java.io.IOException;
+import org.json.simple.parser.ParseException;
 
 /**
  * Repository for querying for records.
@@ -32,14 +35,15 @@ public interface QueryDao
      * Do a query without limit or offset.
      *
      * @param query ParsedQuery to execute.
+     * @param db Database to Query
      * @return A query response.
      * @throws IndexParseException If the query is not on a valid index.
      */
-    public QueryResponseWrapper query(Query query) throws IndexParseException;
+    public QueryResponseWrapper query(String db, Query query) throws IndexParseException, IOException, RESTException, ParseException;
 
     /**
      * Do a query with limit and offset.
-     *
+     * @param db Database to query
      * @param query ParsedQuery to execute.
      * @param limit Maximum number of results to return.
      * @param offset Number of records at the beginning of the results to
@@ -47,6 +51,6 @@ public interface QueryDao
      * @return A query response.
      * @throws IndexParseException If the query is not on a valid index.
      */
-    public QueryResponseWrapper query(Query query, int limit, long offset) throws IndexParseException;
+    public QueryResponseWrapper query(String db, Query query, int limit, long offset) throws IndexParseException, IOException, RESTException, ParseException;
 
 }

@@ -9,7 +9,6 @@ import com.docussandra.javasdk.exceptions.RESTException;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.strategicgains.docussandra.domain.objects.Identifier;
 import com.strategicgains.docussandra.domain.objects.Index;
-import com.strategicgains.docussandra.event.IndexCreatedEvent;
 import java.io.IOException;
 import java.util.List;
 import org.json.simple.JSONObject;
@@ -25,8 +24,7 @@ public class IndexDaoImpl extends DaoParent implements IndexDao
 {
 
     private final ObjectReader indexCreatedReader = SDKUtils.getObjectMapper().reader(IndexResponse.class);
-
-    private final JSONParser parser = new JSONParser();//TODO: this isn't thread safe! bug! change this here and in all the other daos -- https://github.com/JeffreyDeYoung/DocussandraJavaSDK/issues/5c
+   
 
     public IndexDaoImpl(Config config)
     {
@@ -42,8 +40,9 @@ public class IndexDaoImpl extends DaoParent implements IndexDao
     @Override
     public IndexResponse create(Index entity) throws ParseException, RESTException, IOException
     {
+        JSONParser parser = new JSONParser();
         String indexJSON = SDKUtils.createJSON(entity);
-        JSONObject response = super.doPostCall(super.createFullURL("") + entity.getDatabaseName() + "/" + entity.getTableName() + "/indexes/" + entity.getName(), (JSONObject) parser.parse(indexJSON));
+        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL("") + entity.getDatabaseName() + "/" + entity.getTableName() + "/indexes/" + entity.getName(), (JSONObject) parser.parse(indexJSON));
         return indexCreatedReader.readValue(response.toJSONString());
         //return ir.getObject();
     }

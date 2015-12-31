@@ -1,8 +1,10 @@
 package com.docussandra.javasdk.testhelper;
 
 import com.docussandra.javasdk.Config;
+import com.docussandra.javasdk.dao.IndexDao;
 import com.docussandra.javasdk.dao.TableDao;
 import com.docussandra.javasdk.dao.impl.DatabaseDaoImpl;
+import com.docussandra.javasdk.dao.impl.IndexDaoImpl;
 import com.docussandra.javasdk.dao.impl.TableDaoImpl;
 import com.strategicgains.docussandra.domain.objects.Database;
 import com.strategicgains.docussandra.domain.objects.Document;
@@ -136,6 +138,24 @@ public class TestUtils
         fields.add(new IndexField("test1", FieldDataType.INTEGER));
         entity.setFields(fields);
         return entity;
+    }
+
+    /**
+     * Creates and inserts a test index.
+     *
+     * @param config Config object with information on how to connect to the
+     * database.
+     */
+    public static void insertTestIndex(Config config)
+    {
+        try
+        {
+            IndexDao instance = new IndexDaoImpl(config);
+            instance.create(TestUtils.getTestIndex());
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e); //it's just a test
+        }
     }
 
 }

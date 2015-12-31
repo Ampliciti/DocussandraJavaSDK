@@ -26,8 +26,6 @@ import org.json.simple.parser.ParseException;
  */
 public class DocumentDaoImpl extends DaoParent implements DocumentDao
 {
-
-    private final JSONParser parser = new JSONParser();
     private final ObjectReader r = SDKUtils.getObjectMapper().reader(DocumentResponse.class);
     private final ObjectReader rList = SDKUtils.getObjectMapper().reader(DocumentListResponse.class);
     private final ObjectReader rQuery = SDKUtils.getObjectMapper().reader(QueryResponseWrapper.class);
@@ -40,8 +38,9 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
     @Override
     public Document create(Table table, Document entity) throws RESTException, ParseException, IOException
     {
+        JSONParser parser = new JSONParser();
         String documentJson = SDKUtils.createJSON(entity);
-        JSONObject response = super.doPostCall(super.createFullURL("") + table.databaseName() + "/" + table.name() + "/", (JSONObject) parser.parse(documentJson));
+        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL("") + table.databaseName() + "/" + table.name() + "/", (JSONObject) parser.parse(documentJson));
         return r.readValue(response.toJSONString());
     }
 

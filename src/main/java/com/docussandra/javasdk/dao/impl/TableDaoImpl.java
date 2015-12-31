@@ -27,7 +27,6 @@ import java.util.List;
 public class TableDaoImpl extends DaoParent implements TableDao
 {
 
-    private final JSONParser parser = new JSONParser();
     private final ObjectReader jsonObjectReader = SDKUtils.getObjectMapper().reader(TableResponse.class);
     private final ObjectReader rList = SDKUtils.getObjectMapper().reader(TableListResponse.class);
 
@@ -39,8 +38,9 @@ public class TableDaoImpl extends DaoParent implements TableDao
     @Override
     public TableResponse create(Database databaseEntity, Table tableEntity) throws ParseException, RESTException, IOException
     {
+        JSONParser parser = new JSONParser();
         String tableJson = SDKUtils.createJSON(tableEntity);
-        JSONObject response = super.doPostCall(super.createFullURL("") + databaseEntity.name()
+        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL("") + databaseEntity.name()
                 + "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
         return jsonObjectReader.readValue(response.toJSONString());
     }
@@ -94,6 +94,7 @@ public class TableDaoImpl extends DaoParent implements TableDao
     @Override
     public Table update(Database databaseEntity, Table tableEntity) throws ParseException, RESTException, IOException
     {
+        JSONParser parser = new JSONParser();
         // running the put route
         String tableJson = SDKUtils.createJSON(tableEntity);
         /*JSONObject putResponse = */

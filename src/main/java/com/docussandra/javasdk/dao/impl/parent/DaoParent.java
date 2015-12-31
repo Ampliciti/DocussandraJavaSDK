@@ -14,6 +14,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -173,7 +175,7 @@ public abstract class DaoParent
      * body, the object will be empty.
      * @throws RESTException
      */
-    protected JSONObject doPostCall(String url, JSONObject toPost) throws RESTException
+    protected JSONAware doPostCall(String url, JSONObject toPost) throws RESTException
     {
         logger.debug("Attempting to POST: " + url + ", payload: " + toPost.toJSONString());
         HttpPost request = new HttpPost(url);
@@ -201,7 +203,13 @@ public abstract class DaoParent
             {
                 responseString = IOUtils.toString(response.getEntity().getContent());
                 logger.debug("Result from POST call: " + responseString);
-                return (JSONObject) parser.parse(responseString);
+                try
+                {
+                    return (JSONObject) parser.parse(responseString);
+                } catch (ClassCastException e)
+                {
+                    return (JSONArray) parser.parse(responseString);
+                }
             } else
             {
                 return new JSONObject();

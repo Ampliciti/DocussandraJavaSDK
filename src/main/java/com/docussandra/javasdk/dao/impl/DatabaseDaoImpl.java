@@ -24,7 +24,6 @@ import org.json.simple.parser.ParseException;
 public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
 {
 
-    private final JSONParser parser = new JSONParser();
     private final ObjectReader r = SDKUtils.getObjectMapper().reader(DatabaseResponse.class);
     private final ObjectReader rList = SDKUtils.getObjectMapper().reader(DatabaseListResponse.class);
 
@@ -51,8 +50,9 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     @Override
     public DatabaseResponse create(Database entity) throws ParseException, RESTException, IOException
     {
+        JSONParser parser = new JSONParser();
         String entityJson = SDKUtils.createJSON(entity);
-        JSONObject response = super.doPostCall(super.createFullURL("") + "/" + entity.name(), (JSONObject) parser.parse(entityJson));
+        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL("") + "/" + entity.name(), (JSONObject) parser.parse(entityJson));
         return r.readValue(response.toJSONString());
     }
 
@@ -152,8 +152,9 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     @Override
     public DatabaseResponse update(Database entity) throws RESTException, IOException, ParseException
     {
+        JSONParser parser = new JSONParser();
         String entityJson = SDKUtils.createJSON(entity);
-        JSONObject response = super.doPostCall(super.createFullURL("") + "/" + entity.getId().getDatabaseName(), (JSONObject) parser.parse(entityJson));
+        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL("") + "/" + entity.getId().getDatabaseName(), (JSONObject) parser.parse(entityJson));
         return r.readValue(response.toJSONString());
     }
 
