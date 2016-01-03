@@ -109,7 +109,7 @@ public class TestUtils
         try
         {
             TableDao instance = new TableDaoImpl(config);
-            instance.create(TestUtils.getTestDb(), TestUtils.getTestTable());
+            instance.create(TestUtils.getTestTable());
         } catch (Exception e)
         {
             throw new RuntimeException(e); //it's just a test
@@ -121,7 +121,7 @@ public class TestUtils
         try
         {
             TableDaoImpl tableImplInstance = new TableDaoImpl(config);
-            tableImplInstance.delete(TestUtils.getTestDb(), TestUtils.getTestTable());
+            tableImplInstance.delete(TestUtils.getTestTable());
         } catch (Exception e)
         {
             ; //don't care
