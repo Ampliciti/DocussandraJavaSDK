@@ -66,7 +66,7 @@ public class TableDaoImplTest
         System.out.println("create table");
 
         Table expTableResult = TestUtils.getTestTable();
-        TableResponse result = tableImplInstance.create(TestUtils.getTestDb(), TestUtils.getTestTable());
+        TableResponse result = tableImplInstance.create(TestUtils.getTestTable());
         assertNotNull(result);
         assertEquals(expTableResult.name(), result.name());
         assertEquals(expTableResult.description(), result.description());
@@ -85,11 +85,10 @@ public class TableDaoImplTest
     public void testDelete_Database() throws Exception
     {
         System.out.println("delete table");
-        tableImplInstance.create(TestUtils.getTestDb(), TestUtils.getTestTable());
-        Database dbEntity = TestUtils.getTestDb();
+        tableImplInstance.create(TestUtils.getTestTable());
         Table tableEntity = TestUtils.getTestTable();
-        tableImplInstance.delete(dbEntity, tableEntity);
-        assertFalse(tableImplInstance.exists(TestUtils.getTestDb(), tableEntity.getId()));
+        tableImplInstance.delete(tableEntity);
+        assertFalse(tableImplInstance.exists(tableEntity.getId()));
     }
 
     /**
@@ -99,9 +98,9 @@ public class TableDaoImplTest
     public void testDelete_Identifier() throws Exception
     {
         System.out.println("delete");
-        tableImplInstance.create(TestUtils.getTestDb(), TestUtils.getTestTable());
-        tableImplInstance.delete(TestUtils.getTestDb(), TestUtils.getTestTable().getId());
-        assertFalse(tableImplInstance.exists(TestUtils.getTestDb(), TestUtils.getTestTable().getId()));
+        tableImplInstance.create(TestUtils.getTestTable());
+        tableImplInstance.delete(TestUtils.getTestTable().getId());
+        assertFalse(tableImplInstance.exists(TestUtils.getTestTable().getId()));
     }
 
     /**
@@ -111,10 +110,10 @@ public class TableDaoImplTest
     public void testExists() throws Exception
     {
         System.out.println("table exists");
-        boolean result = tableImplInstance.exists(TestUtils.getTestDb(), TestUtils.getTestTable().getId());
+        boolean result = tableImplInstance.exists(TestUtils.getTestTable().getId());
         assertFalse(result);
-        tableImplInstance.create(TestUtils.getTestDb(), TestUtils.getTestTable());
-        result = tableImplInstance.exists(TestUtils.getTestDb(), TestUtils.getTestTable().getId());
+        tableImplInstance.create(TestUtils.getTestTable());
+        result = tableImplInstance.exists(TestUtils.getTestTable().getId());
         assertTrue(result);
     }
 
@@ -125,8 +124,8 @@ public class TableDaoImplTest
     public void testRead() throws Exception
     {
         System.out.println("read table");
-        tableImplInstance.create(TestUtils.getTestDb(), TestUtils.getTestTable());
-        TableResponse result = tableImplInstance.read(TestUtils.getTestDb(), TestUtils.getTestTable().getId());
+        tableImplInstance.create(TestUtils.getTestTable());
+        TableResponse result = tableImplInstance.read(TestUtils.getTestTable().getId());
         assertEquals(TestUtils.getTestTable().getId(), result.getId());
         assertEquals(TestUtils.getTestTable().name(), result.name());
         assertEquals(TestUtils.getTestTable().description(), result.description());
@@ -146,11 +145,11 @@ public class TableDaoImplTest
         System.out.println("readAll");
         //setup
         Table test1 = TestUtils.getTestTable();
-        tableImplInstance.create(TestUtils.getTestDb(), test1);
+        tableImplInstance.create(test1);
         Table test2 = TestUtils.getTestTable();
         test2.name("testdb2");
         test2.description("Second descript");
-        tableImplInstance.create(TestUtils.getTestDb(), test2);
+        tableImplInstance.create(test2);
         List<Table> expResult = new ArrayList<>();
         expResult.add(test1);
         expResult.add(test2);
@@ -188,10 +187,10 @@ public class TableDaoImplTest
     public void testUpdate() throws Exception
     {
         System.out.println("update table");
-        tableImplInstance.create(TestUtils.getTestDb(), TestUtils.getTestTable());//create
+        tableImplInstance.create(TestUtils.getTestTable());//create
         Table updated = TestUtils.getTestTable();
         updated.description("This is a new description.");
-        Table result = tableImplInstance.update(TestUtils.getTestDb(), updated);
+        Table result = tableImplInstance.update(updated);
         assertEquals(updated.description(), result.description());
         assertEquals(updated.getId(), result.getId());
         assertNotSame(updated.getUpdatedAt(), result.getUpdatedAt());

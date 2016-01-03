@@ -36,33 +36,33 @@ public class TableDaoImpl extends DaoParent implements TableDao
     }
 
     @Override
-    public TableResponse create(Database databaseEntity, Table tableEntity) throws ParseException, RESTException, IOException
+    public TableResponse create(Table tableEntity) throws ParseException, RESTException, IOException
     {
         JSONParser parser = new JSONParser();
         String tableJson = SDKUtils.createJSON(tableEntity);
-        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL("") + databaseEntity.name()
+        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL("") + tableEntity.databaseName()
                 + "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
         return jsonObjectReader.readValue(response.toJSONString());
     }
 
     @Override
-    public void delete(Database databaseEntity, Table tableEntity) throws RESTException
+    public void delete(Table tableEntity) throws RESTException
     {
-        super.doDeleteCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + tableEntity.name());
+        super.doDeleteCall(super.createFullURL("") + "/" + tableEntity.databaseName() + "/" + tableEntity.name());
     }
 
     @Override
-    public void delete(Database databaseEntity, Identifier id) throws RESTException
+    public void delete(Identifier id) throws RESTException
     {
-        super.doDeleteCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + id.getTableName());
+        super.doDeleteCall(super.createFullURL("") + "/" + id.getDatabaseName() + "/" + id.getTableName());
     }
 
     @Override
-    public boolean exists(Database databaseEntity, Identifier id) throws RESTException
+    public boolean exists(Identifier id) throws RESTException
     {
         try
         {
-            super.doGetCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + id.getTableName());
+            super.doGetCall(super.createFullURL("") + "/" + id.getDatabaseName() + "/" + id.getTableName());
             return true;
         } catch (RESTException e)
         {
@@ -77,9 +77,9 @@ public class TableDaoImpl extends DaoParent implements TableDao
     }
 
     @Override
-    public TableResponse read(Database databaseEntity, Identifier id) throws RESTException, IOException
+    public TableResponse read(Identifier id) throws RESTException, IOException
     {
-        JSONObject response = super.doGetCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + id.getTableName());
+        JSONObject response = super.doGetCall(super.createFullURL("") + "/" + id.getDatabaseName() + "/" + id.getTableName());
         return jsonObjectReader.readValue(response.toJSONString());
     }
 
@@ -92,17 +92,17 @@ public class TableDaoImpl extends DaoParent implements TableDao
     }
 
     @Override
-    public Table update(Database databaseEntity, Table tableEntity) throws ParseException, RESTException, IOException
+    public Table update(Table tableEntity) throws ParseException, RESTException, IOException
     {
         JSONParser parser = new JSONParser();
         // running the put route
         String tableJson = SDKUtils.createJSON(tableEntity);
         /*JSONObject putResponse = */
-        super.doPutCall(super.createFullURL("") + "/" + databaseEntity.name()
+        super.doPutCall(super.createFullURL("") + "/" + tableEntity.databaseName()
                 + "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
 
         // run the get route on the updated table
-        JSONObject getResponse = super.doGetCall(super.createFullURL("") + "/" + databaseEntity.name() + "/" + tableEntity.name());
+        JSONObject getResponse = super.doGetCall(super.createFullURL("") + "/" + tableEntity.databaseName() + "/" + tableEntity.name());
         return jsonObjectReader.readValue(getResponse.toJSONString());
     }
 }

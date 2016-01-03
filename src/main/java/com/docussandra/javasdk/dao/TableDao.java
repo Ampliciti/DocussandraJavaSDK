@@ -34,18 +34,18 @@ public interface TableDao
 
     //TODO : long countTableSize(String database, String tableName);
 
-    TableResponse create(Database databaseEntity,Table entity) throws ParseException, RESTException, IOException;
+    public TableResponse create(Table entity) throws ParseException, RESTException, IOException;
 
-    void delete(Database databaseEntity,Table entity) throws RESTException;
+    public void delete(Table entity) throws RESTException;
 
-    void delete(Database databaseEntity,Identifier id) throws RESTException;
+    public void delete(Identifier id) throws RESTException;
 
-    boolean exists(Database databaseEntity,Identifier id) throws RESTException;
+    public boolean exists(Identifier id) throws RESTException;
 
-    TableResponse read(Database databaseEntity,Identifier id) throws RESTException, IOException;
+    public TableResponse read(Identifier id) throws RESTException, IOException;
 
-    List<TableResponse> readAll(Database databaseEntity) throws RESTException, IOException;
+    public List<TableResponse> readAll(Database databaseEntity) throws RESTException, IOException;
     
-    Table update(Database databaseEntity,Table tableEntity) throws ParseException, RESTException, IOException;
+    public Table update(Table tableEntity) throws ParseException, RESTException, IOException;
     
 }
