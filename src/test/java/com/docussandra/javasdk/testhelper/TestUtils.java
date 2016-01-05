@@ -12,10 +12,13 @@ import com.strategicgains.docussandra.domain.objects.FieldDataType;
 import com.strategicgains.docussandra.domain.objects.Index;
 import com.strategicgains.docussandra.domain.objects.IndexField;
 import com.strategicgains.docussandra.domain.objects.Table;
+import com.strategicgains.docussandra.testhelper.Fixtures;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import testhelper.TestDocussandraManager;
 
 /**
  * Test utility class.
@@ -156,6 +159,25 @@ public class TestUtils
         {
             throw new RuntimeException(e); //it's just a test
         }
+    }
+
+    /**
+     * Establishes a test Docussandra server and returns a Config object for it.
+     *
+     * @return A config object for the test Docussandra server that can be used
+     * to connect.
+     */
+    public static Config establishTestServer()
+    {
+        String cassandraKeyspace = "docussandra";
+        try
+        {
+            TestDocussandraManager.getManager().ensureTestDocussandraRunningWithMockCassandra(cassandraKeyspace);
+        } catch (Exception e)
+        {
+            throw new RuntimeException("Problem establishing test Docussandra", e);//generally, we don't want to throw a runtime exception like this, however, this is just for testing
+        }
+        return new Config("http://localhost:19080/", Config.Format.SHORT);
     }
 
 }

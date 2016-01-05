@@ -27,7 +27,7 @@ public class IndexDaoImplTest
 
     public IndexDaoImplTest()
     {
-        config = new Config("http://localhost:8081/", Config.Format.SHORT);
+        config = TestUtils.establishTestServer();
         instance = new IndexDaoImpl(config);
     }
 

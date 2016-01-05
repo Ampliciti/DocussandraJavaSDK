@@ -28,7 +28,7 @@ public class DocumentDaoImplTest
 
     public DocumentDaoImplTest()
     {
-        config = new Config("http://localhost:8081/", Config.Format.SHORT);
+        config = TestUtils.establishTestServer();
         instance = new DocumentDaoImpl(config);
     }
 

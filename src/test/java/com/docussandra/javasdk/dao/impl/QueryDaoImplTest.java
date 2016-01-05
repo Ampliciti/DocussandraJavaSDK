@@ -30,7 +30,7 @@ public class QueryDaoImplTest
 
     public QueryDaoImplTest()
     {
-        config = new Config("http://localhost:8081/", Config.Format.SHORT);
+        config = TestUtils.establishTestServer();
         instance = new QueryDaoImpl(config);
     }
     

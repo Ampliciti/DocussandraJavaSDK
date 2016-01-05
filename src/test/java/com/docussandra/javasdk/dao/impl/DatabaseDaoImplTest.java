@@ -26,7 +26,7 @@ public class DatabaseDaoImplTest
 
     public DatabaseDaoImplTest()
     {
-        config = new Config("http://localhost:8081/", Config.Format.SHORT);
+        config = TestUtils.establishTestServer();
         instance = new DatabaseDaoImpl(config);
     }
 

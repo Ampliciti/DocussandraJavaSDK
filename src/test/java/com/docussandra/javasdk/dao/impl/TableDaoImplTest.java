@@ -28,7 +28,7 @@ public class TableDaoImplTest
 
     public TableDaoImplTest()
     {
-        config = new Config("http://localhost:8081/", Config.Format.SHORT);
+        config = TestUtils.establishTestServer();
         dbImplInstance = new DatabaseDaoImpl(config);
         tableImplInstance = new TableDaoImpl(config);
     }
