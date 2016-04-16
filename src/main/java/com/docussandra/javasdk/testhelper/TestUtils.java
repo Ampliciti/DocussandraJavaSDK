@@ -12,8 +12,6 @@ import com.strategicgains.docussandra.domain.objects.FieldDataType;
 import com.strategicgains.docussandra.domain.objects.Index;
 import com.strategicgains.docussandra.domain.objects.IndexField;
 import com.strategicgains.docussandra.domain.objects.Table;
-import com.strategicgains.docussandra.testhelper.Fixtures;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
