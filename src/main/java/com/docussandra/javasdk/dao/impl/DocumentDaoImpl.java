@@ -8,10 +8,10 @@ import com.docussandra.javasdk.domain.DocumentListResponse;
 import com.docussandra.javasdk.domain.DocumentResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.strategicgains.docussandra.domain.objects.Document;
-import com.strategicgains.docussandra.domain.objects.Identifier;
-import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
-import com.strategicgains.docussandra.domain.objects.Table;
+import com.pearson.docussandra.domain.objects.Document;
+import com.pearson.docussandra.domain.objects.Identifier;
+import com.pearson.docussandra.domain.objects.QueryResponseWrapper;
+import com.pearson.docussandra.domain.objects.Table;
 import java.io.IOException;
 import java.util.UUID;
 import org.json.simple.JSONObject;
@@ -22,7 +22,7 @@ import org.json.simple.parser.ParseException;
  * Document dao that accesses Docussandra to manipulate the documents via the
  * REST API.
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public class DocumentDaoImpl extends DaoParent implements DocumentDao
 {

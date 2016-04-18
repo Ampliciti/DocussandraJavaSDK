@@ -8,8 +8,8 @@ import com.docussandra.javasdk.domain.DatabaseListResponse;
 import com.docussandra.javasdk.domain.DatabaseResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.strategicgains.docussandra.domain.objects.Database;
-import com.strategicgains.docussandra.domain.objects.Identifier;
+import com.pearson.docussandra.domain.objects.Database;
+import com.pearson.docussandra.domain.objects.Identifier;
 import java.io.IOException;
 import java.util.List;
 import org.json.simple.JSONObject;
@@ -19,7 +19,7 @@ import org.json.simple.parser.ParseException;
 /**
  * Database dao that accesses Docussandra via the REST API.
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
 {
@@ -52,7 +52,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     {
         JSONParser parser = new JSONParser();
         String entityJson = SDKUtils.createJSON(entity);
-        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL("") + "/" + entity.name(), (JSONObject) parser.parse(entityJson));
+        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL(entity.name()), (JSONObject) parser.parse(entityJson));
         return r.readValue(response.toJSONString());
     }
 
@@ -66,7 +66,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     @Override
     public void delete(Database entity) throws RESTException
     {
-        super.doDeleteCall(super.createFullURL("") + "/" + entity.name());
+        super.doDeleteCall(super.createFullURL(entity.name()));
     }
 
     /**
@@ -79,7 +79,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     @Override
     public void delete(Identifier identifier) throws RESTException
     {
-        super.doDeleteCall(super.createFullURL("") + "/" + identifier.getDatabaseName());
+        super.doDeleteCall(super.createFullURL(identifier.getDatabaseName()));
     }
 
     /**
@@ -94,7 +94,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     {
         try
         {
-            super.doGetCall(super.createFullURL("") + "/" + identifier.getDatabaseName());
+            super.doGetCall(super.createFullURL(identifier.getDatabaseName()));
             return true;
         } catch (RESTException e)
         {
@@ -119,7 +119,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     @Override
     public DatabaseResponse read(Identifier identifier) throws RESTException, IOException
     {
-        JSONObject response = super.doGetCall(super.createFullURL("") + "/" + identifier.getDatabaseName());
+        JSONObject response = super.doGetCall(super.createFullURL(identifier.getDatabaseName()));
         return r.readValue(response.toJSONString());
     }
 
@@ -154,7 +154,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     {
         JSONParser parser = new JSONParser();
         String entityJson = SDKUtils.createJSON(entity);
-        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL("") + "/" + entity.getId().getDatabaseName(), (JSONObject) parser.parse(entityJson));
+        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL(entity.getId().getDatabaseName()), (JSONObject) parser.parse(entityJson));
         return r.readValue(response.toJSONString());
     }
 

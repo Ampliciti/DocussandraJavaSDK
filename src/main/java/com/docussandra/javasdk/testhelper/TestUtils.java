@@ -6,22 +6,22 @@ import com.docussandra.javasdk.dao.TableDao;
 import com.docussandra.javasdk.dao.impl.DatabaseDaoImpl;
 import com.docussandra.javasdk.dao.impl.IndexDaoImpl;
 import com.docussandra.javasdk.dao.impl.TableDaoImpl;
-import com.strategicgains.docussandra.domain.objects.Database;
-import com.strategicgains.docussandra.domain.objects.Document;
-import com.strategicgains.docussandra.domain.objects.FieldDataType;
-import com.strategicgains.docussandra.domain.objects.Index;
-import com.strategicgains.docussandra.domain.objects.IndexField;
-import com.strategicgains.docussandra.domain.objects.Table;
+import com.pearson.docussandra.domain.objects.Database;
+import com.pearson.docussandra.domain.objects.Document;
+import com.pearson.docussandra.domain.objects.FieldDataType;
+import com.pearson.docussandra.domain.objects.Index;
+import com.pearson.docussandra.domain.objects.IndexField;
+import com.pearson.docussandra.domain.objects.Table;
+import com.pearson.docussandra.testhelper.TestDocussandraManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import testhelper.TestDocussandraManager;
 
 /**
  * Test utility class.
  *
- * @author jeffrey
+ * @author https://github.com/JeffreyDeYoung
  */
 public class TestUtils
 {
@@ -167,15 +167,15 @@ public class TestUtils
      */
     public static Config establishTestServer()
     {
-        String cassandraKeyspace = "docussandra";
+        //String cassandraKeyspace = "docussandra";
         try
         {
-            TestDocussandraManager.getManager().ensureTestDocussandraRunningWithMockCassandra(cassandraKeyspace);
+            TestDocussandraManager.getManager().ensureTestDocussandraRunning(true);
         } catch (Exception e)
         {
             throw new RuntimeException("Problem establishing test Docussandra", e);//generally, we don't want to throw a runtime exception like this, however, this is just for testing
         }
-        return new Config("http://localhost:19080/", Config.Format.SHORT);
+        return new Config("http://localhost:19080/", Config.Format.LONG);
     }
 
 }

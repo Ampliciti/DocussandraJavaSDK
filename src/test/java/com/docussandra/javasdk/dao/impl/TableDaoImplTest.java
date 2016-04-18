@@ -4,8 +4,7 @@ import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.domain.TableResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.docussandra.javasdk.testhelper.TestUtils;
-import com.strategicgains.docussandra.domain.objects.Database;
-import com.strategicgains.docussandra.domain.objects.Table;
+import com.pearson.docussandra.domain.objects.Table;
 import org.json.simple.parser.ParseException;
 import org.junit.*;
 

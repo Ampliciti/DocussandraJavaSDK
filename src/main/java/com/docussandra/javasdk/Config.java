@@ -3,14 +3,13 @@ package com.docussandra.javasdk;
 /**
  * Configuration class that contains the information needed to make a call.
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public class Config
 {
 
     /**
-     * URL format. Long or short. Github Docussandra uses the short format. Will
-     * default to SHORT.
+     * URL format. Long or short. Will default to LONG.
      *
      * @return the format
      */
@@ -51,8 +50,7 @@ public class Config
     }
 
     /**
-     * URL format. Long or short. Github Docussandra uses the short format. Will
-     * default to SHORT.
+     * URL format. Long or short. Will default to LONG.
      */
     private final Format format;
 
@@ -96,14 +94,14 @@ public class Config
     }
 
     /**
-     * Constructor. Format will default to short.
+     * Constructor. Format will default to long.
      *
      * @param baseUrl Base URL for the API service.
      * @param secToken Security token
      */
     public Config(String baseUrl, String secToken)
     {
-        this.format = Format.SHORT;//default
+        this.format = Format.LONG;//default
         this.secToken = secToken;
         this.baseUrl = cleanURL(baseUrl);
     }
@@ -115,7 +113,7 @@ public class Config
      */
     public Config(String baseUrl)
     {
-        this.format = Format.SHORT;//default
+        this.format = Format.LONG;//default
         this.secToken = null;//intentional
         this.baseUrl = cleanURL(baseUrl);
     }

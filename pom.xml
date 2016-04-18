@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.docussandra.javasdk</groupId>
     <artifactId>DocussandraJavaSDK</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -12,14 +12,14 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.strategicgains.docussandra</groupId>
+            <groupId>com.pearson.docussandra</groupId>
             <artifactId>docussandra-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.strategicgains.docussandra</groupId>
-            <artifactId>docussandra-api</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.pearson.docussandra</groupId>
+            <artifactId>docussandra-rest</artifactId>
+            <version>${project.version}</version><!--TODO: find a way to remove this-->
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -76,6 +76,68 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.5.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.docker-java</groupId>
+            <artifactId>docker-java</artifactId>
+            <version>2.1.2</version>
+            <exclusions>
+                <exclusion>            
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
+        </dependency>
+        <dependency>    
+            <groupId>com.github.cassandradockertesthelper</groupId>
+            <artifactId>CassandraDockerTestHelper</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>            
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.cassandrasshutils</groupId>
+            <artifactId>CassandraSSHUtils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.netty</groupId>
+            <artifactId>netty</artifactId>
+            <version>3.2.10.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.strategicgains</groupId>
+            <artifactId>RestExpress</artifactId>
+            <version>0.11.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.strategicgains.plugin-express</groupId>
+            <artifactId>SwaggerPlugin</artifactId>
+            <version>0.3.3</version>
+            <scope>test</scope>
+        </dependency> 
         <!--<dependency>
             <groupId>de.undercouch</groupId>
             <artifactId>bson4jackson</artifactId>

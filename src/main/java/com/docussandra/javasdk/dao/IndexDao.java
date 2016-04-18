@@ -17,15 +17,15 @@ package com.docussandra.javasdk.dao;
 
 import com.docussandra.javasdk.domain.IndexResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
-import com.strategicgains.docussandra.domain.objects.Identifier;
-import com.strategicgains.docussandra.domain.objects.Index;
+import com.pearson.docussandra.domain.objects.Identifier;
+import com.pearson.docussandra.domain.objects.Index;
 import java.io.IOException;
 import java.util.List;
 import org.json.simple.parser.ParseException;
 
 /**
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public interface IndexDao
 {

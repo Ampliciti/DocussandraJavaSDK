@@ -2,10 +2,10 @@ package com.docussandra.javasdk.dao.impl;
 
 import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.testhelper.TestUtils;
-import com.strategicgains.docussandra.domain.objects.Document;
-import com.strategicgains.docussandra.domain.objects.Identifier;
-import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
-import com.strategicgains.docussandra.domain.objects.Table;
+import com.pearson.docussandra.domain.objects.Document;
+import com.pearson.docussandra.domain.objects.Identifier;
+import com.pearson.docussandra.domain.objects.QueryResponseWrapper;
+import com.pearson.docussandra.domain.objects.Table;
 import java.util.Date;
 import java.util.UUID;
 import org.junit.After;
@@ -18,7 +18,7 @@ import org.junit.Ignore;
 
 /**
  *
- * @author jeffrey
+ * @author https://github.com/JeffreyDeYoung
  */
 public class DocumentDaoImplTest
 {

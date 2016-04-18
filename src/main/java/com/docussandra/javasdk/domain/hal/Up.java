@@ -9,7 +9,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public class Up
 {

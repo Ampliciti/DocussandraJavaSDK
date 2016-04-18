@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public abstract class DaoParent
 {

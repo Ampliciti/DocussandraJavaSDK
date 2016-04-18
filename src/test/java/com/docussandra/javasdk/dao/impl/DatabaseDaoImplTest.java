@@ -3,8 +3,8 @@ package com.docussandra.javasdk.dao.impl;
 import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.domain.DatabaseResponse;
 import com.docussandra.javasdk.testhelper.TestUtils;
-import com.strategicgains.docussandra.domain.objects.Database;
-import com.strategicgains.docussandra.domain.objects.Identifier;
+import com.pearson.docussandra.domain.objects.Database;
+import com.pearson.docussandra.domain.objects.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 /**
  * Test for the database dao.
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public class DatabaseDaoImplTest
 {
