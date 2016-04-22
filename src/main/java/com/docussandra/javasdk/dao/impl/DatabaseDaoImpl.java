@@ -134,7 +134,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     @Override
     public List<DatabaseResponse> readAll() throws RESTException, IOException
     {
-        JSONObject response = super.doGetCall(super.createFullURL("") + "/");
+        JSONObject response = super.doGetCall(super.createFullURL(""));
         DatabaseListResponse objectResponse = rList.readValue(response.toJSONString());
         return objectResponse.getEmbedded().getDatabases();
     }
@@ -150,12 +150,11 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
      * @throws ParseException If the passed in database couldn't be serialized.
      */
     @Override
-    public DatabaseResponse update(Database entity) throws RESTException, IOException, ParseException
+    public void update(Database entity) throws RESTException, IOException, ParseException
     {
         JSONParser parser = new JSONParser();
         String entityJson = SDKUtils.createJSON(entity);
-        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL(entity.getId().getDatabaseName()), (JSONObject) parser.parse(entityJson));
-        return r.readValue(response.toJSONString());
+        super.doPutCall(super.createFullURL(entity.getId().getDatabaseName()), (JSONObject) parser.parse(entityJson));
     }
 
 }

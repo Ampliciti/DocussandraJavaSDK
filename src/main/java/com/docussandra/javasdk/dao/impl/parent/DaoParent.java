@@ -86,9 +86,11 @@ public abstract class DaoParent
     public String createFullURL(String route)
     {
         StringBuilder toReturn = new StringBuilder(route);
-        if (toReturn.toString().startsWith("/"))
+        //toReturn.append("/");
+        if (!toReturn.toString().startsWith("/") && !route.isEmpty())
         {
-            toReturn = new StringBuilder(toReturn.substring(1));//remove the first slash for consistancy, will be added back later
+            //toReturn = new StringBuilder(toReturn.substring(1));//remove the first slash for consistancy, will be added back later
+            toReturn.insert(0, "/");
         }
         if (config.getFormat().equals(Config.Format.LONG)) //if it's long format; we have some more work to do
         {
@@ -99,7 +101,7 @@ public abstract class DaoParent
             }
             toReturn.insert(slash, L_DATABASES);
             slash = toReturn.indexOf("/", slash + L_DATABASES.length() + 1);
-            if (slash != -1)
+            if (slash != -1 && slash != 0)
             {
                 toReturn.insert(slash, L_TABLES);
             }

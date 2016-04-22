@@ -99,6 +99,6 @@ public interface DatabaseDao
      * response.
      * @throws ParseException If the passed in database couldn't be serialized.
      */
-    public DatabaseResponse update(Database entity) throws RESTException, IOException, ParseException;
+    public void update(Database entity) throws RESTException, IOException, ParseException;
 
 }
