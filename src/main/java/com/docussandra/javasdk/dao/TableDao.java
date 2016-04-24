@@ -46,6 +46,6 @@ public interface TableDao
 
     public List<TableResponse> readAll(Database databaseEntity) throws RESTException, IOException;
     
-    public Table update(Table tableEntity) throws ParseException, RESTException, IOException;
+    public void update(Table tableEntity) throws ParseException, RESTException, IOException;
     
 }

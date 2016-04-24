@@ -40,21 +40,20 @@ public class TableDaoImpl extends DaoParent implements TableDao
     {
         JSONParser parser = new JSONParser();
         String tableJson = SDKUtils.createJSON(tableEntity);
-        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL("") + tableEntity.databaseName()
-                + "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
+        JSONObject response = (JSONObject) super.doPostCall(super.createFullURL(tableEntity), (JSONObject) parser.parse(tableJson));
         return jsonObjectReader.readValue(response.toJSONString());
     }
 
     @Override
     public void delete(Table tableEntity) throws RESTException
     {
-        super.doDeleteCall(super.createFullURL("") + "/" + tableEntity.databaseName() + "/" + tableEntity.name());
+        super.doDeleteCall(super.createFullURL(tableEntity));
     }
 
     @Override
     public void delete(Identifier id) throws RESTException
     {
-        super.doDeleteCall(super.createFullURL("") + "/" + id.getDatabaseName() + "/" + id.getTableName());
+        super.doDeleteCall(super.createFullURL(id.getDatabaseName(), id.getTableName()));
     }
 
     @Override
@@ -62,7 +61,7 @@ public class TableDaoImpl extends DaoParent implements TableDao
     {
         try
         {
-            super.doGetCall(super.createFullURL("") + "/" + id.getDatabaseName() + "/" + id.getTableName());
+            super.doGetCall(super.createFullURL(id.getDatabaseName(), id.getTableName()));
             return true;
         } catch (RESTException e)
         {
@@ -79,30 +78,31 @@ public class TableDaoImpl extends DaoParent implements TableDao
     @Override
     public TableResponse read(Identifier id) throws RESTException, IOException
     {
-        JSONObject response = super.doGetCall(super.createFullURL("") + "/" + id.getDatabaseName() + "/" + id.getTableName());
+        JSONObject response = super.doGetCall(super.createFullURL(id.getDatabaseName(), id.getTableName()));
         return jsonObjectReader.readValue(response.toJSONString());
     }
 
     @Override
     public List<TableResponse> readAll(Database db) throws RESTException, IOException
     {
-        JSONObject response = super.doGetCall(super.createFullURL("") + "/" + db.name() + "/");
+//        String url = super.createFullURL(db.name(), null);
+//        url = url.substring(0, url.length() - 1);
+        JSONObject response = super.doGetCall(super.createFullURL(db.name(), null));
         TableListResponse objectResponse = rList.readValue(response.toJSONString());
         return objectResponse.getEmbedded().getTables();
     }
 
     @Override
-    public Table update(Table tableEntity) throws ParseException, RESTException, IOException
+    public void update(Table tableEntity) throws ParseException, RESTException, IOException
     {
         JSONParser parser = new JSONParser();
         // running the put route
         String tableJson = SDKUtils.createJSON(tableEntity);
         /*JSONObject putResponse = */
-        super.doPutCall(super.createFullURL("") + "/" + tableEntity.databaseName()
-                + "/" + tableEntity.name(), (JSONObject) parser.parse(tableJson));
+        super.doPutCall(super.createFullURL(tableEntity), (JSONObject) parser.parse(tableJson));
 
-        // run the get route on the updated table
-        JSONObject getResponse = super.doGetCall(super.createFullURL("") + "/" + tableEntity.databaseName() + "/" + tableEntity.name());
-        return jsonObjectReader.readValue(getResponse.toJSONString());
+//        // run the get route on the updated table
+//        JSONObject getResponse = super.doGetCall(super.createFullURL("") + "/" + tableEntity.databaseName() + "/" + tableEntity.name());
+//        return jsonObjectReader.readValue(getResponse.toJSONString());
     }
 }

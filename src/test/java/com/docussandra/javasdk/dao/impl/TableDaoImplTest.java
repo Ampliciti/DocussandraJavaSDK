@@ -189,7 +189,8 @@ public class TableDaoImplTest
         tableImplInstance.create(TestUtils.getTestTable());//create
         Table updated = TestUtils.getTestTable();
         updated.description("This is a new description.");
-        Table result = tableImplInstance.update(updated);
+        tableImplInstance.update(updated);
+        Table result = tableImplInstance.read(updated.getId());
         assertEquals(updated.description(), result.description());
         assertEquals(updated.getId(), result.getId());
         assertNotSame(updated.getUpdatedAt(), result.getUpdatedAt());

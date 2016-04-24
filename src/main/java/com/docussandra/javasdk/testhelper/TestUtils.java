@@ -175,7 +175,7 @@ public class TestUtils
         {
             throw new RuntimeException("Problem establishing test Docussandra", e);//generally, we don't want to throw a runtime exception like this, however, this is just for testing
         }
-        return new Config("http://localhost:19080/", Config.Format.LONG);
+        return new Config("http://localhost:19080/");
     }
 
 }

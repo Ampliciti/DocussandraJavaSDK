@@ -42,7 +42,7 @@ public class IndexDaoImpl extends DaoParent implements IndexDao
     {
         JSONParser parser = new JSONParser();
         String indexJSON = SDKUtils.createJSON(entity);
-        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL("") + entity.getDatabaseName() + "/" + entity.getTableName() + "/indexes/" + entity.getName(), (JSONObject) parser.parse(indexJSON));
+        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL(entity.getTable()) + "/indexes/" + entity.getName(), (JSONObject) parser.parse(indexJSON));
         return indexCreatedReader.readValue(response.toJSONString());
         //return ir.getObject();
     }
@@ -54,13 +54,13 @@ public class IndexDaoImpl extends DaoParent implements IndexDao
         {
             throw new IllegalArgumentException("Identifier not precise enough. Needs ID as well. " + id.toString());
         }
-        super.doDeleteCall(super.createFullURL("") + id.getDatabaseName() + "/" + id.getTableName() + "/indexes/" + id.components().get(2));
+        super.doDeleteCall(super.createFullURL(id.getDatabaseName(), id.getTableName()) + "/indexes/" + id.components().get(2));
     }
 
     @Override
     public void delete(Index entity) throws RESTException
     {
-        super.doDeleteCall(super.createFullURL("") + entity.getDatabaseName() + "/" + entity.getTableName() + "/indexes/" + entity.getName());
+        super.doDeleteCall(super.createFullURL(entity.getTable()) + "/indexes/" + entity.getName());
     }
 
     @Override
@@ -72,7 +72,7 @@ public class IndexDaoImpl extends DaoParent implements IndexDao
         }
         try
         {
-            super.doGetCall(super.createFullURL("") + "/" + identifier.getDatabaseName() + "/" + identifier.getTableName() + "/indexes/" + identifier.components().get(2));
+            super.doGetCall(super.createFullURL(identifier.getDatabaseName(), identifier.getTableName()) + "/indexes/" + identifier.components().get(2));
             return true;
         } catch (RESTException e)
         {
@@ -104,7 +104,7 @@ public class IndexDaoImpl extends DaoParent implements IndexDao
         {
             throw new IllegalArgumentException("Identifier not precise enough. Needs ID as well. " + identifier.toString());
         }
-        JSONObject response = super.doGetCall(super.createFullURL("") + "/" + identifier.getDatabaseName() + "/" + identifier.getTableName() + "/indexes/" + identifier.components().get(2));
+        JSONObject response = super.doGetCall(super.createFullURL(identifier.getDatabaseName(), identifier.getTableName()) + "/indexes/" + identifier.components().get(2));
         return indexCreatedReader.readValue(response.toJSONString());
     }
 

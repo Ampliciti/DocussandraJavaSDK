@@ -41,7 +41,7 @@ public class QueryDaoImpl extends DaoParent implements QueryDao
     {
         JSONParser parser = new JSONParser();
         String queryJSON = SDKUtils.createJSON(query);
-        JSONArray response = (JSONArray) super.doPostCall(super.createFullURL("") + db + "/" + query.getTable() + "/queries", (JSONObject) parser.parse(queryJSON));
+        JSONArray response = (JSONArray) super.doPostCall(super.createFullURL(query.getTableAsObject()) + "/queries", (JSONObject) parser.parse(queryJSON));
         return r.readValue(response.toJSONString());
 
     }
