@@ -69,6 +69,7 @@ public class QueryDaoImplTest
         System.out.println("query");
         String db = TestUtils.getTestDb().name();
         Query query = new Query();
+        query.setDatabase(db);
         query.setTable(TestUtils.getTestTable().name());
         query.setWhere("test = 'testvalue'");
         QueryResponseWrapper result = instance.query(db, query);
