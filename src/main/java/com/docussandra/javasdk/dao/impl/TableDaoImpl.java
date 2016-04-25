@@ -85,9 +85,7 @@ public class TableDaoImpl extends DaoParent implements TableDao
     @Override
     public List<TableResponse> readAll(Database db) throws RESTException, IOException
     {
-//        String url = super.createFullURL(db.name(), null);
-//        url = url.substring(0, url.length() - 1);
-        JSONObject response = super.doGetCall(super.createFullURL(db.name(), null));
+        JSONObject response = super.doGetCall(super.createFullURL(db.name(), null) + "/tables");
         TableListResponse objectResponse = rList.readValue(response.toJSONString());
         return objectResponse.getEmbedded().getTables();
     }
