@@ -2,6 +2,8 @@ package com.docussandra.javasdk.dao.impl.parent;
 
 import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.exceptions.RESTException;
+import com.pearson.docussandra.domain.objects.Database;
+import com.pearson.docussandra.domain.objects.Table;
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHeaders;
@@ -24,7 +26,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public abstract class DaoParent
 {
@@ -33,6 +35,7 @@ public abstract class DaoParent
     private static final String L_TABLES = "/tables";
     private static final String L_INDEXES = "/indexes";
     private static final String L_DOCUMENTS = "/documents";
+    private static final String SLASH = "/";
 
     /**
      * Logger for this class.
@@ -83,28 +86,49 @@ public abstract class DaoParent
         return config.getBaseUrl();
     }
 
-    public String createFullURL(String route)
+    public String createFullURL(Table tb)
     {
-        StringBuilder toReturn = new StringBuilder(route);
-        if (toReturn.toString().startsWith("/"))
+        return createFullURL(tb.databaseName(), tb.name());
+    }
+
+    public String createFullURL(Database db, Table tb)
+    {
+        return createFullURL(db.name(), tb.name());
+    }
+
+    public String createFullURL(String db, String tb)
+    {
+        StringBuilder toReturn = new StringBuilder();
+        //toReturn.append("/");
+        if (!toReturn.toString().startsWith("/"))
         {
-            toReturn = new StringBuilder(toReturn.substring(1));//remove the first slash for consistancy, will be added back later
+            //toReturn = new StringBuilder(toReturn.substring(1));//remove the first slash for consistancy, will be added back later
+            toReturn.insert(0, "/");
         }
-        if (config.getFormat().equals(Config.Format.LONG)) //if it's long format; we have some more work to do
+        int slash = toReturn.indexOf("/");
+        if (slash == -1)
         {
-            int slash = toReturn.indexOf("/");
-            if (slash == -1)
-            {
-                slash = 0;
-            }
-            toReturn.insert(slash, L_DATABASES);
-            slash = toReturn.indexOf("/", slash + L_DATABASES.length() + 1);
-            if (slash != -1)
-            {
-                toReturn.insert(slash, L_TABLES);
-            }
-            //TODO: finish this
+            slash = 0;
         }
+        toReturn.insert(slash, L_DATABASES);
+//
+//        slash = toReturn.indexOf("/", slash + L_DATABASES.length() + 1);
+//        if (slash != -1 && slash != 0)
+//        {
+//            toReturn.insert(slash, L_TABLES);
+//        }
+        if (db != null)
+        {
+            toReturn.append(db);
+        }
+        if (tb != null)
+        {
+            toReturn.append(L_TABLES);
+            toReturn.append(SLASH);
+            toReturn.append(tb);
+        }
+        //TODO: finish this
+
         if (toReturn.toString().startsWith("/"))//ugly; fix!
         {
             toReturn = new StringBuilder(toReturn.substring(1));//remove the first slash for consistancy, will be added back later

@@ -15,13 +15,9 @@
  */
 package com.docussandra.javasdk.dao;
 
-import com.strategicgains.docussandra.domain.objects.Identifier;
-import java.util.List;
-import java.util.UUID;
-
 /**
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public interface IndexStatusDao
 {

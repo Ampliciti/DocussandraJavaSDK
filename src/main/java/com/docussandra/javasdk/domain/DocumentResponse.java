@@ -1,7 +1,7 @@
 package com.docussandra.javasdk.domain;
 
 import com.docussandra.javasdk.domain.hal.HALObject;
-import com.strategicgains.docussandra.domain.objects.Document;
+import com.pearson.docussandra.domain.objects.Document;
 import com.strategicgains.syntaxe.annotation.ChildValidation;
 import org.codehaus.jackson.annotate.JsonProperty;
 

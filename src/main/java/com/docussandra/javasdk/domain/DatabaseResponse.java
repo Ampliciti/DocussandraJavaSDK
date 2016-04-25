@@ -1,18 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.docussandra.javasdk.domain;
 
 import com.docussandra.javasdk.domain.hal.HALObject;
-import com.strategicgains.docussandra.domain.objects.Database;
+import com.pearson.docussandra.domain.objects.Database;
 import com.strategicgains.syntaxe.annotation.ChildValidation;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public class DatabaseResponse extends Database
 {

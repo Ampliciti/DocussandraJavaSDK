@@ -16,16 +16,16 @@
 package com.docussandra.javasdk.dao;
 
 import com.docussandra.javasdk.exceptions.RESTException;
-import com.strategicgains.docussandra.domain.objects.Query;
-import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
-import com.strategicgains.docussandra.exception.IndexParseException;
+import com.pearson.docussandra.domain.objects.Query;
+import com.pearson.docussandra.domain.objects.QueryResponseWrapper;
+import com.pearson.docussandra.exception.IndexParseException;
 import java.io.IOException;
 import org.json.simple.parser.ParseException;
 
 /**
  * Repository for querying for records.
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public interface QueryDao
 {

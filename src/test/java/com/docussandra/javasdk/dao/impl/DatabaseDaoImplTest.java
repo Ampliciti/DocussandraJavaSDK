@@ -3,8 +3,8 @@ package com.docussandra.javasdk.dao.impl;
 import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.domain.DatabaseResponse;
 import com.docussandra.javasdk.testhelper.TestUtils;
-import com.strategicgains.docussandra.domain.objects.Database;
-import com.strategicgains.docussandra.domain.objects.Identifier;
+import com.pearson.docussandra.domain.objects.Database;
+import com.pearson.docussandra.domain.objects.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 /**
  * Test for the database dao.
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public class DatabaseDaoImplTest
 {
@@ -193,11 +193,12 @@ public class DatabaseDaoImplTest
         System.out.println("update");
         Database entity = TestUtils.getTestDb();
         instance.create(entity);//create
-        entity.description("This is a new database description. It should be different than before.");
+        entity.description("This is a new database description. It should be different than before.");        
+        instance.update(entity);
         Database expResult = entity;
-        Database result = instance.update(entity);
-        assertEquals(expResult.description(), result.description());
-        assertEquals(expResult.getId(), result.getId());
+        Database response = instance.read(entity.getId());
+        assertEquals(expResult.description(), response.description());
+        assertEquals(expResult.getId(), response.getId());
     }
 
 }

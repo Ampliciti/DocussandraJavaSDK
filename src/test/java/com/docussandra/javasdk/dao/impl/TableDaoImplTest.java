@@ -4,8 +4,7 @@ import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.domain.TableResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.docussandra.javasdk.testhelper.TestUtils;
-import com.strategicgains.docussandra.domain.objects.Database;
-import com.strategicgains.docussandra.domain.objects.Table;
+import com.pearson.docussandra.domain.objects.Table;
 import org.json.simple.parser.ParseException;
 import org.junit.*;
 
@@ -190,7 +189,8 @@ public class TableDaoImplTest
         tableImplInstance.create(TestUtils.getTestTable());//create
         Table updated = TestUtils.getTestTable();
         updated.description("This is a new description.");
-        Table result = tableImplInstance.update(updated);
+        tableImplInstance.update(updated);
+        Table result = tableImplInstance.read(updated.getId());
         assertEquals(updated.description(), result.description());
         assertEquals(updated.getId(), result.getId());
         assertNotSame(updated.getUpdatedAt(), result.getUpdatedAt());

@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 /**
  * Exception for problems with REST calls.
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public class RESTException extends Exception {
 

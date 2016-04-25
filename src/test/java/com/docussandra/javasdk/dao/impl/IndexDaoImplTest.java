@@ -4,8 +4,8 @@ import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.dao.IndexDao;
 import com.docussandra.javasdk.domain.IndexResponse;
 import com.docussandra.javasdk.testhelper.TestUtils;
-import com.strategicgains.docussandra.domain.objects.Identifier;
-import com.strategicgains.docussandra.domain.objects.Index;
+import com.pearson.docussandra.domain.objects.Identifier;
+import com.pearson.docussandra.domain.objects.Index;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,7 +17,7 @@ import org.junit.Ignore;
 
 /**
  *
- * @author jeffrey
+ * @author https://github.com/JeffreyDeYoung
  */
 public class IndexDaoImplTest
 {

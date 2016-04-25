@@ -8,10 +8,10 @@ import com.docussandra.javasdk.domain.DocumentListResponse;
 import com.docussandra.javasdk.domain.DocumentResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.strategicgains.docussandra.domain.objects.Document;
-import com.strategicgains.docussandra.domain.objects.Identifier;
-import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
-import com.strategicgains.docussandra.domain.objects.Table;
+import com.pearson.docussandra.domain.objects.Document;
+import com.pearson.docussandra.domain.objects.Identifier;
+import com.pearson.docussandra.domain.objects.QueryResponseWrapper;
+import com.pearson.docussandra.domain.objects.Table;
 import java.io.IOException;
 import java.util.UUID;
 import org.json.simple.JSONObject;
@@ -22,7 +22,7 @@ import org.json.simple.parser.ParseException;
  * Document dao that accesses Docussandra to manipulate the documents via the
  * REST API.
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public class DocumentDaoImpl extends DaoParent implements DocumentDao
 {
@@ -40,14 +40,14 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
     {
         JSONParser parser = new JSONParser();
         String documentJson = SDKUtils.createJSON(entity);
-        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL("") + table.databaseName() + "/" + table.name() + "/", (JSONObject) parser.parse(documentJson));
+        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL(table) + "/", (JSONObject) parser.parse(documentJson));
         return r.readValue(response.toJSONString());
     }
 
     @Override
     public void delete(Table table, UUID id) throws RESTException
     {
-        super.doDeleteCall(super.createFullURL("") + "/" + table.database().name() + "/" + table.name() + "/" + id.toString());
+        super.doDeleteCall(super.createFullURL(table) + "/" + id.toString());
     }
 
     @Override
@@ -57,7 +57,7 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
         {
             throw new IllegalArgumentException("Identifier not precise enough. Needs ID as well. " + identifier.toString());
         }
-        super.doDeleteCall(super.createFullURL("") + "/" + identifier.getDatabaseName() + "/" + identifier.getTableName() + "/" + identifier.components().get(2));
+        super.doDeleteCall(super.createFullURL(identifier.getDatabaseName(), identifier.getTableName()) + "/" + identifier.components().get(2));
     }
 
     @Override
@@ -69,7 +69,7 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
         }
         try
         {
-            super.doGetCall(super.createFullURL("") + "/" + identifier.getDatabaseName() + "/" + identifier.getTableName() + "/" + identifier.components().get(2));
+            super.doGetCall(super.createFullURL(identifier.getDatabaseName(), identifier.getTableName()) + "/" + identifier.components().get(2));
             return true;
         } catch (RESTException e)
         {
@@ -90,7 +90,7 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
         {
             throw new IllegalArgumentException("Identifier not precise enough. Needs ID as well. " + identifier.toString());
         }
-        JSONObject response = super.doGetCall(super.createFullURL("") + "/" + identifier.getDatabaseName() + "/" + identifier.getTableName() + "/" + identifier.components().get(2));
+        JSONObject response = super.doGetCall(super.createFullURL(identifier.getDatabaseName(), identifier.getTableName()) + "/" + identifier.getTableName() + "/" + identifier.components().get(2));
         return r.readValue(response.toJSONString());
     }
 
@@ -101,7 +101,7 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
         {
             throw new IllegalArgumentException("Identifier not precise enough. Needs Database and Table. " + identifier.toString());
         }
-        JSONObject response = super.doGetCall(super.createFullURL("") + "/" + identifier.getDatabaseName() + "/" + identifier.getTableName() + "/");
+        JSONObject response = super.doGetCall(super.createFullURL(identifier.getDatabaseName(), identifier.getTableName()) +  "/");
         return rQuery.readValue(response.toJSONString());
     }
 

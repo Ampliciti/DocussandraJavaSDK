@@ -5,7 +5,7 @@ import com.strategicgains.syntaxe.annotation.ChildValidation;
 
 /**
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public class DatabaseListResponse
 {

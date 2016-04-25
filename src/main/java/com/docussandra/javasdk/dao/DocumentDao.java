@@ -16,17 +16,17 @@
 package com.docussandra.javasdk.dao;
 
 import com.docussandra.javasdk.exceptions.RESTException;
-import com.strategicgains.docussandra.domain.objects.Document;
-import com.strategicgains.docussandra.domain.objects.Identifier;
-import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
-import com.strategicgains.docussandra.domain.objects.Table;
+import com.pearson.docussandra.domain.objects.Document;
+import com.pearson.docussandra.domain.objects.Identifier;
+import com.pearson.docussandra.domain.objects.QueryResponseWrapper;
+import com.pearson.docussandra.domain.objects.Table;
 import java.io.IOException;
 import java.util.UUID;
 import org.json.simple.parser.ParseException;
 
 /**
  * Document dao that accesses Docussandra to manipulate the documents.
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public interface DocumentDao
 {

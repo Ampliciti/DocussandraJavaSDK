@@ -17,9 +17,9 @@ package com.docussandra.javasdk.dao;
 
 import com.docussandra.javasdk.domain.TableResponse;
 import com.docussandra.javasdk.exceptions.RESTException;
-import com.strategicgains.docussandra.domain.objects.Database;
-import com.strategicgains.docussandra.domain.objects.Identifier;
-import com.strategicgains.docussandra.domain.objects.Table;
+import com.pearson.docussandra.domain.objects.Database;
+import com.pearson.docussandra.domain.objects.Identifier;
+import com.pearson.docussandra.domain.objects.Table;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  *
- * @author udeyoje
+ * @author https://github.com/JeffreyDeYoung
  */
 public interface TableDao
 {
@@ -46,6 +46,6 @@ public interface TableDao
 
     public List<TableResponse> readAll(Database databaseEntity) throws RESTException, IOException;
     
-    public Table update(Table tableEntity) throws ParseException, RESTException, IOException;
+    public void update(Table tableEntity) throws ParseException, RESTException, IOException;
     
 }

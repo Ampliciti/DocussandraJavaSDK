@@ -8,8 +8,8 @@ package com.docussandra.javasdk.dao.impl;
 import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.dao.QueryDao;
 import com.docussandra.javasdk.testhelper.TestUtils;
-import com.strategicgains.docussandra.domain.objects.Query;
-import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
+import com.pearson.docussandra.domain.objects.Query;
+import com.pearson.docussandra.domain.objects.QueryResponseWrapper;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,7 +20,7 @@ import org.junit.Ignore;
 
 /**
  *
- * @author jeffrey
+ * @author https://github.com/JeffreyDeYoung
  */
 public class QueryDaoImplTest
 {
@@ -69,6 +69,7 @@ public class QueryDaoImplTest
         System.out.println("query");
         String db = TestUtils.getTestDb().name();
         Query query = new Query();
+        query.setDatabase(db);
         query.setTable(TestUtils.getTestTable().name());
         query.setWhere("test = 'testvalue'");
         QueryResponseWrapper result = instance.query(db, query);

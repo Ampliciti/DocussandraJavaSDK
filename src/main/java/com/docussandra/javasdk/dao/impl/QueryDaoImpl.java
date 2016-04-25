@@ -6,9 +6,9 @@ import com.docussandra.javasdk.dao.QueryDao;
 import com.docussandra.javasdk.dao.impl.parent.DaoParent;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.strategicgains.docussandra.domain.objects.Query;
-import com.strategicgains.docussandra.domain.objects.QueryResponseWrapper;
-import com.strategicgains.docussandra.exception.IndexParseException;
+import com.pearson.docussandra.domain.objects.Query;
+import com.pearson.docussandra.domain.objects.QueryResponseWrapper;
+import com.pearson.docussandra.exception.IndexParseException;
 import java.io.IOException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -41,7 +41,7 @@ public class QueryDaoImpl extends DaoParent implements QueryDao
     {
         JSONParser parser = new JSONParser();
         String queryJSON = SDKUtils.createJSON(query);
-        JSONArray response = (JSONArray) super.doPostCall(super.createFullURL("") + db + "/" + query.getTable() + "/queries", (JSONObject) parser.parse(queryJSON));
+        JSONArray response = (JSONArray) super.doPostCall(super.createFullURL(query.getTableAsObject()) + "/queries", (JSONObject) parser.parse(queryJSON));
         return r.readValue(response.toJSONString());
 
     }
