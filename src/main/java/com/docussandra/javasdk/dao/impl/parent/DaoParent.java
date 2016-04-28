@@ -59,7 +59,6 @@ public abstract class DaoParent
      */
     private RequestConfig rc;
 
-    private JSONParser parser = new JSONParser();
 
     public DaoParent(Config config)
     {
@@ -105,10 +104,6 @@ public abstract class DaoParent
         return createFullURL(tb.databaseName(), tb.name());
     }
 
-    public String createFullURL(Database db, Table tb)
-    {
-        return createFullURL(db.name(), tb.name());
-    }
 
     public String createFullURL(Document doc)
     {
@@ -195,6 +190,7 @@ public abstract class DaoParent
             {
                 responseString = IOUtils.toString(response.getEntity().getContent());
                 logger.debug("Result from GET call: " + responseString);
+                JSONParser parser = new JSONParser();
                 return (JSONObject) parser.parse(responseString);
             } else
             {
@@ -251,6 +247,7 @@ public abstract class DaoParent
             {
                 responseString = IOUtils.toString(response.getEntity().getContent());
                 logger.debug("Result from POST call: " + responseString);
+                JSONParser parser = new JSONParser();
                 try
                 {
                     return (JSONObject) parser.parse(responseString);
@@ -313,6 +310,7 @@ public abstract class DaoParent
             {
                 responseString = IOUtils.toString(response.getEntity().getContent());
                 logger.debug("Result from PUT call: " + responseString);
+                JSONParser parser = new JSONParser();
                 return (JSONObject) parser.parse(responseString);
             } else
             {
