@@ -111,7 +111,7 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
     {
         JSONParser parser = new JSONParser();
         String documentJson = SDKUtils.createJSON(entity);
-        super.doPutCall(super.createFullURL(entity.getId().getTable()) + "/documents/" + entity.getUuid(), (JSONObject) parser.parse(documentJson));
+        super.doPutCall(super.createFullURL(entity), (JSONObject) parser.parse(documentJson));
     }
 
 }

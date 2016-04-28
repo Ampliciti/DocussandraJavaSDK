@@ -4,6 +4,7 @@ import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.pearson.docussandra.domain.objects.Database;
 import com.pearson.docussandra.domain.objects.Document;
+import com.pearson.docussandra.domain.objects.Identifier;
 import com.pearson.docussandra.domain.objects.Table;
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
@@ -85,6 +86,11 @@ public abstract class DaoParent
     public String getBaseURL()
     {
         return config.getBaseUrl();
+    }
+    
+        public String createFullURL(Identifier id)
+    {
+        return null;//createFullURL(tb.databaseName(), tb.name());
     }
 
     public String createFullURL(Table tb)
