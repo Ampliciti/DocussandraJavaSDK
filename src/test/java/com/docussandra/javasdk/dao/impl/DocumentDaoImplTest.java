@@ -60,7 +60,6 @@ public class DocumentDaoImplTest
      * Test of create method, of class DocumentDaoImpl.
      */
     @Test
-    @Ignore//bug in cassandra/docussandra?
     public void testCreate() throws Exception
     {
         System.out.println("create");
@@ -121,7 +120,6 @@ public class DocumentDaoImplTest
      * Test of exists method, of class DocumentDaoImpl.
      */
     @Test
-    @Ignore//cassandra bug?
     public void testExists() throws Exception
     {
         System.out.println("exists");
@@ -175,17 +173,35 @@ public class DocumentDaoImplTest
      * Test of update method, of class DocumentDaoImpl.
      */
     @Test
-    @Ignore
     public void testUpdate() throws Exception
     {
         System.out.println("update");
-        Document entity = null;
-        DocumentDaoImpl instance = null;
-        Document expResult = null;
-        Document result = instance.update(entity);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Table table = TestUtils.getTestTable();
+        Document entity = TestUtils.getTestDocument();
+
+        //create
+        Document created = instance.create(table, entity);
+        Thread.sleep(2001);//wait (so we can test the updated time)
+        //update
+        long start = new Date().getTime();
+        entity = TestUtils.getTestDocument2();
+        entity.setUuid(created.getUuid());
+        instance.update(entity);
+
+        //fetch
+        Document result = instance.read(entity.getId());
+        
+        assertEquals(entity.databaseName(), result.databaseName());
+        assertEquals(entity.tableName(), result.tableName());
+        assertEquals(entity.object(), result.object());
+        assertNotNull(entity.getCreatedAt());
+        assertNotNull(entity.getUpdatedAt());
+                                
+        long max_time_interval = 2000;
+        if (entity.getUpdatedAt().getTime() - start > max_time_interval)
+        {
+            fail("Updated at time does not appear to be correct.");
+        }
     }
 
 }

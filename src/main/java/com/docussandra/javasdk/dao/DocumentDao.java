@@ -44,6 +44,6 @@ public interface DocumentDao
 
     public QueryResponseWrapper readAll(Identifier identifier, int limit, long offset) throws RESTException, IOException;
 
-    public Document update(Document entity) throws RESTException;
+    public void update(Document entity) throws RESTException, ParseException, IOException;
 
 }

@@ -53,6 +53,22 @@ public class TestUtils
         entity.setUpdatedAt(new Date());
         return entity;
     }
+    
+        /**
+     * Gets another basic Document object for testing.
+     *
+     * @return
+     */
+    public static Document getTestDocument2()
+    {
+        Document entity = new Document();
+        entity.table(getTestTable());
+        entity.objectAsString("{\"greeting\":\"hey\", \"myindexedfield\": \"thisismyfieldagain\", \"myindexedfield1\":\"my second field again\", \"myindexedfield2\":\"my third field yet again\"}");
+        entity.setUuid(new UUID(0L, 1L));
+        entity.setCreatedAt(new Date());
+        entity.setUpdatedAt(new Date());
+        return entity;
+    }
 
     /**
      * Cleans up the test Database object that may or may not have been created.
