@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Parent class for all DAOs.
  * @author https://github.com/JeffreyDeYoung
  */
 public abstract class DaoParent
@@ -60,6 +60,10 @@ public abstract class DaoParent
     private RequestConfig rc;
 
 
+    /**
+     * Constructor. 
+     * @param config Configuration object to base this dao on. 
+     */
     public DaoParent(Config config)
     {
         this.config = config;
@@ -82,11 +86,20 @@ public abstract class DaoParent
         return config;
     }
 
+    /**
+     * Gets the base URL associated with this class.
+     * @return 
+     */
     public String getBaseURL()
     {
         return config.getBaseUrl();
     }
 
+    /**
+     * Creates a full usable REST URL based on the passed in parameters.
+     * @param id Identifier for what we are looking to create a URL for.
+     * @return 
+     */
     public String createFullURL(Identifier id)
     {
         int size = id.components().size();
@@ -99,22 +112,45 @@ public abstract class DaoParent
         }
     }
 
+    /**
+     * Creates a full usable REST URL based on the passed in parameters.
+     * @param tb Table to create the URL for.
+     * @return A full REST url.
+     */
     public String createFullURL(Table tb)
     {
         return createFullURL(tb.databaseName(), tb.name());
     }
 
 
+    /**
+     * Creates a full usable REST URL based on the passed in parameters.
+     * @param doc Document to create the URL for.
+     * @return A full REST url.
+     */
     public String createFullURL(Document doc)
     {
         return createFullURL(doc.databaseName(), doc.tableName(), doc.getUuid().toString());
     }
 
+    /**
+     * Creates a full usable REST URL based on the passed in parameters.
+     * @param db Database name to create the URL for.
+     * @param tb Table name to create the URL for.
+     * @return A full REST url.
+     */
     public String createFullURL(String db, String tb)
     {
         return createFullURL(db, tb, null);
     }
 
+    /**
+     * Creates a full usable REST URL based on the passed in parameters. 
+     * @param db Database name to use in the URL.
+     * @param tb Table name to use in the URL.
+     * @param docUUID Document UUID (as a String).
+     * @return A REST URL.
+     */
     public String createFullURL(String db, String tb, String docUUID)
     {
         StringBuilder toReturn = new StringBuilder();
