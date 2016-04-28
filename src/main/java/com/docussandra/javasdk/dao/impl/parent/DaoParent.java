@@ -3,6 +3,7 @@ package com.docussandra.javasdk.dao.impl.parent;
 import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.pearson.docussandra.domain.objects.Database;
+import com.pearson.docussandra.domain.objects.Document;
 import com.pearson.docussandra.domain.objects.Table;
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
@@ -95,8 +96,16 @@ public abstract class DaoParent
     {
         return createFullURL(db.name(), tb.name());
     }
+    
+    public String createFullURL(Document doc){
+        return createFullURL(doc.databaseName(), doc.tableName(), doc.getUuid().toString());
+    }
+    
+    public String createFullURL(String db, String tb){
+        return createFullURL(db, tb, null);
+    }
 
-    public String createFullURL(String db, String tb)
+    public String createFullURL(String db, String tb, String docUUID)
     {
         StringBuilder toReturn = new StringBuilder();
         //toReturn.append("/");
@@ -111,12 +120,7 @@ public abstract class DaoParent
             slash = 0;
         }
         toReturn.insert(slash, L_DATABASES);
-//
-//        slash = toReturn.indexOf("/", slash + L_DATABASES.length() + 1);
-//        if (slash != -1 && slash != 0)
-//        {
-//            toReturn.insert(slash, L_TABLES);
-//        }
+        
         if (db != null)
         {
             toReturn.append(db);
@@ -127,9 +131,14 @@ public abstract class DaoParent
             toReturn.append(SLASH);
             toReturn.append(tb);
         }
-        //TODO: finish this
+        if (docUUID != null){
+            toReturn.append(L_DOCUMENTS);
+            toReturn.append(SLASH);
+            toReturn.append(docUUID);
+        }
+        
 
-        if (toReturn.toString().startsWith("/"))//ugly; fix!
+        if (toReturn.toString().startsWith("/"))
         {
             toReturn = new StringBuilder(toReturn.substring(1));//remove the first slash for consistancy, will be added back later
         }
