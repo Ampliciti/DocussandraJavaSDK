@@ -87,10 +87,17 @@ public abstract class DaoParent
     {
         return config.getBaseUrl();
     }
-    
-        public String createFullURL(Identifier id)
+
+    public String createFullURL(Identifier id)
     {
-        return null;//createFullURL(tb.databaseName(), tb.name());
+        int size = id.components().size();
+        if(size == 1){
+            return createFullURL(id.getDatabaseName(), null, null);
+        } else if(size == 2){
+            return createFullURL(id.getDatabaseName(), id.getTableName(), null);
+        } else { //size should == 3
+            return createFullURL(id.getDatabaseName(), id.getTableName(), id.components().get(2).toString());
+        }
     }
 
     public String createFullURL(Table tb)
@@ -102,12 +109,14 @@ public abstract class DaoParent
     {
         return createFullURL(db.name(), tb.name());
     }
-    
-    public String createFullURL(Document doc){
+
+    public String createFullURL(Document doc)
+    {
         return createFullURL(doc.databaseName(), doc.tableName(), doc.getUuid().toString());
     }
-    
-    public String createFullURL(String db, String tb){
+
+    public String createFullURL(String db, String tb)
+    {
         return createFullURL(db, tb, null);
     }
 
@@ -126,7 +135,7 @@ public abstract class DaoParent
             slash = 0;
         }
         toReturn.insert(slash, L_DATABASES);
-        
+
         if (db != null)
         {
             toReturn.append(db);
@@ -137,12 +146,12 @@ public abstract class DaoParent
             toReturn.append(SLASH);
             toReturn.append(tb);
         }
-        if (docUUID != null){
+        if (docUUID != null)
+        {
             toReturn.append(L_DOCUMENTS);
             toReturn.append(SLASH);
             toReturn.append(docUUID);
         }
-        
 
         if (toReturn.toString().startsWith("/"))
         {
