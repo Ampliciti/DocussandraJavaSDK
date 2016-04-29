@@ -30,20 +30,72 @@ import org.json.simple.parser.ParseException;
  */
 public interface DocumentDao
 {
-    //TODO: Javadoc -- pressed for time right now, will come back to this
 
+    /**
+     * Creates a document.
+     * @param table Table in which to create the document in.
+     * @param entity Document to put into the Database.
+     * @return The created Document including a UUID.
+     * @throws RESTException If there was a problem making the call.
+     * @throws IOException If there was a problem de-serializing the JSON
+     * response.
+     * @throws ParseException If the passed in database couldn't be serialized.
+     */
     public Document create(Table table, Document entity) throws RESTException, ParseException, IOException;
 
+    /**
+     * Deletes a document.
+     * @param table Table in which to delete the document from.
+     * @param id Document UUID to delete
+     * @throws RESTException If there was a problem making the call. 
+     */
     public void delete(Table table, UUID id) throws RESTException;
-
+    
+    /**
+     * Deletes a document.
+     * @param identifier Identifier to delete.
+     * @throws RESTException If there was a problem making the call. 
+     */
     public void delete(Identifier identifier) throws RESTException;
             
+    /**
+     * Determines if the document exists or not.
+     * @param identifier Identifier to check for existance.
+     * @return True if it exists, false if it doesn't.
+     * @throws RESTException If there was a problem making the call. 
+     */
     public boolean exists(Identifier identifier) throws RESTException;
 
+    /**
+     * Reads a document.
+     * @param identifier Identifier to read.
+     * @return The requested document.
+     * @throws RESTException If there was a problem making the call. 
+     * @throws IOException If there was a problem de-serializing the JSON
+     * response.
+     */
     public Document read(Identifier identifier) throws RESTException, IOException;
 
+    /**
+     * 
+     * @param identifier
+     * @param limit
+     * @param offset
+     * @return
+     * @throws RESTException If there was a problem making the call. 
+     * @throws IOException If there was a problem de-serializing the JSON
+     * response.
+     */
     public QueryResponseWrapper readAll(Identifier identifier, int limit, long offset) throws RESTException, IOException;
 
+    /**
+     * Updates the document.
+     * @param entity Updates the Document. (Determines the document to update based on the UUID.)
+     * @throws RESTException If there was a problem making the call. 
+     * @throws ParseException If the passed in database couldn't be serialized.
+     * @throws IOException If there was a problem de-serializing the JSON
+     * response.
+     */
     public void update(Document entity) throws RESTException, ParseException, IOException;
 
 }

@@ -33,13 +33,25 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
 
     /**
      * Constructor.
-     * @param config Config for this class. 
+     *
+     * @param config Config for this class.
      */
     public DocumentDaoImpl(Config config)
     {
         super(config);
     }
 
+    /**
+     * Creates a document.
+     *
+     * @param table Table in which to create the document in.
+     * @param entity Document to put into the Database.
+     * @return The created Document including a UUID.
+     * @throws RESTException If there was a problem making the call.
+     * @throws IOException If there was a problem de-serializing the JSON
+     * response.
+     * @throws ParseException If the passed in database couldn't be serialized.
+     */
     @Override
     public Document create(Table table, Document entity) throws RESTException, ParseException, IOException
     {
@@ -49,12 +61,25 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
         return r.readValue(response.toJSONString());
     }
 
+    /**
+     * Deletes a document.
+     *
+     * @param table Table in which to delete the document from.
+     * @param id Document UUID to delete
+     * @throws RESTException If there was a problem making the call.
+     */
     @Override
     public void delete(Table table, UUID id) throws RESTException
     {
         super.doDeleteCall(super.createFullURL(table) + "/" + id.toString());
     }
 
+    /**
+     * Deletes a document.
+     *
+     * @param identifier Identifier to delete.
+     * @throws RESTException If there was a problem making the call.
+     */
     @Override
     public void delete(Identifier identifier) throws RESTException
     {
@@ -110,6 +135,16 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
         return rQuery.readValue(response.toJSONString());
     }
 
+    /**
+     * Updates the document.
+     *
+     * @param entity Updates the Document. (Determines the document to update
+     * based on the UUID.)
+     * @throws RESTException If there was a problem making the call.
+     * @throws ParseException If the passed in database couldn't be serialized.
+     * @throws IOException If there was a problem de-serializing the JSON
+     * response.
+     */
     @Override
     public void update(Document entity) throws RESTException, ParseException, IOException
     {
