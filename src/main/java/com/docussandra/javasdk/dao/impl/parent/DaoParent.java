@@ -3,6 +3,8 @@ package com.docussandra.javasdk.dao.impl.parent;
 import com.docussandra.javasdk.Config;
 import com.docussandra.javasdk.exceptions.RESTException;
 import com.pearson.docussandra.domain.objects.Database;
+import com.pearson.docussandra.domain.objects.Document;
+import com.pearson.docussandra.domain.objects.Identifier;
 import com.pearson.docussandra.domain.objects.Table;
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
@@ -25,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Parent class for all DAOs.
  * @author https://github.com/JeffreyDeYoung
  */
 public abstract class DaoParent
@@ -57,8 +59,11 @@ public abstract class DaoParent
      */
     private RequestConfig rc;
 
-    private JSONParser parser = new JSONParser();
 
+    /**
+     * Constructor. 
+     * @param config Configuration object to base this dao on. 
+     */
     public DaoParent(Config config)
     {
         this.config = config;
@@ -81,22 +86,72 @@ public abstract class DaoParent
         return config;
     }
 
+    /**
+     * Gets the base URL associated with this class.
+     * @return 
+     */
     public String getBaseURL()
     {
         return config.getBaseUrl();
     }
 
+    /**
+     * Creates a full usable REST URL based on the passed in parameters.
+     * @param id Identifier for what we are looking to create a URL for.
+     * @return 
+     */
+    public String createFullURL(Identifier id)
+    {
+        int size = id.components().size();
+        if(size == 1){
+            return createFullURL(id.getDatabaseName(), null, null);
+        } else if(size == 2){
+            return createFullURL(id.getDatabaseName(), id.getTableName(), null);
+        } else { //size should == 3
+            return createFullURL(id.getDatabaseName(), id.getTableName(), id.components().get(2).toString());
+        }
+    }
+
+    /**
+     * Creates a full usable REST URL based on the passed in parameters.
+     * @param tb Table to create the URL for.
+     * @return A full REST url.
+     */
     public String createFullURL(Table tb)
     {
         return createFullURL(tb.databaseName(), tb.name());
     }
 
-    public String createFullURL(Database db, Table tb)
+
+    /**
+     * Creates a full usable REST URL based on the passed in parameters.
+     * @param doc Document to create the URL for.
+     * @return A full REST url.
+     */
+    public String createFullURL(Document doc)
     {
-        return createFullURL(db.name(), tb.name());
+        return createFullURL(doc.databaseName(), doc.tableName(), doc.getUuid().toString());
     }
 
+    /**
+     * Creates a full usable REST URL based on the passed in parameters.
+     * @param db Database name to create the URL for.
+     * @param tb Table name to create the URL for.
+     * @return A full REST url.
+     */
     public String createFullURL(String db, String tb)
+    {
+        return createFullURL(db, tb, null);
+    }
+
+    /**
+     * Creates a full usable REST URL based on the passed in parameters. 
+     * @param db Database name to use in the URL.
+     * @param tb Table name to use in the URL.
+     * @param docUUID Document UUID (as a String).
+     * @return A REST URL.
+     */
+    public String createFullURL(String db, String tb, String docUUID)
     {
         StringBuilder toReturn = new StringBuilder();
         //toReturn.append("/");
@@ -111,12 +166,7 @@ public abstract class DaoParent
             slash = 0;
         }
         toReturn.insert(slash, L_DATABASES);
-//
-//        slash = toReturn.indexOf("/", slash + L_DATABASES.length() + 1);
-//        if (slash != -1 && slash != 0)
-//        {
-//            toReturn.insert(slash, L_TABLES);
-//        }
+
         if (db != null)
         {
             toReturn.append(db);
@@ -127,9 +177,14 @@ public abstract class DaoParent
             toReturn.append(SLASH);
             toReturn.append(tb);
         }
-        //TODO: finish this
+        if (docUUID != null)
+        {
+            toReturn.append(L_DOCUMENTS);
+            toReturn.append(SLASH);
+            toReturn.append(docUUID);
+        }
 
-        if (toReturn.toString().startsWith("/"))//ugly; fix!
+        if (toReturn.toString().startsWith("/"))
         {
             toReturn = new StringBuilder(toReturn.substring(1));//remove the first slash for consistancy, will be added back later
         }
@@ -171,6 +226,7 @@ public abstract class DaoParent
             {
                 responseString = IOUtils.toString(response.getEntity().getContent());
                 logger.debug("Result from GET call: " + responseString);
+                JSONParser parser = new JSONParser();
                 return (JSONObject) parser.parse(responseString);
             } else
             {
@@ -227,6 +283,7 @@ public abstract class DaoParent
             {
                 responseString = IOUtils.toString(response.getEntity().getContent());
                 logger.debug("Result from POST call: " + responseString);
+                JSONParser parser = new JSONParser();
                 try
                 {
                     return (JSONObject) parser.parse(responseString);
@@ -289,6 +346,7 @@ public abstract class DaoParent
             {
                 responseString = IOUtils.toString(response.getEntity().getContent());
                 logger.debug("Result from PUT call: " + responseString);
+                JSONParser parser = new JSONParser();
                 return (JSONObject) parser.parse(responseString);
             } else
             {

@@ -52,7 +52,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     {
         JSONParser parser = new JSONParser();
         String entityJson = SDKUtils.createJSON(entity);
-        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL(entity.name(), null), (JSONObject) parser.parse(entityJson));
+        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL(entity.name(), null, null), (JSONObject) parser.parse(entityJson));
         return r.readValue(response.toJSONString());
     }
 
@@ -66,7 +66,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     @Override
     public void delete(Database entity) throws RESTException
     {
-        super.doDeleteCall(super.createFullURL(entity.name(), null));
+        super.doDeleteCall(super.createFullURL(entity.name(), null, null));
     }
 
     /**
@@ -79,7 +79,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     @Override
     public void delete(Identifier identifier) throws RESTException
     {
-        super.doDeleteCall(super.createFullURL(identifier.getDatabaseName(), null));
+        super.doDeleteCall(super.createFullURL(identifier));
     }
 
     /**
@@ -94,7 +94,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     {
         try
         {
-            super.doGetCall(super.createFullURL(identifier.getDatabaseName(), null));
+            super.doGetCall(super.createFullURL(identifier));
             return true;
         } catch (RESTException e)
         {
@@ -119,7 +119,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     @Override
     public DatabaseResponse read(Identifier identifier) throws RESTException, IOException
     {
-        JSONObject response = super.doGetCall(super.createFullURL(identifier.getDatabaseName(), null));
+        JSONObject response = super.doGetCall(super.createFullURL(identifier));
         return r.readValue(response.toJSONString());
     }
 
@@ -156,7 +156,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     {
         JSONParser parser = new JSONParser();
         String entityJson = SDKUtils.createJSON(entity);
-        super.doPutCall(super.createFullURL(entity.getId().getDatabaseName(), null), (JSONObject) parser.parse(entityJson));
+        super.doPutCall(super.createFullURL(entity.getId().getDatabaseName(), null, null), (JSONObject) parser.parse(entityJson));
     }
 
 }

@@ -53,7 +53,7 @@ public class TableDaoImpl extends DaoParent implements TableDao
     @Override
     public void delete(Identifier id) throws RESTException
     {
-        super.doDeleteCall(super.createFullURL(id.getDatabaseName(), id.getTableName()));
+        super.doDeleteCall(super.createFullURL(id));
     }
 
     @Override
@@ -61,7 +61,7 @@ public class TableDaoImpl extends DaoParent implements TableDao
     {
         try
         {
-            super.doGetCall(super.createFullURL(id.getDatabaseName(), id.getTableName()));
+            super.doGetCall(super.createFullURL(id));
             return true;
         } catch (RESTException e)
         {
@@ -78,14 +78,14 @@ public class TableDaoImpl extends DaoParent implements TableDao
     @Override
     public TableResponse read(Identifier id) throws RESTException, IOException
     {
-        JSONObject response = super.doGetCall(super.createFullURL(id.getDatabaseName(), id.getTableName()));
+        JSONObject response = super.doGetCall(super.createFullURL(id));
         return jsonObjectReader.readValue(response.toJSONString());
     }
 
     @Override
     public List<TableResponse> readAll(Database db) throws RESTException, IOException
     {
-        JSONObject response = super.doGetCall(super.createFullURL(db.name(), null) + "/tables");
+        JSONObject response = super.doGetCall(super.createFullURL(db.name(), null, null) + "/tables");
         TableListResponse objectResponse = rList.readValue(response.toJSONString());
         return objectResponse.getEmbedded().getTables();
     }
