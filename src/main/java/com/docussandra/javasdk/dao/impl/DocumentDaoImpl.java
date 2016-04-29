@@ -31,6 +31,10 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
     private final ObjectReader rList = SDKUtils.getObjectMapper().reader(DocumentListResponse.class);
     private final ObjectReader rQuery = SDKUtils.getObjectMapper().reader(QueryResponseWrapper.class);
 
+    /**
+     * Constructor.
+     * @param config Config for this class. 
+     */
     public DocumentDaoImpl(Config config)
     {
         super(config);
