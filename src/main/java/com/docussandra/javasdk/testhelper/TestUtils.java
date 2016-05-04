@@ -53,8 +53,8 @@ public class TestUtils
         entity.setUpdatedAt(new Date());
         return entity;
     }
-    
-        /**
+
+    /**
      * Gets another basic Document object for testing.
      *
      * @return
@@ -176,7 +176,8 @@ public class TestUtils
     }
 
     /**
-     * Establishes a test Docussandra server and returns a Config object for it.
+     * Establishes a test Docussandra server on local port 19808 and returns a
+     * Config object for it.
      *
      * @return A config object for the test Docussandra server that can be used
      * to connect.
