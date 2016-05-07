@@ -90,17 +90,20 @@ public class SDKUtils
         public BSONObject deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException
         {
             JSONParser parser = new JSONParser();
-            //there is probably almost certianly a better way to do this, but it will work for now
-            String jsonString = p.readValueAsTree().toString();//the whole response, including the document and the metadata
-            try
-            {
-                JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
-                JSONObject bsonObejct = (JSONObject) jsonObject.get("object");
-                return (BSONObject) JSON.parse(bsonObejct.toJSONString());
-            } catch (ParseException e)
-            {
-                throw new IOException(e);
-            }
+            //fixed? //there is probably almost certianly a better way to do this, but it will work for now
+            String jsonString = p.readValueAsTree().toString();//the object response
+            return (BSONObject) JSON.parse(jsonString);
+
+//            String jsonString = p.readValueAsTree().toString();//the whole response, including the document and the metadata
+//            try
+//            {
+//                JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
+//                JSONObject bsonObejct = (JSONObject) jsonObject.get("object");
+//                return (BSONObject) JSON.parse(bsonObejct.toJSONString());
+//            } catch (ParseException e)
+//            {
+//                throw new IOException(e);
+//            }
         }
 
     }
