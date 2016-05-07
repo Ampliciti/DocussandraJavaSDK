@@ -18,8 +18,9 @@
         </dependency>
         <dependency>
             <groupId>com.pearson.docussandra</groupId>
-            <artifactId>docussandra-rest</artifactId>
-            <version>${project.version}</version><!--TODO: find a way to remove this-->
+            <artifactId>test-helpers</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

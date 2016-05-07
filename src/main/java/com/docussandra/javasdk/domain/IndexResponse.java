@@ -1,7 +1,7 @@
 package com.docussandra.javasdk.domain;
 
 import com.docussandra.javasdk.domain.hal.HALObject;
-import com.pearson.docussandra.event.IndexCreatedEvent;
+import com.pearson.docussandra.domain.event.IndexCreatedEvent;
 import com.strategicgains.syntaxe.annotation.ChildValidation;
 import org.codehaus.jackson.annotate.JsonProperty;
 
