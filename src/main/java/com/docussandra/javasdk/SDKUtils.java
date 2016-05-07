@@ -89,7 +89,7 @@ public class SDKUtils
         @Override
         public BSONObject deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException
         {
-            JSONParser parser = new JSONParser();
+            //JSONParser parser = new JSONParser();
             //fixed? //there is probably almost certianly a better way to do this, but it will work for now
             String jsonString = p.readValueAsTree().toString();//the object response
             return (BSONObject) JSON.parse(jsonString);
