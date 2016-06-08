@@ -7,6 +7,9 @@ import com.pearson.docussandra.domain.objects.Document;
 import com.pearson.docussandra.domain.objects.Identifier;
 import com.pearson.docussandra.domain.objects.Table;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -277,6 +280,76 @@ public abstract class DaoParent
             if (responseCode < 200 || responseCode >= 300)
             {
                 throw new RESTException("Error when doing a POST call agaist: " + url + ". JSON posted: " + toPost.toJSONString(), response);
+            }
+
+            if (response.getEntity() != null)
+            {
+                responseString = IOUtils.toString(response.getEntity().getContent());
+                logger.debug("Result from POST call: " + responseString);
+                JSONParser parser = new JSONParser();
+                try
+                {
+                    return (JSONObject) parser.parse(responseString);
+                } catch (ClassCastException e)
+                {
+                    return (JSONArray) parser.parse(responseString);
+                }
+            } else
+            {
+                return new JSONObject();
+            }
+
+        } catch (ParseException pe)
+        {
+            throw new RESTException("Could not parse JSON: " + responseString, pe);
+        } catch (IOException e)
+        {
+            throw new RESTException("Problem contacting REST service for POST", e);
+        } finally
+        {
+            request.reset();
+        }
+
+    }
+
+    /**
+     * Does an HTTP POST call with headers
+     *
+     * @param url URL to post to.
+     * @param toPost JSONObject of data to POST.
+     * @return JSONObject representing the response. If the route returns a null
+     * body, the object will be empty.
+     * @throws RESTException
+     */
+    protected JSONAware doPostCall(String url, JSONObject toPost, HashMap<String,String> headers) throws RESTException
+    {
+        logger.debug("Attempting to POST: " + url + ", payload: " + toPost.toJSONString());
+        HttpPost request = new HttpPost(url);
+        request.setConfig(rc);
+        // add request header
+        request.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+        //add auth if specified
+        if (config.getSecToken() != null)
+        {
+            request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + config.getSecToken());
+        }
+        //check for headers if present add them to the request
+        if(!headers.isEmpty()){
+            headers.entrySet();
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                request.addHeader(entry.getKey(),entry.getValue());
+            }
+        }
+        String responseString = "";
+        try
+        {
+            //add the post data
+            request.setEntity(new StringEntity(toPost.toJSONString()));
+            HttpResponse response = client.execute(request);
+            int responseCode = response.getStatusLine().getStatusCode();
+            if (responseCode < 200 || responseCode >= 300)
+            {
+                throw new RESTException("Error when doing a POST call against: " + url + ". JSON posted: " + toPost.toJSONString(), response);
             }
 
             if (response.getEntity() != null)

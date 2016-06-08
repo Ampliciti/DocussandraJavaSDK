@@ -95,5 +95,22 @@ public class QueryDaoImplTest
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
+    /**
+     * Test of query method, of class QueryDaoImpl.
+     * testing the limit parameter
+     */
+    @Test
+    public void testLimit_String_Query() throws Exception
+    {
+        System.out.println("query");
+        String db = TestUtils.getTestDb().name();
+        Query query = new Query();
+        query.setDatabase(db);
+        query.setTable(TestUtils.getTestTable().name());
+        query.setWhere("test = 'testvalue'");
+        query.setLimit(1000);
+        QueryResponseWrapper result = instance.query(db, query);
+        assertNotNull(result);
+    }
 }

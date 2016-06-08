@@ -10,6 +10,8 @@ import com.pearson.docussandra.domain.objects.Query;
 import com.pearson.docussandra.domain.objects.QueryResponseWrapper;
 import com.pearson.docussandra.exception.IndexParseException;
 import java.io.IOException;
+import java.util.HashMap;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -41,7 +43,9 @@ public class QueryDaoImpl extends DaoParent implements QueryDao
     {
         JSONParser parser = new JSONParser();
         String queryJSON = SDKUtils.createJSON(query);
-        JSONArray response = (JSONArray) super.doPostCall(super.createFullURL(query.getTableAsObject()) + "/queries", (JSONObject) parser.parse(queryJSON));
+        HashMap<String,String> headers = new HashMap();
+        headers.put("limit",String.valueOf(query.getLimit()));
+        JSONArray response = (JSONArray) super.doPostCall(super.createFullURL(query.getTableAsObject()) + "/queries", (JSONObject) parser.parse(queryJSON), headers);
         return r.readValue(response.toJSONString());
 
     }
