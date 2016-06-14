@@ -1,8 +1,10 @@
 package com.docussandra.javasdk.dao.impl;
 
-import com.docussandra.javasdk.Config;
-import com.docussandra.javasdk.domain.TableResponse;
-import com.docussandra.javasdk.exceptions.RESTException;
+import com.ampliciti.db.docussandra.javasdk.dao.impl.DatabaseDaoImpl;
+import com.ampliciti.db.docussandra.javasdk.dao.impl.TableDaoImpl;
+import com.ampliciti.db.docussandra.javasdk.Config;
+import com.ampliciti.db.docussandra.javasdk.domain.TableResponse;
+import com.ampliciti.db.docussandra.javasdk.exceptions.RESTException;
 import com.docussandra.javasdk.testhelper.TestUtils;
 import com.pearson.docussandra.domain.objects.Table;
 import org.json.simple.parser.ParseException;

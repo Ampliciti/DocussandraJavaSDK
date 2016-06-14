@@ -1,8 +1,9 @@
 package com.docussandra.javasdk.dao.impl;
 
-import com.docussandra.javasdk.Config;
-import com.docussandra.javasdk.dao.IndexDao;
-import com.docussandra.javasdk.domain.IndexResponse;
+import com.ampliciti.db.docussandra.javasdk.dao.impl.IndexDaoImpl;
+import com.ampliciti.db.docussandra.javasdk.Config;
+import com.ampliciti.db.docussandra.javasdk.dao.IndexDao;
+import com.ampliciti.db.docussandra.javasdk.domain.IndexResponse;
 import com.docussandra.javasdk.testhelper.TestUtils;
 import com.pearson.docussandra.domain.objects.Identifier;
 import com.pearson.docussandra.domain.objects.Index;

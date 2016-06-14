@@ -1,6 +1,7 @@
 package com.docussandra.javasdk.dao.impl;
 
-import com.docussandra.javasdk.Config;
+import com.ampliciti.db.docussandra.javasdk.dao.impl.DocumentDaoImpl;
+import com.ampliciti.db.docussandra.javasdk.Config;
 import com.docussandra.javasdk.testhelper.TestUtils;
 import com.pearson.docussandra.domain.objects.Document;
 import com.pearson.docussandra.domain.objects.Identifier;

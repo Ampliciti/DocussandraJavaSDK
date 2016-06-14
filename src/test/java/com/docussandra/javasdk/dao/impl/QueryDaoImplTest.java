@@ -5,8 +5,9 @@
  */
 package com.docussandra.javasdk.dao.impl;
 
-import com.docussandra.javasdk.Config;
-import com.docussandra.javasdk.dao.QueryDao;
+import com.ampliciti.db.docussandra.javasdk.dao.impl.QueryDaoImpl;
+import com.ampliciti.db.docussandra.javasdk.Config;
+import com.ampliciti.db.docussandra.javasdk.dao.QueryDao;
 import com.docussandra.javasdk.testhelper.TestUtils;
 import com.pearson.docussandra.domain.objects.Query;
 import com.pearson.docussandra.domain.objects.QueryResponseWrapper;
