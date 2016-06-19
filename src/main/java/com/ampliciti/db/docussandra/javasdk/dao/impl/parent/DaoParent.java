@@ -122,7 +122,7 @@ public abstract class DaoParent
      */
     public String createFullURL(Table tb)
     {
-        return createFullURL(tb.databaseName(), tb.name());
+        return createFullURL(tb.getDatabaseName(), tb.getName());
     }
 
 
@@ -133,7 +133,7 @@ public abstract class DaoParent
      */
     public String createFullURL(Document doc)
     {
-        return createFullURL(doc.databaseName(), doc.tableName(), doc.getUuid().toString());
+        return createFullURL(doc.getDatabaseName(), doc.getTableName(), doc.getUuid().toString());
     }
 
     /**

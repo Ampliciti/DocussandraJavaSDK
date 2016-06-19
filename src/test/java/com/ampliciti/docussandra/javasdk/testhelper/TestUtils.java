@@ -1,4 +1,4 @@
-package com.docussandra.javasdk.testhelper;
+package com.ampliciti.docussandra.javasdk.testhelper;
 
 import com.ampliciti.db.docussandra.javasdk.Config;
 import com.ampliciti.db.docussandra.javasdk.dao.IndexDao;
@@ -34,7 +34,7 @@ public class TestUtils
     public static Database getTestDb()
     {
         Database entity = new Database("testdb");
-        entity.description("This was a db created by java sdk tests.");
+        entity.setDescription("This was a db created by java sdk tests.");
         return entity;
     }
 
@@ -46,8 +46,8 @@ public class TestUtils
     public static Document getTestDocument()
     {
         Document entity = new Document();
-        entity.table(getTestTable());
-        entity.objectAsString("{\"greeting\":\"hello\", \"myindexedfield\": \"thisismyfield\", \"myindexedfield1\":\"my second field\", \"myindexedfield2\":\"my third field\"}");
+        entity.setTable(getTestTable());
+        entity.setObjectAsString("{\"greeting\":\"hello\", \"myindexedfield\": \"thisismyfield\", \"myindexedfield1\":\"my second field\", \"myindexedfield2\":\"my third field\"}");
         entity.setUuid(new UUID(0L, 1L));
         entity.setCreatedAt(new Date());
         entity.setUpdatedAt(new Date());
@@ -62,8 +62,8 @@ public class TestUtils
     public static Document getTestDocument2()
     {
         Document entity = new Document();
-        entity.table(getTestTable());
-        entity.objectAsString("{\"greeting\":\"hey\", \"myindexedfield\": \"thisismyfieldagain\", \"myindexedfield1\":\"my second field again\", \"myindexedfield2\":\"my third field yet again\"}");
+        entity.setTable(getTestTable());
+        entity.setObjectAsString("{\"greeting\":\"hey\", \"myindexedfield\": \"thisismyfieldagain\", \"myindexedfield1\":\"my second field again\", \"myindexedfield2\":\"my third field yet again\"}");
         entity.setUuid(new UUID(0L, 1L));
         entity.setCreatedAt(new Date());
         entity.setUpdatedAt(new Date());
@@ -109,9 +109,9 @@ public class TestUtils
     public static Table getTestTable()
     {
         Table entity = new Table();
-        entity.name("testtable");
-        entity.description("This was a table created by java sdk tests.");
-        entity.database(TestUtils.getTestDb());
+        entity.setName("testtable");
+        entity.setDescription("This was a table created by java sdk tests.");
+        entity.setDatabaseByObject(TestUtils.getTestDb());
         return entity;
     }
 

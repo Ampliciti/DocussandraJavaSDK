@@ -52,7 +52,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     {
         JSONParser parser = new JSONParser();
         String entityJson = SDKUtils.createJSON(entity);
-        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL(entity.name(), null, null), (JSONObject) parser.parse(entityJson));
+        JSONObject response = (JSONObject)super.doPostCall(super.createFullURL(entity.getName(), null, null), (JSONObject) parser.parse(entityJson));
         return r.readValue(response.toJSONString());
     }
 
@@ -66,7 +66,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao
     @Override
     public void delete(Database entity) throws RESTException
     {
-        super.doDeleteCall(super.createFullURL(entity.name(), null, null));
+        super.doDeleteCall(super.createFullURL(entity.getName(), null, null));
     }
 
     /**

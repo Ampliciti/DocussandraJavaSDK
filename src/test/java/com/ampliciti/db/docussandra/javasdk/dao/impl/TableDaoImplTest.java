@@ -1,11 +1,12 @@
-package com.docussandra.javasdk.dao.impl;
+package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
 import com.ampliciti.db.docussandra.javasdk.dao.impl.DatabaseDaoImpl;
 import com.ampliciti.db.docussandra.javasdk.dao.impl.TableDaoImpl;
 import com.ampliciti.db.docussandra.javasdk.Config;
 import com.ampliciti.db.docussandra.javasdk.domain.TableResponse;
 import com.ampliciti.db.docussandra.javasdk.exceptions.RESTException;
-import com.docussandra.javasdk.testhelper.TestUtils;
+import com.ampliciti.docussandra.javasdk.testhelper.TestUtils;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.pearson.docussandra.domain.objects.Table;
 import org.json.simple.parser.ParseException;
 import org.junit.*;
@@ -69,8 +70,8 @@ public class TableDaoImplTest
         Table expTableResult = TestUtils.getTestTable();
         TableResponse result = tableImplInstance.create(TestUtils.getTestTable());
         assertNotNull(result);
-        assertEquals(expTableResult.name(), result.name());
-        assertEquals(expTableResult.description(), result.description());
+        assertEquals(expTableResult.getName(), result.getName());
+        assertEquals(expTableResult.getDescription(), result.getDescription());
         assertEquals(expTableResult.getId(), result.getId());
         assertNotNull(result.getLinks());
         assertNotNull(result.getLinks().getSelf());
@@ -128,8 +129,8 @@ public class TableDaoImplTest
         tableImplInstance.create(TestUtils.getTestTable());
         TableResponse result = tableImplInstance.read(TestUtils.getTestTable().getId());
         assertEquals(TestUtils.getTestTable().getId(), result.getId());
-        assertEquals(TestUtils.getTestTable().name(), result.name());
-        assertEquals(TestUtils.getTestTable().description(), result.description());
+        assertEquals(TestUtils.getTestTable().getName(), result.getName());
+        assertEquals(TestUtils.getTestTable().getDescription(), result.getDescription());
         assertNotNull(result.getLinks());
         assertNotNull(result.getLinks().getSelf());
         assertNotNull(result.getLinks().getUp());
@@ -148,8 +149,8 @@ public class TableDaoImplTest
         Table test1 = TestUtils.getTestTable();
         tableImplInstance.create(test1);
         Table test2 = TestUtils.getTestTable();
-        test2.name("testdb2");
-        test2.description("Second descript");
+        test2.setName("testdb2");
+        test2.setDescription("Second descript");
         tableImplInstance.create(test2);
         List<Table> expResult = new ArrayList<>();
         expResult.add(test1);
@@ -171,7 +172,7 @@ public class TableDaoImplTest
             }
             if (found)
             {
-                assertEquals(expected.description(), match.description());
+                assertEquals(expected.getDescription(), match.getDescription());
             } else
             {
                 fail("Expected response: " + expResult.toString() + " was not found.");
@@ -190,13 +191,37 @@ public class TableDaoImplTest
         System.out.println("update table");
         tableImplInstance.create(TestUtils.getTestTable());//create
         Table updated = TestUtils.getTestTable();
-        updated.description("This is a new description.");
+        updated.setDescription("This is a new description.");
         tableImplInstance.update(updated);
         Table result = tableImplInstance.read(updated.getId());
-        assertEquals(updated.description(), result.description());
+        assertEquals(updated.getDescription(), result.getDescription());
         assertEquals(updated.getId(), result.getId());
         assertNotSame(updated.getUpdatedAt(), result.getUpdatedAt());
 
     }
 
+    /**
+     * Test of getJsonObjectReader method, of class TableDaoImpl. This test
+     * basically makes sure our table binding works, and allows us to play with
+     * different data formats if needed.
+     */
+    @Test
+    public void testGetJsonObjectReader() throws IOException
+    {
+        System.out.println("getJsonObjectReader");
+        ObjectReader result = tableImplInstance.getJsonObjectReader();
+        assertNotNull(result);
+        String toTest = "{\"createdAt\":\"2016-06-19T00:23:36.749Z\","
+                + "\"_links\":"
+                + "{\"self\":{\"href\":\"http:\\/\\/localhost:19080\\/databases\\/testdb\\/tables\\/testtable\"},"
+                + "\"up\":{\"href\":\"http:\\/\\/localhost:19080\\/databases\\/testdb\\/tables\","
+                + "\"title\":\"The entire list of tables in this database\"}},\"name\":\"testtable\","
+                + "\"description\":\"This was a table created by java sdk tests.\","
+                + "\"ttl\":0,\"deleteTtl\":0,\"updatedAt\":\"2016-06-19T00:23:36.749Z\","
+                + "\"database\":"
+                + "{\"name\":\"testdb\"}"
+                + "}";
+        TableResponse tr = result.readValue(toTest);
+        assertNotNull(tr);
+    }
 }

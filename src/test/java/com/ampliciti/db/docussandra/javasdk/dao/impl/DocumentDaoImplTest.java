@@ -1,8 +1,8 @@
-package com.docussandra.javasdk.dao.impl;
+package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
 import com.ampliciti.db.docussandra.javasdk.dao.impl.DocumentDaoImpl;
 import com.ampliciti.db.docussandra.javasdk.Config;
-import com.docussandra.javasdk.testhelper.TestUtils;
+import com.ampliciti.docussandra.javasdk.testhelper.TestUtils;
 import com.pearson.docussandra.domain.objects.Document;
 import com.pearson.docussandra.domain.objects.Identifier;
 import com.pearson.docussandra.domain.objects.QueryResponseWrapper;
@@ -16,6 +16,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,6 +28,8 @@ public class DocumentDaoImplTest
 
     private Config config;
     private DocumentDaoImpl instance;
+    
+    private static final Logger logger = LoggerFactory.getLogger(DocumentDaoImplTest.class);
 
     public DocumentDaoImplTest()
     {
@@ -46,8 +50,15 @@ public class DocumentDaoImplTest
     @Before
     public void setUp()
     {
-        TestUtils.insertTestDb(config);
-        TestUtils.insertTestTable(config);
+        try
+        {
+            TestUtils.insertTestDb(config);
+            TestUtils.insertTestTable(config);
+        } catch (Exception e)
+        {
+            logger.error("Could not setup!", e);
+            throw e;
+        }
     }
 
     @After
@@ -70,9 +81,9 @@ public class DocumentDaoImplTest
         long start = new Date().getTime();
         Document result = instance.create(table, entity);
 
-        assertEquals(expResult.databaseName(), result.databaseName());
-        assertEquals(expResult.tableName(), result.tableName());
-        assertEquals(expResult.object(), result.object());
+        assertEquals(expResult.getDatabaseName(), result.getDatabaseName());
+        assertEquals(expResult.getTableName(), result.getTableName());
+        assertEquals(expResult.getObject(), result.getObject());
         assertNotNull(entity.getCreatedAt());
         assertNotNull(entity.getUpdatedAt());
         long max_time_interval = 2000;
@@ -191,13 +202,13 @@ public class DocumentDaoImplTest
 
         //fetch
         Document result = instance.read(entity.getId());
-        
-        assertEquals(entity.databaseName(), result.databaseName());
-        assertEquals(entity.tableName(), result.tableName());
-        assertEquals(entity.object(), result.object());
+
+        assertEquals(entity.getDatabaseName(), result.getDatabaseName());
+        assertEquals(entity.getTableName(), result.getTableName());
+        assertEquals(entity.getObject(), result.getObject());
         assertNotNull(entity.getCreatedAt());
         assertNotNull(entity.getUpdatedAt());
-                                
+
         long max_time_interval = 2000;
         if (entity.getUpdatedAt().getTime() - start > max_time_interval)
         {

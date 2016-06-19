@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.docussandra.javasdk.dao.impl;
+package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
 import com.ampliciti.db.docussandra.javasdk.dao.impl.QueryDaoImpl;
 import com.ampliciti.db.docussandra.javasdk.Config;
 import com.ampliciti.db.docussandra.javasdk.dao.QueryDao;
-import com.docussandra.javasdk.testhelper.TestUtils;
+import com.ampliciti.docussandra.javasdk.testhelper.TestUtils;
 import com.pearson.docussandra.domain.objects.Query;
 import com.pearson.docussandra.domain.objects.QueryResponseWrapper;
 import org.junit.After;
@@ -68,10 +68,10 @@ public class QueryDaoImplTest
     public void testQuery_String_Query() throws Exception
     {
         System.out.println("query");
-        String db = TestUtils.getTestDb().name();
+        String db = TestUtils.getTestDb().getName();
         Query query = new Query();
         query.setDatabase(db);
-        query.setTable(TestUtils.getTestTable().name());
+        query.setTable(TestUtils.getTestTable().getName());
         query.setWhere("test = 'testvalue'");
         QueryResponseWrapper result = instance.query(db, query);
         assertNotNull(result);
@@ -105,10 +105,10 @@ public class QueryDaoImplTest
     public void testLimit_String_Query() throws Exception
     {
         System.out.println("query");
-        String db = TestUtils.getTestDb().name();
+        String db = TestUtils.getTestDb().getName();
         Query query = new Query();
         query.setDatabase(db);
-        query.setTable(TestUtils.getTestTable().name());
+        query.setTable(TestUtils.getTestTable().getName());
         query.setWhere("test = 'testvalue'");
         query.setLimit(1000);
         QueryResponseWrapper result = instance.query(db, query);

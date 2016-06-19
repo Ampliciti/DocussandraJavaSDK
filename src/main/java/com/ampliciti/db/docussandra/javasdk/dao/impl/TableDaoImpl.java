@@ -41,7 +41,8 @@ public class TableDaoImpl extends DaoParent implements TableDao
         JSONParser parser = new JSONParser();
         String tableJson = SDKUtils.createJSON(tableEntity);
         JSONObject response = (JSONObject) super.doPostCall(super.createFullURL(tableEntity), (JSONObject) parser.parse(tableJson));
-        return jsonObjectReader.readValue(response.toJSONString());
+        System.out.println("Response: " + response.toJSONString());
+        return getJsonObjectReader().readValue(response.toJSONString());
     }
 
     @Override
@@ -79,13 +80,13 @@ public class TableDaoImpl extends DaoParent implements TableDao
     public TableResponse read(Identifier id) throws RESTException, IOException
     {
         JSONObject response = super.doGetCall(super.createFullURL(id));
-        return jsonObjectReader.readValue(response.toJSONString());
+        return getJsonObjectReader().readValue(response.toJSONString());
     }
 
     @Override
     public List<TableResponse> readAll(Database db) throws RESTException, IOException
     {
-        JSONObject response = super.doGetCall(super.createFullURL(db.name(), null, null) + "/tables");
+        JSONObject response = super.doGetCall(super.createFullURL(db.getName(), null, null) + "/tables");
         TableListResponse objectResponse = rList.readValue(response.toJSONString());
         return objectResponse.getEmbedded().getTables();
     }
@@ -102,5 +103,13 @@ public class TableDaoImpl extends DaoParent implements TableDao
 //        // run the get route on the updated table
 //        JSONObject getResponse = super.doGetCall(super.createFullURL("") + "/" + tableEntity.databaseName() + "/" + tableEntity.name());
 //        return jsonObjectReader.readValue(getResponse.toJSONString());
+    }
+
+    /**
+     * @return the jsonObjectReader
+     */
+    public ObjectReader getJsonObjectReader()
+    {
+        return jsonObjectReader;
     }
 }

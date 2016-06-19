@@ -44,7 +44,7 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
     public Document create(Table table, Document entity) throws RESTException, ParseException, IOException
     {
         JSONParser parser = new JSONParser();
-        String documentJson = SDKUtils.createJSON(entity.object());
+        String documentJson = SDKUtils.createJSON(entity.getObject());
         JSONObject response = (JSONObject) super.doPostCall(super.createFullURL(table) + "/documents", (JSONObject) parser.parse(documentJson));
         return r.readValue(response.toJSONString());
     }
@@ -114,7 +114,7 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao
     public void update(Document entity) throws RESTException, ParseException, IOException
     {
         JSONParser parser = new JSONParser();
-        String documentJson = SDKUtils.createJSON(entity.object());
+        String documentJson = SDKUtils.createJSON(entity.getObject());
         super.doPutCall(super.createFullURL(entity), (JSONObject) parser.parse(documentJson));
     }
 

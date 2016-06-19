@@ -1,9 +1,9 @@
-package com.docussandra.javasdk.dao.impl;
+package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
 import com.ampliciti.db.docussandra.javasdk.dao.impl.DatabaseDaoImpl;
 import com.ampliciti.db.docussandra.javasdk.Config;
 import com.ampliciti.db.docussandra.javasdk.domain.DatabaseResponse;
-import com.docussandra.javasdk.testhelper.TestUtils;
+import com.ampliciti.docussandra.javasdk.testhelper.TestUtils;
 import com.pearson.docussandra.domain.objects.Database;
 import com.pearson.docussandra.domain.objects.Identifier;
 import java.util.ArrayList;
@@ -65,8 +65,8 @@ public class DatabaseDaoImplTest
         DatabaseResponse result = instance.create(TestUtils.getTestDb());
         assertNotNull(result);
         assertEquals(expResult.getId(), result.getId());
-        assertEquals(expResult.name(), result.name());
-        assertEquals(expResult.description(), result.description());
+        assertEquals(expResult.getName(), result.getName());
+        assertEquals(expResult.getDescription(), result.getDescription());
         assertNotNull(result.getLinks());
         assertNotNull(result.getLinks().getCollections());
         assertNotNull(result.getLinks().getSelf());
@@ -85,7 +85,7 @@ public class DatabaseDaoImplTest
         instance.create(TestUtils.getTestDb());
         Database entity = TestUtils.getTestDb();
         instance.delete(entity);
-        assertFalse(instance.exists(new Identifier(TestUtils.getTestDb().name())));
+        assertFalse(instance.exists(new Identifier(TestUtils.getTestDb().getName())));
     }
 
     /**
@@ -97,7 +97,7 @@ public class DatabaseDaoImplTest
         System.out.println("delete");
         instance.create(TestUtils.getTestDb());
         Database entity = TestUtils.getTestDb();
-        Identifier id = new Identifier(entity.name());
+        Identifier id = new Identifier(entity.getName());
         instance.delete(id);
         assertFalse(instance.exists(id));
     }
@@ -110,7 +110,7 @@ public class DatabaseDaoImplTest
     {
         System.out.println("exists");
         Database entity = TestUtils.getTestDb();
-        Identifier id = new Identifier(entity.name());
+        Identifier id = new Identifier(entity.getName());
         boolean result = instance.exists(id);
         assertFalse(result);
         instance.create(entity);
@@ -131,8 +131,8 @@ public class DatabaseDaoImplTest
         Database expResult = entity;
         DatabaseResponse result = instance.read(identifier);
         assertEquals(expResult.getId(), result.getId());
-        assertEquals(expResult.name(), result.name());
-        assertEquals(expResult.description(), result.description());
+        assertEquals(expResult.getName(), result.getName());
+        assertEquals(expResult.getDescription(), result.getDescription());
         assertNotNull(result.getLinks());
         assertNotNull(result.getLinks().getCollections());
         assertNotNull(result.getLinks().getSelf());
@@ -152,7 +152,7 @@ public class DatabaseDaoImplTest
         Database test1 = TestUtils.getTestDb();
         instance.create(test1);
         Database test2 = TestUtils.getTestDb();
-        test2.name("testdb2");
+        test2.setName("testdb2");
         //test2.description("second descript");//TODO: this is probably a bug in the open source version of Docussandra
         instance.create(test2);
         List<Database> expResult = new ArrayList<>();
@@ -175,7 +175,7 @@ public class DatabaseDaoImplTest
             }
             if (found)
             {
-                assertEquals(expected.description(), match.description());
+                assertEquals(expected.getDescription(), match.getDescription());
             } else
             {
                 fail("Expected response: " + expResult.toString() + " was not found.");
@@ -194,11 +194,11 @@ public class DatabaseDaoImplTest
         System.out.println("update");
         Database entity = TestUtils.getTestDb();
         instance.create(entity);//create
-        entity.description("This is a new database description. It should be different than before.");        
+        entity.setDescription("This is a new database description. It should be different than before.");        
         instance.update(entity);
         Database expResult = entity;
         Database response = instance.read(entity.getId());
-        assertEquals(expResult.description(), response.description());
+        assertEquals(expResult.getDescription(), response.getDescription());
         assertEquals(expResult.getId(), response.getId());
     }
 
