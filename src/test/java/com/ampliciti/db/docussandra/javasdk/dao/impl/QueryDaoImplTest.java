@@ -5,7 +5,6 @@
  */
 package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
-import com.ampliciti.db.docussandra.javasdk.dao.impl.QueryDaoImpl;
 import com.ampliciti.db.docussandra.javasdk.Config;
 import com.ampliciti.db.docussandra.javasdk.dao.QueryDao;
 import com.ampliciti.docussandra.javasdk.testhelper.TestUtils;
@@ -73,7 +72,7 @@ public class QueryDaoImplTest
         query.setDatabase(db);
         query.setTable(TestUtils.getTestTable().getName());
         query.setWhere("test = 'testvalue'");
-        QueryResponseWrapper result = instance.query(db, query);
+        QueryResponseWrapper result = instance.query(query);
         assertNotNull(result);
     }
 
@@ -91,7 +90,7 @@ public class QueryDaoImplTest
         long offset = 0L;
         QueryDaoImpl instance = null;
         QueryResponseWrapper expResult = null;
-        QueryResponseWrapper result = instance.query(db, query, limit, offset);
+        QueryResponseWrapper result = instance.query(query, limit, offset);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -111,7 +110,7 @@ public class QueryDaoImplTest
         query.setTable(TestUtils.getTestTable().getName());
         query.setWhere("test = 'testvalue'");
         query.setLimit(1000);
-        QueryResponseWrapper result = instance.query(db, query);
+        QueryResponseWrapper result = instance.query(query);
         assertNotNull(result);
     }
 }
