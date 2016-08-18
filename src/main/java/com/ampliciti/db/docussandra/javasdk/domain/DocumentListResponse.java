@@ -7,44 +7,39 @@ import com.strategicgains.syntaxe.annotation.ChildValidation;
  *
  * @author https://github.com/JeffreyDeYoung
  */
-public class DocumentListResponse
-{
+public class DocumentListResponse {
 
-    @ChildValidation
-    private HALObject _links;
-    
-    @ChildValidation
-    private DocumentEmbedded _embedded;
+  @ChildValidation
+  private HALObject _links;
 
-    /**
-     * @return the _links
-     */
-    public HALObject getLinks()
-    {
-        return _links;
-    }
+  @ChildValidation
+  private DocumentEmbedded _embedded;
 
-    /**
-     * @param _links the _links to set
-     */
-    public void setLinks(HALObject _links)
-    {
-        this._links = _links;
-    }
+  /**
+   * @return the _links
+   */
+  public HALObject getLinks() {
+    return _links;
+  }
 
-    /**
-     * @return the _embedded
-     */
-    public DocumentEmbedded getEmbedded()
-    {
-        return _embedded;
-    }
+  /**
+   * @param _links the _links to set
+   */
+  public void setLinks(HALObject _links) {
+    this._links = _links;
+  }
 
-    /**
-     * @param embedded the _embedded to set
-     */
-    public void setEmbedded(DocumentEmbedded embedded)
-    {
-        this._embedded = embedded;
-    }
+  /**
+   * @return the _embedded
+   */
+  public DocumentEmbedded getEmbedded() {
+    return _embedded;
+  }
+
+  /**
+   * @param embedded the _embedded to set
+   */
+  public void setEmbedded(DocumentEmbedded embedded) {
+    this._embedded = embedded;
+  }
 }
