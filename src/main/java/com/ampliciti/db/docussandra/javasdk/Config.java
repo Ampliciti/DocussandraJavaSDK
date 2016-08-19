@@ -22,7 +22,7 @@ public class Config {
    *
    * @return the baseUrl
    */
-  public String getBaseUrl() {
+  public String getBaseURL() {
     return baseUrl;
   }
 

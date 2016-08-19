@@ -1,6 +1,7 @@
 package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
 import com.ampliciti.db.docussandra.javasdk.Config;
+import com.ampliciti.db.docussandra.javasdk.RestUtils;
 import com.ampliciti.db.docussandra.javasdk.SDKUtils;
 import com.ampliciti.db.docussandra.javasdk.dao.DocumentDao;
 import com.ampliciti.db.docussandra.javasdk.dao.impl.parent.DaoParent;
@@ -43,14 +44,14 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao {
       throws RESTException, ParseException, IOException {
     JSONParser parser = new JSONParser();
     String documentJson = SDKUtils.createJSON(entity.getObject());
-    JSONObject response = (JSONObject) super.doPostCall(super.createFullURL(table) + "/documents",
+    JSONObject response = (JSONObject) super.doPostCall(RestUtils.createFullURL(getBaseURL(), table) + "/documents",
         (JSONObject) parser.parse(documentJson));
     return r.readValue(response.toJSONString());
   }
 
   @Override
   public void delete(Table table, UUID id) throws RESTException {
-    super.doDeleteCall(super.createFullURL(table) + "/" + id.toString());
+    super.doDeleteCall(RestUtils.createFullURL(getBaseURL(), table) + "/" + id.toString());
   }
 
   @Override
@@ -59,7 +60,7 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao {
       throw new IllegalArgumentException(
           "Identifier not precise enough. Needs ID as well. " + identifier.toString());
     }
-    super.doDeleteCall(super.createFullURL(identifier));
+    super.doDeleteCall(RestUtils.createFullURL(getBaseURL(), identifier));
   }
 
   @Override
@@ -69,7 +70,7 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao {
           "Identifier not precise enough. Needs ID as well. " + identifier.toString());
     }
     try {
-      super.doGetCall(super.createFullURL(identifier));
+      super.doGetCall(RestUtils.createFullURL(getBaseURL(), identifier));
       return true;
     } catch (RESTException e) {
       if (e.getErrorCode() == 404) {
@@ -86,7 +87,7 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao {
       throw new IllegalArgumentException(
           "Identifier not precise enough. Needs ID as well. " + identifier.toString());
     }
-    JSONObject response = super.doGetCall(super.createFullURL(identifier));
+    JSONObject response = super.doGetCall(RestUtils.createFullURL(getBaseURL(), identifier));
     return r.readValue(response.toJSONString());
   }
 
@@ -97,7 +98,7 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao {
       throw new IllegalArgumentException(
           "Identifier not precise enough. Needs Database and Table. " + identifier.toString());
     }
-    JSONObject response = super.doGetCall(super.createFullURL(identifier) + "/");
+    JSONObject response = super.doGetCall(RestUtils.createFullURL(getBaseURL(), identifier) + "/");
     return rQuery.readValue(response.toJSONString());
   }
 
@@ -105,7 +106,7 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao {
   public void update(Document entity) throws RESTException, ParseException, IOException {
     JSONParser parser = new JSONParser();
     String documentJson = SDKUtils.createJSON(entity.getObject());
-    super.doPutCall(super.createFullURL(entity), (JSONObject) parser.parse(documentJson));
+    super.doPutCall(RestUtils.createFullURL(getBaseURL(), entity), (JSONObject) parser.parse(documentJson));
   }
 
 }

@@ -1,8 +1,8 @@
 package com.ampliciti.db.docussandra.javasdk.dao.impl.parent;
 
+import com.ampliciti.db.docussandra.javasdk.dao.rest.RestDao;
 import com.ampliciti.db.docussandra.javasdk.Config;
 import com.ampliciti.db.docussandra.javasdk.exceptions.RESTException;
-import com.pearson.docussandra.domain.objects.Database;
 import com.pearson.docussandra.domain.objects.Document;
 import com.pearson.docussandra.domain.objects.Identifier;
 import com.pearson.docussandra.domain.objects.Table;
@@ -34,13 +34,8 @@ import org.slf4j.LoggerFactory;
  * 
  * @author https://github.com/JeffreyDeYoung
  */
-public abstract class DaoParent {
+public abstract class DaoParent implements RestDao {
 
-  private static final String L_DATABASES = "/databases";
-  private static final String L_TABLES = "/tables";
-  private static final String L_INDEXES = "/indexes";
-  private static final String L_DOCUMENTS = "/documents";
-  private static final String SLASH = "/";
 
   /**
    * Logger for this class.
@@ -95,102 +90,9 @@ public abstract class DaoParent {
    * @return
    */
   public String getBaseURL() {
-    return config.getBaseUrl();
+    return config.getBaseURL();
   }
 
-  /**
-   * Creates a full usable REST URL based on the passed in parameters.
-   * 
-   * @param id Identifier for what we are looking to create a URL for.
-   * @return
-   */
-  public String createFullURL(Identifier id) {
-    int size = id.components().size();
-    if (size == 1) {
-      return createFullURL(id.getDatabaseName(), null, null);
-    } else if (size == 2) {
-      return createFullURL(id.getDatabaseName(), id.getTableName(), null);
-    } else { // size should == 3
-      return createFullURL(id.getDatabaseName(), id.getTableName(),
-          id.components().get(2).toString());
-    }
-  }
-
-  /**
-   * Creates a full usable REST URL based on the passed in parameters.
-   * 
-   * @param tb Table to create the URL for.
-   * @return A full REST url.
-   */
-  public String createFullURL(Table tb) {
-    return createFullURL(tb.getDatabaseName(), tb.getName());
-  }
-
-
-  /**
-   * Creates a full usable REST URL based on the passed in parameters.
-   * 
-   * @param doc Document to create the URL for.
-   * @return A full REST url.
-   */
-  public String createFullURL(Document doc) {
-    return createFullURL(doc.getDatabaseName(), doc.getTableName(), doc.getUuid().toString());
-  }
-
-  /**
-   * Creates a full usable REST URL based on the passed in parameters.
-   * 
-   * @param db Database name to create the URL for.
-   * @param tb Table name to create the URL for.
-   * @return A full REST url.
-   */
-  public String createFullURL(String db, String tb) {
-    return createFullURL(db, tb, null);
-  }
-
-  /**
-   * Creates a full usable REST URL based on the passed in parameters.
-   * 
-   * @param db Database name to use in the URL.
-   * @param tb Table name to use in the URL.
-   * @param docUUID Document UUID (as a String).
-   * @return A REST URL.
-   */
-  public String createFullURL(String db, String tb, String docUUID) {
-    StringBuilder toReturn = new StringBuilder();
-    // toReturn.append("/");
-    if (!toReturn.toString().startsWith("/")) {
-      // toReturn = new StringBuilder(toReturn.substring(1));//remove the first slash for
-      // consistancy, will be added back later
-      toReturn.insert(0, "/");
-    }
-    int slash = toReturn.indexOf("/");
-    if (slash == -1) {
-      slash = 0;
-    }
-    toReturn.insert(slash, L_DATABASES);
-
-    if (db != null) {
-      toReturn.append(db);
-    }
-    if (tb != null) {
-      toReturn.append(L_TABLES);
-      toReturn.append(SLASH);
-      toReturn.append(tb);
-    }
-    if (docUUID != null) {
-      toReturn.append(L_DOCUMENTS);
-      toReturn.append(SLASH);
-      toReturn.append(docUUID);
-    }
-
-    if (toReturn.toString().startsWith("/")) {
-      toReturn = new StringBuilder(toReturn.substring(1));// remove the first slash for consistancy,
-                                                          // will be added back later
-    }
-    toReturn.insert(0, getBaseURL());// prepend the baseurl
-    return toReturn.toString();
-  }
 
   /**
    * Does an http GET call.
@@ -200,7 +102,8 @@ public abstract class DaoParent {
    *         empty.
    * @throws RESTException
    */
-  protected JSONObject doGetCall(String url) throws RESTException {
+  @Override
+  public JSONObject doGetCall(String url) throws RESTException {
     logger.debug("Attempting to GET: " + url);
     HttpGet request = new HttpGet(url);
     request.setConfig(rc);
@@ -246,7 +149,8 @@ public abstract class DaoParent {
    *         be empty.
    * @throws RESTException
    */
-  protected JSONAware doPostCall(String url, JSONObject toPost) throws RESTException {
+  @Override
+  public JSONAware doPostCall(String url, JSONObject toPost) throws RESTException {
     logger.debug("Attempting to POST: " + url + ", payload: " + toPost.toJSONString());
     HttpPost request = new HttpPost(url);
     request.setConfig(rc);
@@ -299,7 +203,8 @@ public abstract class DaoParent {
    *         be empty.
    * @throws RESTException
    */
-  protected JSONAware doPostCall(String url, JSONObject toPost, HashMap<String, String> headers)
+  @Override
+  public JSONAware doPostCall(String url, JSONObject toPost, HashMap<String, String> headers)
       throws RESTException {
     logger.debug("Attempting to POST: " + url + ", payload: " + toPost.toJSONString());
     HttpPost request = new HttpPost(url);
@@ -360,7 +265,8 @@ public abstract class DaoParent {
    *         empty.
    * @throws RESTException
    */
-  protected JSONObject doPutCall(String url, JSONObject toPost) throws RESTException {
+  @Override
+  public JSONObject doPutCall(String url, JSONObject toPost) throws RESTException {
     logger.debug("Attempting to PUT: " + url + ", payload: " + toPost.toJSONString());
     HttpPut request = new HttpPut(url);
     request.setConfig(rc);
@@ -407,7 +313,8 @@ public abstract class DaoParent {
    * @param url to DELETE
    * @throws RESTException
    */
-  protected void doDeleteCall(String url) throws RESTException {
+  @Override
+  public void doDeleteCall(String url) throws RESTException {
     logger.debug("Attempting to DELETE: " + url);
     HttpDelete request = new HttpDelete(url);
     request.setConfig(rc);

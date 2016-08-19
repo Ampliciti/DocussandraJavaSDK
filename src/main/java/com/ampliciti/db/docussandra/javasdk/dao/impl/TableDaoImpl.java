@@ -1,6 +1,7 @@
 package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
 import com.ampliciti.db.docussandra.javasdk.Config;
+import com.ampliciti.db.docussandra.javasdk.RestUtils;
 import com.ampliciti.db.docussandra.javasdk.SDKUtils;
 import com.ampliciti.db.docussandra.javasdk.dao.TableDao;
 import com.ampliciti.db.docussandra.javasdk.dao.impl.parent.DaoParent;
@@ -37,7 +38,7 @@ public class TableDaoImpl extends DaoParent implements TableDao {
   public TableResponse create(Table tableEntity) throws ParseException, RESTException, IOException {
     JSONParser parser = new JSONParser();
     String tableJson = SDKUtils.createJSON(tableEntity);
-    JSONObject response = (JSONObject) super.doPostCall(super.createFullURL(tableEntity),
+    JSONObject response = (JSONObject) super.doPostCall(RestUtils.createFullURL(getBaseURL(), tableEntity),
         (JSONObject) parser.parse(tableJson));
     System.out.println("Response: " + response.toJSONString());
     return getJsonObjectReader().readValue(response.toJSONString());
@@ -45,18 +46,18 @@ public class TableDaoImpl extends DaoParent implements TableDao {
 
   @Override
   public void delete(Table tableEntity) throws RESTException {
-    super.doDeleteCall(super.createFullURL(tableEntity));
+    super.doDeleteCall(RestUtils.createFullURL(getBaseURL(), tableEntity));
   }
 
   @Override
   public void delete(Identifier id) throws RESTException {
-    super.doDeleteCall(super.createFullURL(id));
+    super.doDeleteCall(RestUtils.createFullURL(getBaseURL(), id));
   }
 
   @Override
   public boolean exists(Identifier id) throws RESTException {
     try {
-      super.doGetCall(super.createFullURL(id));
+      super.doGetCall(RestUtils.createFullURL(getBaseURL(), id));
       return true;
     } catch (RESTException e) {
       if (e.getErrorCode() == 404) {
@@ -69,14 +70,14 @@ public class TableDaoImpl extends DaoParent implements TableDao {
 
   @Override
   public TableResponse read(Identifier id) throws RESTException, IOException {
-    JSONObject response = super.doGetCall(super.createFullURL(id));
+    JSONObject response = super.doGetCall(RestUtils.createFullURL(getBaseURL(), id));
     return getJsonObjectReader().readValue(response.toJSONString());
   }
 
   @Override
   public List<TableResponse> readAll(Database db) throws RESTException, IOException {
     JSONObject response =
-        super.doGetCall(super.createFullURL(db.getName(), null, null) + "/tables");
+        super.doGetCall(RestUtils.createFullURL(getBaseURL(), db.getName(), null, null) + "/tables");
     TableListResponse objectResponse = rList.readValue(response.toJSONString());
     return objectResponse.getEmbedded().getTables();
   }
@@ -87,10 +88,10 @@ public class TableDaoImpl extends DaoParent implements TableDao {
     // running the put route
     String tableJson = SDKUtils.createJSON(tableEntity);
     /* JSONObject putResponse = */
-    super.doPutCall(super.createFullURL(tableEntity), (JSONObject) parser.parse(tableJson));
+    super.doPutCall(RestUtils.createFullURL(getBaseURL(), tableEntity), (JSONObject) parser.parse(tableJson));
 
     // // run the get route on the updated table
-    // JSONObject getResponse = super.doGetCall(super.createFullURL("") + "/" +
+    // JSONObject getResponse = super.doGetCall(RestUtils.createFullURL(getBaseURL(), "") + "/" +
     // tableEntity.databaseName() + "/" + tableEntity.name());
     // return jsonObjectReader.readValue(getResponse.toJSONString());
   }

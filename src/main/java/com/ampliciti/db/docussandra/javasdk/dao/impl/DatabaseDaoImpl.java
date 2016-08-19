@@ -1,6 +1,7 @@
 package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
 import com.ampliciti.db.docussandra.javasdk.Config;
+import com.ampliciti.db.docussandra.javasdk.RestUtils;
 import com.ampliciti.db.docussandra.javasdk.SDKUtils;
 import com.ampliciti.db.docussandra.javasdk.dao.DatabaseDao;
 import com.ampliciti.db.docussandra.javasdk.dao.impl.parent.DaoParent;
@@ -50,7 +51,8 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao {
     JSONParser parser = new JSONParser();
     String entityJson = SDKUtils.createJSON(entity);
     JSONObject response =
-        (JSONObject) super.doPostCall(super.createFullURL(entity.getName(), null, null),
+        (JSONObject) super.doPostCall(
+                    RestUtils.createFullURL(getBaseURL(), entity.getName(), null, null),
             (JSONObject) parser.parse(entityJson));
     return r.readValue(response.toJSONString());
   }
@@ -63,7 +65,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao {
    */
   @Override
   public void delete(Database entity) throws RESTException {
-    super.doDeleteCall(super.createFullURL(entity.getName(), null, null));
+    super.doDeleteCall(RestUtils.createFullURL(getBaseURL(), entity.getName(), null, null));
   }
 
   /**
@@ -74,7 +76,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao {
    */
   @Override
   public void delete(Identifier identifier) throws RESTException {
-    super.doDeleteCall(super.createFullURL(identifier));
+    super.doDeleteCall(RestUtils.createFullURL(getBaseURL(), identifier));
   }
 
   /**
@@ -87,7 +89,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao {
   @Override
   public boolean exists(Identifier identifier) throws RESTException {
     try {
-      super.doGetCall(super.createFullURL(identifier));
+      super.doGetCall(RestUtils.createFullURL(getBaseURL(), identifier));
       return true;
     } catch (RESTException e) {
       if (e.getErrorCode() == 404) {
@@ -108,7 +110,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao {
    */
   @Override
   public DatabaseResponse read(Identifier identifier) throws RESTException, IOException {
-    JSONObject response = super.doGetCall(super.createFullURL(identifier));
+    JSONObject response = super.doGetCall(RestUtils.createFullURL(getBaseURL(), identifier));
     return r.readValue(response.toJSONString());
   }
 
@@ -121,7 +123,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao {
    */
   @Override
   public List<DatabaseResponse> readAll() throws RESTException, IOException {
-    String url = super.createFullURL("", null);
+    String url = RestUtils.createFullURL(getBaseURL(), "", null);
     url = url.substring(0, url.length() - 1);
     JSONObject response = super.doGetCall(url);
     DatabaseListResponse objectResponse = rList.readValue(response.toJSONString());
@@ -132,7 +134,6 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao {
    * Updates a database.
    *
    * @param entity Database to update.
-   * @return The updated database.
    * @throws RESTException If there was a problem making the call.
    * @throws IOException If there was a problem de-serializing the JSON response.
    * @throws ParseException If the passed in database couldn't be serialized.
@@ -141,7 +142,7 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao {
   public void update(Database entity) throws RESTException, IOException, ParseException {
     JSONParser parser = new JSONParser();
     String entityJson = SDKUtils.createJSON(entity);
-    super.doPutCall(super.createFullURL(entity.getId().getDatabaseName(), null, null),
+    super.doPutCall(RestUtils.createFullURL(getBaseURL(), entity.getId().getDatabaseName(), null, null),
         (JSONObject) parser.parse(entityJson));
   }
 

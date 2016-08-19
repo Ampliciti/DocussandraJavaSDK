@@ -87,7 +87,6 @@ public interface DatabaseDao {
    * Updates a database.
    *
    * @param entity Database to update.
-   * @return The updated database.
    * @throws RESTException If there was a problem making the call.
    * @throws IOException If there was a problem de-serializing the JSON response.
    * @throws ParseException If the passed in database couldn't be serialized.
