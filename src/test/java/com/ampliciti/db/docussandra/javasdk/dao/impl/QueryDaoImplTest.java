@@ -4,7 +4,7 @@
  */
 package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
-import com.ampliciti.db.docussandra.javasdk.Config;
+import com.ampliciti.db.docussandra.javasdk.SDKConfig;
 import com.ampliciti.db.docussandra.javasdk.dao.QueryDao;
 import com.ampliciti.docussandra.javasdk.testhelper.TestUtils;
 import com.pearson.docussandra.domain.objects.Query;
@@ -23,7 +23,7 @@ import org.junit.Ignore;
  */
 public class QueryDaoImplTest {
 
-  private Config config;
+  private SDKConfig config;
   private QueryDao instance;
 
   public QueryDaoImplTest() {

@@ -1,7 +1,7 @@
 package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
 import com.ampliciti.db.docussandra.javasdk.dao.impl.DocumentDaoImpl;
-import com.ampliciti.db.docussandra.javasdk.Config;
+import com.ampliciti.db.docussandra.javasdk.SDKConfig;
 import com.ampliciti.docussandra.javasdk.testhelper.TestUtils;
 import com.pearson.docussandra.domain.objects.Document;
 import com.pearson.docussandra.domain.objects.Identifier;
@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DocumentDaoImplTest {
 
-  private Config config;
+  private SDKConfig config;
   private DocumentDaoImpl instance;
 
   private static final Logger logger = LoggerFactory.getLogger(DocumentDaoImplTest.class);

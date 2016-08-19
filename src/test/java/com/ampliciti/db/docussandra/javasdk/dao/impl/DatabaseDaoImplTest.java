@@ -1,7 +1,6 @@
 package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
-import com.ampliciti.db.docussandra.javasdk.dao.impl.DatabaseDaoImpl;
-import com.ampliciti.db.docussandra.javasdk.Config;
+import com.ampliciti.db.docussandra.javasdk.SDKConfig;
 import com.ampliciti.db.docussandra.javasdk.domain.DatabaseResponse;
 import com.ampliciti.docussandra.javasdk.testhelper.TestUtils;
 import com.pearson.docussandra.domain.objects.Database;
@@ -22,7 +21,7 @@ import static org.junit.Assert.*;
  */
 public class DatabaseDaoImplTest {
 
-  private Config config;
+  private SDKConfig config;
   private DatabaseDaoImpl instance;
 
   public DatabaseDaoImplTest() {

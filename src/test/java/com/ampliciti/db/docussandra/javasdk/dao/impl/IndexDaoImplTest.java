@@ -1,7 +1,7 @@
 package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
 import com.ampliciti.db.docussandra.javasdk.dao.impl.IndexDaoImpl;
-import com.ampliciti.db.docussandra.javasdk.Config;
+import com.ampliciti.db.docussandra.javasdk.SDKConfig;
 import com.ampliciti.db.docussandra.javasdk.dao.IndexDao;
 import com.ampliciti.db.docussandra.javasdk.domain.IndexResponse;
 import com.ampliciti.docussandra.javasdk.testhelper.TestUtils;
@@ -22,7 +22,7 @@ import org.junit.Ignore;
  */
 public class IndexDaoImplTest {
 
-  private Config config;
+  private SDKConfig config;
   private IndexDao instance;
 
   public IndexDaoImplTest() {

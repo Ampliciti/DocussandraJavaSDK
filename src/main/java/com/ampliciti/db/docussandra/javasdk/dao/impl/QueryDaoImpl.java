@@ -1,6 +1,6 @@
 package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
-import com.ampliciti.db.docussandra.javasdk.Config;
+import com.ampliciti.db.docussandra.javasdk.SDKConfig;
 import com.ampliciti.db.docussandra.javasdk.RestUtils;
 import com.ampliciti.db.docussandra.javasdk.SDKUtils;
 import com.ampliciti.db.docussandra.javasdk.dao.QueryDao;
@@ -25,7 +25,7 @@ public class QueryDaoImpl extends DaoParent implements QueryDao {
 
   private final ObjectReader r = SDKUtils.getObjectMapper().reader(QueryResponseWrapper.class);
 
-  public QueryDaoImpl(Config config) {
+  public QueryDaoImpl(SDKConfig config) {
     super(config);
   }
 
@@ -44,7 +44,7 @@ public class QueryDaoImpl extends DaoParent implements QueryDao {
     HashMap<String, String> headers = new HashMap();
     headers.put("limit", String.valueOf(query.getLimit()));
     JSONArray response =
-        (JSONArray) super.doPostCall(RestUtils.createFullURL(getBaseURL(), query.getTableAsObject()) + "/queries",
+        (JSONArray) restDao.doPostCall(RestUtils.createFullURL(getBaseURL(), query.getTableAsObject()) + "/queries",
             (JSONObject) parser.parse(queryJSON), headers);
     return r.readValue(response.toJSONString());
 

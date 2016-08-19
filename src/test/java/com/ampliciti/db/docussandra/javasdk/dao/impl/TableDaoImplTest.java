@@ -2,7 +2,7 @@ package com.ampliciti.db.docussandra.javasdk.dao.impl;
 
 import com.ampliciti.db.docussandra.javasdk.dao.impl.DatabaseDaoImpl;
 import com.ampliciti.db.docussandra.javasdk.dao.impl.TableDaoImpl;
-import com.ampliciti.db.docussandra.javasdk.Config;
+import com.ampliciti.db.docussandra.javasdk.SDKConfig;
 import com.ampliciti.db.docussandra.javasdk.domain.TableResponse;
 import com.ampliciti.db.docussandra.javasdk.exceptions.RESTException;
 import com.ampliciti.docussandra.javasdk.testhelper.TestUtils;
@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class TableDaoImplTest {
 
-  private Config config;
+  private SDKConfig config;
   private DatabaseDaoImpl dbImplInstance;
   private TableDaoImpl tableImplInstance;
 
