@@ -7,25 +7,22 @@ import org.codehaus.jackson.annotate.JsonProperty;
  *
  * @author https://github.com/JeffreyDeYoung
  */
-public class DocumentEmbedded
-{
-    @JsonProperty
-    private List<DocumentResponse> documents;
+public class DocumentEmbedded {
+  @JsonProperty
+  private List<DocumentResponse> documents;
 
-    /**
-     * @return the documents
-     */
-    public List<DocumentResponse> getDocuments()
-    {
-        return documents;
-    }
+  /**
+   * @return the documents
+   */
+  public List<DocumentResponse> getDocuments() {
+    return documents;
+  }
 
-    /**
-     * @param tables the documents to set
-     */
-    public void setDocuments(List<DocumentResponse> tables)
-    {
-        this.documents = tables;
-    }
-    
+  /**
+   * @param tables the documents to set
+   */
+  public void setDocuments(List<DocumentResponse> tables) {
+    this.documents = tables;
+  }
+
 }

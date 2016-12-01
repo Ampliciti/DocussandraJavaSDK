@@ -17,95 +17,83 @@ import org.junit.Ignore;
  *
  * @author https://github.com/JeffreyDeYoung
  */
-public class QueryDaoImplTest
-{
-    
-    private Config config;
-    private QueryDao instance;
+public class QueryDaoImplTest {
 
-    public QueryDaoImplTest()
-    {
-        config = TestUtils.establishTestServer();
-        instance = new QueryDaoImpl(config);
-    }
-    
-    @BeforeClass
-    public static void setUpClass()
-    {
-    }
-    
-    @AfterClass
-    public static void tearDownClass()
-    {
-    }
-    
-    @Before
-    public void setUp() throws InterruptedException
-    {
-        TestUtils.insertTestDb(config);
-        TestUtils.insertTestTable(config);
-        TestUtils.insertTestIndex(config);
-        Thread.sleep(2000);
-    }
+  private Config config;
+  private QueryDao instance;
 
-    @After
-    public void tearDown() throws InterruptedException
-    {
-        TestUtils.cleanupTestDb(config);
-        Thread.sleep(1000);
-    }
+  public QueryDaoImplTest() {
+    config = TestUtils.establishTestServer();
+    instance = new QueryDaoImpl(config);
+  }
 
-    /**
-     * Test of query method, of class QueryDaoImpl.
-     */
-    @Test
-    public void testQuery_String_Query() throws Exception
-    {
-        System.out.println("query");
-        String db = TestUtils.getTestDb().getName();
-        Query query = new Query();
-        query.setDatabase(db);
-        query.setTable(TestUtils.getTestTable().getName());
-        query.setWhere("test = 'testvalue'");
-        QueryResponseWrapper result = instance.query(query);
-        assertNotNull(result);
-    }
+  @BeforeClass
+  public static void setUpClass() {}
 
-    /**
-     * Test of query method, of class QueryDaoImpl.
-     */
-    @Test
-    @Ignore
-    public void testQuery_4args() throws Exception
-    {
-        System.out.println("query");
-        String db = "";
-        Query query = null;
-        int limit = 0;
-        long offset = 0L;
-        QueryDaoImpl instance = null;
-        QueryResponseWrapper expResult = null;
-        QueryResponseWrapper result = instance.query(query, limit, offset);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+  @AfterClass
+  public static void tearDownClass() {}
 
-    /**
-     * Test of query method, of class QueryDaoImpl.
-     * testing the limit parameter
-     */
-    @Test
-    public void testLimit_String_Query() throws Exception
-    {
-        System.out.println("query");
-        String db = TestUtils.getTestDb().getName();
-        Query query = new Query();
-        query.setDatabase(db);
-        query.setTable(TestUtils.getTestTable().getName());
-        query.setWhere("test = 'testvalue'");
-        query.setLimit(1000);
-        QueryResponseWrapper result = instance.query(query);
-        assertNotNull(result);
-    }
+  @Before
+  public void setUp() throws InterruptedException {
+    TestUtils.insertTestDb(config);
+    TestUtils.insertTestTable(config);
+    TestUtils.insertTestIndex(config);
+    Thread.sleep(2000);
+  }
+
+  @After
+  public void tearDown() throws InterruptedException {
+    TestUtils.cleanupTestDb(config);
+    Thread.sleep(1000);
+  }
+
+  /**
+   * Test of query method, of class QueryDaoImpl.
+   */
+  @Test
+  public void testQuery_String_Query() throws Exception {
+    System.out.println("query");
+    String db = TestUtils.getTestDb().getName();
+    Query query = new Query();
+    query.setDatabase(db);
+    query.setTable(TestUtils.getTestTable().getName());
+    query.setWhere("test = 'testvalue'");
+    QueryResponseWrapper result = instance.query(query);
+    assertNotNull(result);
+  }
+
+  /**
+   * Test of query method, of class QueryDaoImpl.
+   */
+  @Test
+  @Ignore
+  public void testQuery_4args() throws Exception {
+    System.out.println("query");
+    String db = "";
+    Query query = null;
+    int limit = 0;
+    long offset = 0L;
+    QueryDaoImpl instance = null;
+    QueryResponseWrapper expResult = null;
+    QueryResponseWrapper result = instance.query(query, limit, offset);
+    assertEquals(expResult, result);
+    // TODO review the generated test code and remove the default call to fail.
+    fail("The test case is a prototype.");
+  }
+
+  /**
+   * Test of query method, of class QueryDaoImpl. testing the limit parameter
+   */
+  @Test
+  public void testLimit_String_Query() throws Exception {
+    System.out.println("query");
+    String db = TestUtils.getTestDb().getName();
+    Query query = new Query();
+    query.setDatabase(db);
+    query.setTable(TestUtils.getTestTable().getName());
+    query.setWhere("test = 'testvalue'");
+    query.setLimit(1000);
+    QueryResponseWrapper result = instance.query(query);
+    assertNotNull(result);
+  }
 }

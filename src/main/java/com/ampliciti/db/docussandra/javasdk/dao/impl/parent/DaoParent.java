@@ -69,12 +69,13 @@ public class DaoParent implements RESTDao {
   public DaoParent(Config config) {
     this.config = config;
     client = HttpClientBuilder.create().build();
-//        if (base64Encode) {
-//            this.authToken = new String(Base64.encodeBase64(authToken.getBytes()));
-//        } else {
-//            this.authToken = authToken;
-//        }
-    rc = RequestConfig.custom().setConnectTimeout(60000).setSocketTimeout(3600000).setConnectionRequestTimeout(60000).build();
+    // if (base64Encode) {
+    // this.authToken = new String(Base64.encodeBase64(authToken.getBytes()));
+    // } else {
+    // this.authToken = authToken;
+    // }
+    rc = RequestConfig.custom().setConnectTimeout(60000).setSocketTimeout(3600000)
+        .setConnectionRequestTimeout(60000).build();
   }
 
   /**
@@ -107,8 +108,9 @@ public class DaoParent implements RESTDao {
       return createFullURL(id.getDatabaseName(), null, null);
     } else if (size == 2) {
       return createFullURL(id.getDatabaseName(), id.getTableName(), null);
-    } else { //size should == 3
-      return createFullURL(id.getDatabaseName(), id.getTableName(), id.components().get(2).toString());
+    } else { // size should == 3
+      return createFullURL(id.getDatabaseName(), id.getTableName(),
+          id.components().get(2).toString());
     }
   }
 
@@ -153,9 +155,10 @@ public class DaoParent implements RESTDao {
    */
   public String createFullURL(String db, String tb, String docUUID) {
     StringBuilder toReturn = new StringBuilder();
-    //toReturn.append("/");
+    // toReturn.append("/");
     if (!toReturn.toString().startsWith("/")) {
-      //toReturn = new StringBuilder(toReturn.substring(1));//remove the first slash for consistancy, will be added back later
+      // toReturn = new StringBuilder(toReturn.substring(1));//remove the first slash for
+      // consistancy, will be added back later
       toReturn.insert(0, "/");
     }
     int slash = toReturn.indexOf("/");
@@ -179,9 +182,10 @@ public class DaoParent implements RESTDao {
     }
 
     if (toReturn.toString().startsWith("/")) {
-      toReturn = new StringBuilder(toReturn.substring(1));//remove the first slash for consistancy, will be added back later
+      toReturn = new StringBuilder(toReturn.substring(1));// remove the first slash for consistancy,
+                                                          // will be added back later
     }
-    toReturn.insert(0, getBaseURL());//prepend the baseurl
+    toReturn.insert(0, getBaseURL());// prepend the baseurl
     return toReturn.toString();
   }
 
@@ -189,8 +193,8 @@ public class DaoParent implements RESTDao {
    * Does an http GET call.
    *
    * @param url to GET
-   * @return JSONObject Representing the response. If the route returns no body,
-   * the object will be empty.
+   * @return JSONObject Representing the response. If the route returns no body, the object will be
+   *         empty.
    * @throws RESTException
    */
   @Override
@@ -200,7 +204,7 @@ public class DaoParent implements RESTDao {
     request.setConfig(rc);
     // add request header
     request.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-    //add auth if specified
+    // add auth if specified
     if (config.getSecToken() != null) {
       request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + config.getSecToken());
     }
@@ -236,8 +240,8 @@ public class DaoParent implements RESTDao {
    *
    * @param url URL to post to.
    * @param toPost JSONObject of data to POST.
-   * @return JSONObject representing the response. If the route returns a null
-   * body, the object will be empty.
+   * @return JSONObject representing the response. If the route returns a null body, the object will
+   *         be empty.
    * @throws RESTException
    */
   @Override
@@ -247,18 +251,19 @@ public class DaoParent implements RESTDao {
     request.setConfig(rc);
     // add request header
     request.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-    //add auth if specified
+    // add auth if specified
     if (config.getSecToken() != null) {
       request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + config.getSecToken());
     }
     String responseString = "";
     try {
-      //add the post data
+      // add the post data
       request.setEntity(new StringEntity(toPost.toJSONString()));
       HttpResponse response = client.execute(request);
       int responseCode = response.getStatusLine().getStatusCode();
       if (responseCode < 200 || responseCode >= 300) {
-        throw new RESTException("Error when doing a POST call agaist: " + url + ". JSON posted: " + toPost.toJSONString(), response);
+        throw new RESTException("Error when doing a POST call agaist: " + url + ". JSON posted: "
+            + toPost.toJSONString(), response);
       }
 
       if (response.getEntity() != null) {
@@ -289,22 +294,23 @@ public class DaoParent implements RESTDao {
    *
    * @param url URL to post to.
    * @param toPost JSONObject of data to POST.
-   * @return JSONObject representing the response. If the route returns a null
-   * body, the object will be empty.
+   * @return JSONObject representing the response. If the route returns a null body, the object will
+   *         be empty.
    * @throws RESTException
    */
   @Override
-  public JSONAware doPostCall(String url, JSONObject toPost, HashMap<String, String> headers) throws RESTException {
+  public JSONAware doPostCall(String url, JSONObject toPost, HashMap<String, String> headers)
+      throws RESTException {
     logger.debug("Attempting to POST: " + url + ", payload: " + toPost.toJSONString());
     HttpPost request = new HttpPost(url);
     request.setConfig(rc);
     // add request header
     request.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-    //add auth if specified
+    // add auth if specified
     if (config.getSecToken() != null) {
       request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + config.getSecToken());
     }
-    //check for headers if present add them to the request
+    // check for headers if present add them to the request
     if (!headers.isEmpty()) {
       headers.entrySet();
       for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -313,12 +319,13 @@ public class DaoParent implements RESTDao {
     }
     String responseString = "";
     try {
-      //add the post data
+      // add the post data
       request.setEntity(new StringEntity(toPost.toJSONString()));
       HttpResponse response = client.execute(request);
       int responseCode = response.getStatusLine().getStatusCode();
       if (responseCode < 200 || responseCode >= 300) {
-        throw new RESTException("Error when doing a POST call against: " + url + ". JSON posted: " + toPost.toJSONString(), response);
+        throw new RESTException("Error when doing a POST call against: " + url + ". JSON posted: "
+            + toPost.toJSONString(), response);
       }
 
       if (response.getEntity() != null) {
@@ -349,8 +356,8 @@ public class DaoParent implements RESTDao {
    *
    * @param url URL to put to.
    * @param toPost JSONObject of data to PUT.
-   * @return JSONObject representing the response. If the route returns no body
-   * the object will be empty.
+   * @return JSONObject representing the response. If the route returns no body the object will be
+   *         empty.
    * @throws RESTException
    */
   @Override
@@ -360,18 +367,20 @@ public class DaoParent implements RESTDao {
     request.setConfig(rc);
     // add request header
     request.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-    //add auth if specified
+    // add auth if specified
     if (config.getSecToken() != null) {
       request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + config.getSecToken());
     }
     String responseString = "";
     try {
-      //add the put data
+      // add the put data
       request.setEntity(new StringEntity(toPost.toJSONString()));
       HttpResponse response = client.execute(request);
       int responseCode = response.getStatusLine().getStatusCode();
       if (responseCode < 200 || responseCode >= 300) {
-        throw new RESTException("Error when doing a PUT call against: " + url + ". JSON put: " + toPost.toJSONString(), response);
+        throw new RESTException(
+            "Error when doing a PUT call against: " + url + ". JSON put: " + toPost.toJSONString(),
+            response);
       }
 
       if (response.getEntity() != null) {
@@ -406,7 +415,7 @@ public class DaoParent implements RESTDao {
     request.setConfig(rc);
     // add request header
     request.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-    //add auth if specified
+    // add auth if specified
     if (config.getSecToken() != null) {
       request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + config.getSecToken());
     }
