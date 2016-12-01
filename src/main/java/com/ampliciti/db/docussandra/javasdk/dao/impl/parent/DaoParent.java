@@ -2,7 +2,6 @@ package com.ampliciti.db.docussandra.javasdk.dao.impl.parent;
 
 import com.ampliciti.db.docussandra.javasdk.Config;
 import com.ampliciti.db.docussandra.javasdk.exceptions.RESTException;
-import com.pearson.docussandra.domain.objects.Database;
 import com.pearson.docussandra.domain.objects.Document;
 import com.pearson.docussandra.domain.objects.Identifier;
 import com.pearson.docussandra.domain.objects.Table;
@@ -31,10 +30,10 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Parent class for all DAOs.
- * 
+ *
  * @author https://github.com/JeffreyDeYoung
  */
-public abstract class DaoParent {
+public class DaoParent implements RESTDao {
 
   private static final String L_DATABASES = "/databases";
   private static final String L_TABLES = "/tables";
@@ -61,7 +60,6 @@ public abstract class DaoParent {
    * Configurations for requests
    */
   private RequestConfig rc;
-
 
   /**
    * Constructor.
@@ -91,7 +89,6 @@ public abstract class DaoParent {
 
   /**
    * Gets the base URL associated with this class.
-   * 
    * @return
    */
   public String getBaseURL() {
@@ -100,7 +97,6 @@ public abstract class DaoParent {
 
   /**
    * Creates a full usable REST URL based on the passed in parameters.
-   * 
    * @param id Identifier for what we are looking to create a URL for.
    * @return
    */
@@ -118,14 +114,12 @@ public abstract class DaoParent {
 
   /**
    * Creates a full usable REST URL based on the passed in parameters.
-   * 
    * @param tb Table to create the URL for.
    * @return A full REST url.
    */
   public String createFullURL(Table tb) {
     return createFullURL(tb.getDatabaseName(), tb.getName());
   }
-
 
   /**
    * Creates a full usable REST URL based on the passed in parameters.
@@ -139,7 +133,6 @@ public abstract class DaoParent {
 
   /**
    * Creates a full usable REST URL based on the passed in parameters.
-   * 
    * @param db Database name to create the URL for.
    * @param tb Table name to create the URL for.
    * @return A full REST url.
@@ -150,7 +143,6 @@ public abstract class DaoParent {
 
   /**
    * Creates a full usable REST URL based on the passed in parameters.
-   * 
    * @param db Database name to use in the URL.
    * @param tb Table name to use in the URL.
    * @param docUUID Document UUID (as a String).
@@ -200,7 +192,9 @@ public abstract class DaoParent {
    *         empty.
    * @throws RESTException
    */
-  protected JSONObject doGetCall(String url) throws RESTException {
+
+  @Override
+  public JSONObject doGetCall(String url) throws RESTException {
     logger.debug("Attempting to GET: " + url);
     HttpGet request = new HttpGet(url);
     request.setConfig(rc);
@@ -246,7 +240,9 @@ public abstract class DaoParent {
    *         be empty.
    * @throws RESTException
    */
-  protected JSONAware doPostCall(String url, JSONObject toPost) throws RESTException {
+  @Override
+  public JSONAware doPostCall(String url, JSONObject toPost) throws RESTException {
+
     logger.debug("Attempting to POST: " + url + ", payload: " + toPost.toJSONString());
     HttpPost request = new HttpPost(url);
     request.setConfig(rc);
@@ -299,7 +295,8 @@ public abstract class DaoParent {
    *         be empty.
    * @throws RESTException
    */
-  protected JSONAware doPostCall(String url, JSONObject toPost, HashMap<String, String> headers)
+  @Override
+  public JSONAware doPostCall(String url, JSONObject toPost, HashMap<String, String> headers)
       throws RESTException {
     logger.debug("Attempting to POST: " + url + ", payload: " + toPost.toJSONString());
     HttpPost request = new HttpPost(url);
@@ -360,7 +357,8 @@ public abstract class DaoParent {
    *         empty.
    * @throws RESTException
    */
-  protected JSONObject doPutCall(String url, JSONObject toPost) throws RESTException {
+  @Override
+  public JSONObject doPutCall(String url, JSONObject toPost) throws RESTException {
     logger.debug("Attempting to PUT: " + url + ", payload: " + toPost.toJSONString());
     HttpPut request = new HttpPut(url);
     request.setConfig(rc);
@@ -407,7 +405,8 @@ public abstract class DaoParent {
    * @param url to DELETE
    * @throws RESTException
    */
-  protected void doDeleteCall(String url) throws RESTException {
+  @Override
+  public void doDeleteCall(String url) throws RESTException {
     logger.debug("Attempting to DELETE: " + url);
     HttpDelete request = new HttpDelete(url);
     request.setConfig(rc);
