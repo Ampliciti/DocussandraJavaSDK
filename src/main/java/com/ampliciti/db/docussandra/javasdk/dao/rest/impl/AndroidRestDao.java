@@ -62,11 +62,11 @@ public class AndroidRestDao implements RestDao {
         con.setRequestProperty("Authorization", "Bearer " + config.getSecToken());
       }
 
-      int responseCode = con.getResponseCode();
-      String response = parseResponse(con.getInputStream());
+      int responseCode = con.getResponseCode();      
       if (responseCode < 200 || responseCode >= 300) {
-        throw new RESTException("Error when doing a GET call agaist: " + url, response, responseCode);
+        throw new RESTException("Error when doing a GET call agaist: " + url, null, responseCode);
       }
+      String response = parseResponse(con.getInputStream());
       if (response.length() != 0) {
         try {
           logger.debug("Result from GET call: " + response);

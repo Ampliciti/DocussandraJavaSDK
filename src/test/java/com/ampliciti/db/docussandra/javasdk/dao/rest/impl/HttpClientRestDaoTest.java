@@ -4,6 +4,7 @@ import com.ampliciti.db.docussandra.javasdk.RestUtils;
 import com.ampliciti.db.docussandra.javasdk.SDKConfig;
 import com.ampliciti.db.docussandra.javasdk.dao.impl.DatabaseDaoImpl;
 import com.ampliciti.db.docussandra.javasdk.dao.rest.RestDao;
+import com.ampliciti.db.docussandra.javasdk.exceptions.RESTException;
 import com.ampliciti.docussandra.javasdk.testhelper.TestUtils;
 import java.util.HashMap;
 import org.json.simple.JSONAware;
@@ -32,10 +33,12 @@ public class HttpClientRestDaoTest {
   }
 
   @BeforeClass
-  public static void setUpClass() {}
+  public static void setUpClass() {
+  }
 
   @AfterClass
-  public static void tearDownClass() {}
+  public static void tearDownClass() {
+  }
 
   @Before
   public void setUp() {
@@ -57,9 +60,28 @@ public class HttpClientRestDaoTest {
     dbDao.create(TestUtils.getTestDb());
     // JSONObject expResult = null;
     JSONObject result = instance
-        .doGetCall(RestUtils.createFullURL(config.getBaseURL(), TestUtils.getTestDb().getId()));
-    assertNotNull(result);
+            .doGetCall(RestUtils.createFullURL(config.getBaseURL(), TestUtils.getTestDb().getId()));
+    assertNotNull(result);    
+    String nameObject = (String)result.get("name");
+    assertEquals(TestUtils.getTestDb().getName(), nameObject);
+  }
 
+  @Test
+  public void testDoGetCallNotFound() throws Exception {
+    System.out.println("doGetCall");
+    DatabaseDaoImpl dbDao = new DatabaseDaoImpl(config);
+    dbDao.create(TestUtils.getTestDb());
+    boolean expectedExceptionThrown = false;
+
+    try {
+      JSONObject result = instance
+              .doGetCall(RestUtils.createFullURL(config.getBaseURL(), TestUtils.getTestDb().getId()) + "blah");
+    } catch (RESTException e) {
+      expectedExceptionThrown = true;
+      assertEquals(404, e.getErrorCode());
+      assertTrue(e.getMessage().length() > 1);
+    }
+    assertTrue(expectedExceptionThrown);
   }
 
   /**
