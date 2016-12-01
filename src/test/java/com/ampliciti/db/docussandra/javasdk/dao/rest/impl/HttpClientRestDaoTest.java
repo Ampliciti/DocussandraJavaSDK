@@ -27,7 +27,7 @@ public class HttpClientRestDaoTest {
 
   public HttpClientRestDaoTest() {
     config = TestUtils.establishTestServer();
-    // instance = new HttpClientRestDao(config);
+    //instance = new HttpClientRestDao(config);
     instance = new AndroidRestDao(config);
   }
 

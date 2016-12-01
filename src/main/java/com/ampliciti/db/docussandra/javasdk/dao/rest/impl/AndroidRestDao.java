@@ -3,7 +3,11 @@ package com.ampliciti.db.docussandra.javasdk.dao.rest.impl;
 import com.ampliciti.db.docussandra.javasdk.SDKConfig;
 import com.ampliciti.db.docussandra.javasdk.dao.rest.RestDao;
 import com.ampliciti.db.docussandra.javasdk.exceptions.RESTException;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
@@ -11,7 +15,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * RestDao that uses Apache HTTP client to make the calls.
@@ -30,6 +33,8 @@ public class AndroidRestDao implements RestDao {
    */
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+  private static final String USER_AGENT = "Mozilla/5.0";
+
   public AndroidRestDao(SDKConfig config) {
     this.config = config;
   }
@@ -38,27 +43,50 @@ public class AndroidRestDao implements RestDao {
    * Does an http GET call.
    *
    * @param url to GET
-   * @return JSONObject Representing the response. If the route returns no body, the object will be
-   *         empty.
+   * @return JSONObject Representing the response. If the route returns no body,
+   * the object will be empty.
    * @throws RESTException
    */
   @Override
   public JSONObject doGetCall(String url) throws RESTException {
     logger.debug("Attempting to GET: " + url);
-    String responseString = "";
-    RestTemplate restTemplate = new RestTemplate();
     try {
-      responseString = restTemplate.getForObject(url, String.class);
-      if (responseString != null) {
-        JSONParser parser = new JSONParser();
-        return (JSONObject) parser.parse(responseString);
+      URL obj = new URL(url);
+      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+      // optional default is GET
+      con.setRequestMethod("GET");
+
+      //add request header
+      con.setRequestProperty("User-Agent", USER_AGENT);
+
+      int responseCode = con.getResponseCode();
+      System.out.println("\nSending 'GET' request to URL : " + url);
+      System.out.println("Response Code : " + responseCode);
+
+      BufferedReader in = new BufferedReader(
+              new InputStreamReader(con.getInputStream()));
+      String inputLine;
+      StringBuilder response = new StringBuilder();
+
+      while ((inputLine = in.readLine()) != null) {
+        response.append(inputLine);
       }
-    } catch (ParseException pe) {
-      throw new RESTException("Could not parse JSON: " + responseString, pe);
-    } catch (Exception e) {
-      throw new RESTException("Problem contacting REST service for GET, URL: " + url, e);
+      in.close();
+      if (response.length() != 0) {
+        try {
+          logger.debug("Result from GET call: " + response);
+          JSONParser parser = new JSONParser();
+          return (JSONObject) parser.parse(response.toString());
+        } catch (ParseException pe) {
+          throw new RESTException("Could not parse JSON: " + response, pe);
+        }
+      } else {
+        return new JSONObject();
+      }
+    } catch (IOException e) {
+      throw new RESTException("Problem contacting REST service for POST", e);
     }
-    throw new UnsupportedOperationException("Not done yet!");
   }
 
   /**
@@ -66,8 +94,8 @@ public class AndroidRestDao implements RestDao {
    *
    * @param url URL to put to.
    * @param toPost JSONObject of data to PUT.
-   * @return JSONObject representing the response. If the route returns no body the object will be
-   *         empty.
+   * @return JSONObject representing the response. If the route returns no body
+   * the object will be empty.
    * @throws RESTException
    */
   @Override
@@ -93,8 +121,8 @@ public class AndroidRestDao implements RestDao {
    *
    * @param url URL to post to.
    * @param toPost JSONObject of data to POST.
-   * @return JSONObject representing the response. If the route returns a null body, the object will
-   *         be empty.
+   * @return JSONObject representing the response. If the route returns a null
+   * body, the object will be empty.
    * @throws RESTException
    */
   @Override
@@ -109,13 +137,13 @@ public class AndroidRestDao implements RestDao {
    *
    * @param url URL to post to.
    * @param toPost JSONObject of data to POST.
-   * @return JSONObject representing the response. If the route returns a null body, the object will
-   *         be empty.
+   * @return JSONObject representing the response. If the route returns a null
+   * body, the object will be empty.
    * @throws RESTException
    */
   @Override
   public JSONAware doPostCall(String url, JSONObject toPost, HashMap<String, String> headers)
-      throws RESTException {
+          throws RESTException {
     logger.debug("Attempting to POST: " + url + ", payload: " + toPost.toJSONString());
     throw new UnsupportedOperationException("Not done yet!");
 
