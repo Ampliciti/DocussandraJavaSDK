@@ -63,7 +63,7 @@ public class DaoParent implements RESTDao {
 
   /**
    * Constructor.
-   *
+   * 
    * @param config Configuration object to base this dao on.
    */
   public DaoParent(Config config) {
@@ -89,7 +89,6 @@ public class DaoParent implements RESTDao {
 
   /**
    * Gets the base URL associated with this class.
-   *
    * @return
    */
   public String getBaseURL() {
@@ -98,7 +97,6 @@ public class DaoParent implements RESTDao {
 
   /**
    * Creates a full usable REST URL based on the passed in parameters.
-   *
    * @param id Identifier for what we are looking to create a URL for.
    * @return
    */
@@ -116,7 +114,6 @@ public class DaoParent implements RESTDao {
 
   /**
    * Creates a full usable REST URL based on the passed in parameters.
-   *
    * @param tb Table to create the URL for.
    * @return A full REST url.
    */
@@ -126,7 +123,7 @@ public class DaoParent implements RESTDao {
 
   /**
    * Creates a full usable REST URL based on the passed in parameters.
-   *
+   * 
    * @param doc Document to create the URL for.
    * @return A full REST url.
    */
@@ -136,7 +133,6 @@ public class DaoParent implements RESTDao {
 
   /**
    * Creates a full usable REST URL based on the passed in parameters.
-   *
    * @param db Database name to create the URL for.
    * @param tb Table name to create the URL for.
    * @return A full REST url.
@@ -147,7 +143,6 @@ public class DaoParent implements RESTDao {
 
   /**
    * Creates a full usable REST URL based on the passed in parameters.
-   *
    * @param db Database name to use in the URL.
    * @param tb Table name to use in the URL.
    * @param docUUID Document UUID (as a String).
@@ -197,6 +192,7 @@ public class DaoParent implements RESTDao {
    *         empty.
    * @throws RESTException
    */
+
   @Override
   public JSONObject doGetCall(String url) throws RESTException {
     logger.debug("Attempting to GET: " + url);
@@ -246,6 +242,7 @@ public class DaoParent implements RESTDao {
    */
   @Override
   public JSONAware doPostCall(String url, JSONObject toPost) throws RESTException {
+
     logger.debug("Attempting to POST: " + url + ", payload: " + toPost.toJSONString());
     HttpPost request = new HttpPost(url);
     request.setConfig(rc);
