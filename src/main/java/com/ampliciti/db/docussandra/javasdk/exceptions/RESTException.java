@@ -22,7 +22,8 @@ public class RESTException extends Exception {
   /**
    * Default constructor.
    */
-  public RESTException() {}
+  public RESTException() {
+  }
 
   /**
    * Constructor that takes a string of an error message.
@@ -42,6 +43,30 @@ public class RESTException extends Exception {
   public RESTException(String message, HttpResponse response) {
     super(message + generateErrorMessage(response));
     this.errorCode = response.getStatusLine().getStatusCode();
+  }
+
+  /**
+   * Constructor that takes a string of an error message, the message body and
+   * an response code.
+   *
+   * @param message Message for this exception.
+   * @param response Body of response.
+   * @param responseCode Http Response code of the response
+   */
+  public RESTException(String message, String response, int responseCode) {
+    super(message + generateErrorMessage(response, responseCode));
+    this.errorCode = responseCode;
+  }
+
+  private static String generateErrorMessage(String response, int responseCode) {
+    StringBuilder message = new StringBuilder(21);
+    message.append(" HTTP Error code: ");
+    message.append(responseCode);
+    if (response != null) {
+      message.append(" The body of the response was: ");
+      message.append(response);
+    }
+    return message.toString();
   }
 
   private static String generateErrorMessage(HttpResponse response) {
@@ -101,7 +126,8 @@ public class RESTException extends Exception {
   }
 
   /**
-   * Constructor that indicates a problem with the format of the JSON response from a REST call.
+   * Constructor that indicates a problem with the format of the JSON response
+   * from a REST call.
    *
    * @param responseObject JSON response from the server.S
    */
@@ -110,8 +136,8 @@ public class RESTException extends Exception {
   }
 
   /**
-   * Constructor that indicates a problem with the format of the JSON response from a REST call with
-   * included throwable information.
+   * Constructor that indicates a problem with the format of the JSON response
+   * from a REST call with included throwable information.
    *
    * @param responseObject JSON response from the server.S
    * @param e Throwable that caused this exception.

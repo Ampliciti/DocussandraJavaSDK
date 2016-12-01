@@ -5,6 +5,7 @@ import com.ampliciti.db.docussandra.javasdk.dao.rest.RestDao;
 import com.ampliciti.db.docussandra.javasdk.exceptions.RESTException;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -50,34 +51,27 @@ public class AndroidRestDao implements RestDao {
   @Override
   public JSONObject doGetCall(String url) throws RESTException {
     logger.debug("Attempting to GET: " + url);
+    HttpURLConnection con = null;
     try {
       URL obj = new URL(url);
-      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-      // optional default is GET
+      con = (HttpURLConnection) obj.openConnection();
       con.setRequestMethod("GET");
-
-      //add request header
       con.setRequestProperty("User-Agent", USER_AGENT);
+      con.setRequestProperty("Content-Type", "application/json");      
+      if (config.getSecToken() != null) {
+        con.setRequestProperty("Authorization", "Bearer " + config.getSecToken());
+      }
 
       int responseCode = con.getResponseCode();
-      System.out.println("\nSending 'GET' request to URL : " + url);
-      System.out.println("Response Code : " + responseCode);
-
-      BufferedReader in = new BufferedReader(
-              new InputStreamReader(con.getInputStream()));
-      String inputLine;
-      StringBuilder response = new StringBuilder();
-
-      while ((inputLine = in.readLine()) != null) {
-        response.append(inputLine);
+      String response = parseResponse(con.getInputStream());
+      if (responseCode < 200 || responseCode >= 300) {
+        throw new RESTException("Error when doing a GET call agaist: " + url, response, responseCode);
       }
-      in.close();
       if (response.length() != 0) {
         try {
           logger.debug("Result from GET call: " + response);
           JSONParser parser = new JSONParser();
-          return (JSONObject) parser.parse(response.toString());
+          return (JSONObject) parser.parse(response);
         } catch (ParseException pe) {
           throw new RESTException("Could not parse JSON: " + response, pe);
         }
@@ -86,6 +80,11 @@ public class AndroidRestDao implements RestDao {
       }
     } catch (IOException e) {
       throw new RESTException("Problem contacting REST service for POST", e);
+    }
+    finally{
+      if(con != null){
+        con.disconnect();
+      }
     }
   }
 
@@ -147,6 +146,35 @@ public class AndroidRestDao implements RestDao {
     logger.debug("Attempting to POST: " + url + ", payload: " + toPost.toJSONString());
     throw new UnsupportedOperationException("Not done yet!");
 
+  }
+
+  /**
+   * Parses our response InputStream into a String.
+   *
+   * @param is InputString to parse.
+   * @return String based on that InputStream.
+   */
+  private String parseResponse(InputStream is) throws IOException{
+    BufferedReader in = null;
+    try {
+      in = new BufferedReader(
+              new InputStreamReader(is));
+      String inputLine;
+      StringBuilder response = new StringBuilder();
+
+      while ((inputLine = in.readLine()) != null) {
+        response.append(inputLine);
+      }
+      return response.toString();
+    } finally {
+      if (in != null) {
+        try {
+          in.close();
+        } catch (IOException e) {
+          logger.trace("Could not close input stream.", e);
+        }
+      }
+    }
   }
 
 }
