@@ -45,7 +45,7 @@ public class TestUtils {
     Document entity = new Document();
     entity.setTable(getTestTable());
     entity.setObjectAsString(
-            "{\"greeting\":\"hello\", \"myindexedfield\": \"thisismyfield\", \"myindexedfield1\":\"my second field\", \"myindexedfield2\":\"my third field\"}");
+        "{\"greeting\":\"hello\", \"myindexedfield\": \"thisismyfield\", \"myindexedfield1\":\"my second field\", \"myindexedfield2\":\"my third field\"}");
     entity.setUuid(new UUID(0L, 1L));
     entity.setCreatedAt(new Date());
     entity.setUpdatedAt(new Date());
@@ -61,7 +61,7 @@ public class TestUtils {
     Document entity = new Document();
     entity.setTable(getTestTable());
     entity.setObjectAsString(
-            "{\"greeting\":\"hey\", \"myindexedfield\": \"thisismyfieldagain\", \"myindexedfield1\":\"my second field again\", \"myindexedfield2\":\"my third field yet again\"}");
+        "{\"greeting\":\"hey\", \"myindexedfield\": \"thisismyfieldagain\", \"myindexedfield1\":\"my second field again\", \"myindexedfield2\":\"my third field yet again\"}");
     entity.setUuid(new UUID(0L, 1L));
     entity.setCreatedAt(new Date());
     entity.setUpdatedAt(new Date());
@@ -71,8 +71,7 @@ public class TestUtils {
   /**
    * Cleans up the test Database object that may or may not have been created.
    *
-   * @param config Config object with information on how to connect to the
-   * database.
+   * @param config Config object with information on how to connect to the database.
    */
   public static void cleanupTestDb(SDKConfig config) {
     try {
@@ -86,8 +85,7 @@ public class TestUtils {
   /**
    * Creates and inserts a test db.
    *
-   * @param config Config object with information on how to connect to the
-   * database.
+   * @param config Config object with information on how to connect to the database.
    */
   public static void insertTestDb(SDKConfig config) {
     try {
@@ -109,8 +107,7 @@ public class TestUtils {
   /**
    * Creates and inserts a test table.
    *
-   * @param config Config object with information on how to connect to the
-   * database.
+   * @param config Config object with information on how to connect to the database.
    */
   public static void insertTestTable(SDKConfig config) {
     try {
@@ -144,8 +141,7 @@ public class TestUtils {
   /**
    * Creates and inserts a test index.
    *
-   * @param config Config object with information on how to connect to the
-   * database.
+   * @param config Config object with information on how to connect to the database.
    */
   public static void insertTestIndex(SDKConfig config) {
     try {
@@ -159,15 +155,15 @@ public class TestUtils {
   /**
    * Establishes a test Docussandra server and returns a Config object for it.
    *
-   * @return A config object for the test Docussandra server that can be used to
-   * connect.
+   * @return A config object for the test Docussandra server that can be used to connect.
    */
   public static SDKConfig establishTestServer() {
     // String cassandraKeyspace = "docussandra";
     try {
       TestDocussandraManager.getManager().ensureTestDocussandraRunning(true);
     } catch (Exception e) {
-      // generally, we don't want to throw a runtime exception like this, however, this is just for testing
+      // generally, we don't want to throw a runtime exception like this, however, this is just for
+      // testing
       throw new RuntimeException("Problem establishing test Docussandra", e);
     }
     return new SDKConfig(SDKConfig.HTTPCLIENT.APACHE_HTTP, "http://localhost:19080/");

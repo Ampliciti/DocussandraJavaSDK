@@ -4,16 +4,14 @@ import com.ampliciti.db.docussandra.javasdk.dao.rest.RestDao;
 import com.ampliciti.db.docussandra.javasdk.dao.rest.impl.HttpClientRestDao;
 
 /**
- * Configuration class that contains the information needed to make a call with
- * this SDK.
+ * Configuration class that contains the information needed to make a call with this SDK.
  *
  * @author https://github.com/JeffreyDeYoung
  */
 public class SDKConfig {
 
   /**
-   * Security token. Not required if your Docussandra doesn't have security
-   * enabled.
+   * Security token. Not required if your Docussandra doesn't have security enabled.
    */
   private final String secToken;
 
@@ -29,6 +27,7 @@ public class SDKConfig {
 
   /**
    * The specific type of HTTP client we are using for this instance of the SDK.
+   * 
    * @return the httpLib
    */
   public HTTPCLIENT getHttpLib() {
@@ -41,17 +40,17 @@ public class SDKConfig {
   public static enum HTTPCLIENT {
 
     /**
-     * Standard Apache HTTP client. Unless you are using this SDK with Android,
-     * you probably want this.
+     * Standard Apache HTTP client. Unless you are using this SDK with Android, you probably want
+     * this.
      */
     APACHE_HTTP,
     /**
-     * Android HTTP client library. Because for some insane reason, Android
-     * can't coexist with Apache HTTP client.
+     * Android HTTP client library. Because for some insane reason, Android can't coexist with
+     * Apache HTTP client.
      */
     ANDRIOD_HTTP
   };
-  
+
   /**
    * Constructor.
    *
@@ -67,6 +66,7 @@ public class SDKConfig {
 
   /**
    * Constructor. No security token.
+   * 
    * @param httpLib Which HTTP library to use.
    * @param baseUrl Base URL for the API service.
    *
@@ -93,8 +93,7 @@ public class SDKConfig {
   }
 
   /**
-   * Security token. Not required if your Docussandra doesn't have security
-   * enabled.
+   * Security token. Not required if your Docussandra doesn't have security enabled.
    *
    * @return the secToken
    */

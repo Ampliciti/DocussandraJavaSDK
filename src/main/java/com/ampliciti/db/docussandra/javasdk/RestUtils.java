@@ -6,6 +6,7 @@ import com.pearson.docussandra.domain.objects.Table;
 
 /**
  * Utility class for working with REST endpoints and URLs.
+ * 
  * @author Jeffrey DeYoung
  */
 public class RestUtils {
@@ -28,7 +29,8 @@ public class RestUtils {
     } else if (size == 2) {
       return createFullURL(baseUrl, id.getDatabaseName(), id.getTableName(), null);
     } else {
-      return createFullURL(baseUrl, id.getDatabaseName(), id.getTableName(), id.components().get(2).toString());
+      return createFullURL(baseUrl, id.getDatabaseName(), id.getTableName(),
+          id.components().get(2).toString());
     }
   }
 
@@ -49,7 +51,8 @@ public class RestUtils {
    * @return A full REST url.
    */
   public static String createFullURL(String baseUrl, Document doc) {
-    return createFullURL(baseUrl, doc.getDatabaseName(), doc.getTableName(), doc.getUuid().toString());
+    return createFullURL(baseUrl, doc.getDatabaseName(), doc.getTableName(),
+        doc.getUuid().toString());
   }
 
   /**
@@ -100,5 +103,5 @@ public class RestUtils {
     toReturn.insert(0, baseUrl);
     return toReturn.toString();
   }
-  
+
 }

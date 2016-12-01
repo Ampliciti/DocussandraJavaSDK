@@ -40,7 +40,8 @@ public class IndexDaoImpl extends DaoParent implements IndexDao {
   public IndexResponse create(Index entity) throws ParseException, RESTException, IOException {
     JSONParser parser = new JSONParser();
     String indexJSON = SDKUtils.createJSON(entity);
-    JSONObject response = (JSONObject) restDao.doPostCall(RestUtils.createFullURL(getBaseURL(), entity.getTable()) + "/indexes/" + entity.getName(),
+    JSONObject response = (JSONObject) restDao.doPostCall(
+        RestUtils.createFullURL(getBaseURL(), entity.getTable()) + "/indexes/" + entity.getName(),
         (JSONObject) parser.parse(indexJSON));
     return indexCreatedReader.readValue(response.toJSONString());
     // return ir.getObject();
@@ -52,13 +53,15 @@ public class IndexDaoImpl extends DaoParent implements IndexDao {
       throw new IllegalArgumentException(
           "Identifier not precise enough. Needs ID as well. " + id.toString());
     }
-    restDao.doDeleteCall(RestUtils.createFullURL(getBaseURL(), id.getDatabaseName(), id.getTableName()) + "/indexes/"
-        + id.components().get(2));
+    restDao
+        .doDeleteCall(RestUtils.createFullURL(getBaseURL(), id.getDatabaseName(), id.getTableName())
+            + "/indexes/" + id.components().get(2));
   }
 
   @Override
   public void delete(Index entity) throws RESTException {
-    restDao.doDeleteCall(RestUtils.createFullURL(getBaseURL(), entity.getTable()) + "/indexes/" + entity.getName());
+    restDao.doDeleteCall(
+        RestUtils.createFullURL(getBaseURL(), entity.getTable()) + "/indexes/" + entity.getName());
   }
 
   @Override
@@ -68,8 +71,8 @@ public class IndexDaoImpl extends DaoParent implements IndexDao {
           "Identifier not precise enough. Needs ID as well. " + identifier.toString());
     }
     try {
-      restDao.doGetCall(RestUtils.createFullURL(getBaseURL(), identifier.getDatabaseName(), identifier.getTableName())
-          + "/indexes/" + identifier.components().get(2));
+      restDao.doGetCall(RestUtils.createFullURL(getBaseURL(), identifier.getDatabaseName(),
+          identifier.getTableName()) + "/indexes/" + identifier.components().get(2));
       return true;
     } catch (RESTException e) {
       if (e.getErrorCode() == 404) {
@@ -97,8 +100,8 @@ public class IndexDaoImpl extends DaoParent implements IndexDao {
           "Identifier not precise enough. Needs ID as well. " + identifier.toString());
     }
     JSONObject response =
-        restDao.doGetCall(RestUtils.createFullURL(getBaseURL(), identifier.getDatabaseName(), identifier.getTableName())
-            + "/indexes/" + identifier.components().get(2));
+        restDao.doGetCall(RestUtils.createFullURL(getBaseURL(), identifier.getDatabaseName(),
+            identifier.getTableName()) + "/indexes/" + identifier.components().get(2));
     return indexCreatedReader.readValue(response.toJSONString());
   }
 

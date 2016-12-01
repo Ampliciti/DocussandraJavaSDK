@@ -50,10 +50,9 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao {
       throws ParseException, RESTException, IOException {
     JSONParser parser = new JSONParser();
     String entityJson = SDKUtils.createJSON(entity);
-    JSONObject response =
-        (JSONObject) restDao.doPostCall(
-                    RestUtils.createFullURL(getBaseURL(), entity.getName(), null, null),
-            (JSONObject) parser.parse(entityJson));
+    JSONObject response = (JSONObject) restDao.doPostCall(
+        RestUtils.createFullURL(getBaseURL(), entity.getName(), null, null),
+        (JSONObject) parser.parse(entityJson));
     return r.readValue(response.toJSONString());
   }
 
@@ -142,7 +141,8 @@ public class DatabaseDaoImpl extends DaoParent implements DatabaseDao {
   public void update(Database entity) throws RESTException, IOException, ParseException {
     JSONParser parser = new JSONParser();
     String entityJson = SDKUtils.createJSON(entity);
-    restDao.doPutCall(RestUtils.createFullURL(getBaseURL(), entity.getId().getDatabaseName(), null, null),
+    restDao.doPutCall(
+        RestUtils.createFullURL(getBaseURL(), entity.getId().getDatabaseName(), null, null),
         (JSONObject) parser.parse(entityJson));
   }
 

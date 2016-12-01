@@ -29,7 +29,7 @@ public class TableDaoImpl extends DaoParent implements TableDao {
   private final ObjectReader jsonObjectReader =
       SDKUtils.getObjectMapper().reader(TableResponse.class);
   private final ObjectReader rList = SDKUtils.getObjectMapper().reader(TableListResponse.class);
-  
+
 
   public TableDaoImpl(SDKConfig config) {
     super(config);
@@ -39,8 +39,9 @@ public class TableDaoImpl extends DaoParent implements TableDao {
   public TableResponse create(Table tableEntity) throws ParseException, RESTException, IOException {
     JSONParser parser = new JSONParser();
     String tableJson = SDKUtils.createJSON(tableEntity);
-    JSONObject response = (JSONObject) restDao.doPostCall(RestUtils.createFullURL(getBaseURL(), tableEntity),
-        (JSONObject) parser.parse(tableJson));
+    JSONObject response =
+        (JSONObject) restDao.doPostCall(RestUtils.createFullURL(getBaseURL(), tableEntity),
+            (JSONObject) parser.parse(tableJson));
     System.out.println("Response: " + response.toJSONString());
     return getJsonObjectReader().readValue(response.toJSONString());
   }
@@ -77,8 +78,8 @@ public class TableDaoImpl extends DaoParent implements TableDao {
 
   @Override
   public List<TableResponse> readAll(Database db) throws RESTException, IOException {
-    JSONObject response =
-        restDao.doGetCall(RestUtils.createFullURL(getBaseURL(), db.getName(), null, null) + "/tables");
+    JSONObject response = restDao
+        .doGetCall(RestUtils.createFullURL(getBaseURL(), db.getName(), null, null) + "/tables");
     TableListResponse objectResponse = rList.readValue(response.toJSONString());
     return objectResponse.getEmbedded().getTables();
   }
@@ -89,7 +90,8 @@ public class TableDaoImpl extends DaoParent implements TableDao {
     // running the put route
     String tableJson = SDKUtils.createJSON(tableEntity);
     /* JSONObject putResponse = */
-    restDao.doPutCall(RestUtils.createFullURL(getBaseURL(), tableEntity), (JSONObject) parser.parse(tableJson));
+    restDao.doPutCall(RestUtils.createFullURL(getBaseURL(), tableEntity),
+        (JSONObject) parser.parse(tableJson));
 
     // // run the get route on the updated table
     // JSONObject getResponse = super.doGetCall(RestUtils.createFullURL(getBaseURL(), "") + "/" +

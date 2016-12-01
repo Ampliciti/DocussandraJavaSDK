@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 
 /**
  * Interface for a REST Dao.
+ * 
  * @author Jeffrey DeYoung
  */
 public interface RestDao {
@@ -50,7 +51,8 @@ public interface RestDao {
    *         be empty.
    * @throws RESTException
    */
-  JSONAware doPostCall(String url, JSONObject toPost, HashMap<String, String> headers) throws RESTException;
+  JSONAware doPostCall(String url, JSONObject toPost, HashMap<String, String> headers)
+      throws RESTException;
 
   /**
    * Does an HTTP PUT call.
@@ -62,5 +64,5 @@ public interface RestDao {
    * @throws RESTException
    */
   JSONObject doPutCall(String url, JSONObject toPost) throws RESTException;
-  
+
 }

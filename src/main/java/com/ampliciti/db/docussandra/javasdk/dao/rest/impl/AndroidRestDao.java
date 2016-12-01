@@ -38,8 +38,8 @@ public class AndroidRestDao implements RestDao {
    * Does an http GET call.
    *
    * @param url to GET
-   * @return JSONObject Representing the response. If the route returns no body,
-   * the object will be empty.
+   * @return JSONObject Representing the response. If the route returns no body, the object will be
+   *         empty.
    * @throws RESTException
    */
   @Override
@@ -66,8 +66,8 @@ public class AndroidRestDao implements RestDao {
    *
    * @param url URL to put to.
    * @param toPost JSONObject of data to PUT.
-   * @return JSONObject representing the response. If the route returns no body
-   * the object will be empty.
+   * @return JSONObject representing the response. If the route returns no body the object will be
+   *         empty.
    * @throws RESTException
    */
   @Override
@@ -93,8 +93,8 @@ public class AndroidRestDao implements RestDao {
    *
    * @param url URL to post to.
    * @param toPost JSONObject of data to POST.
-   * @return JSONObject representing the response. If the route returns a null
-   * body, the object will be empty.
+   * @return JSONObject representing the response. If the route returns a null body, the object will
+   *         be empty.
    * @throws RESTException
    */
   @Override
@@ -109,12 +109,13 @@ public class AndroidRestDao implements RestDao {
    *
    * @param url URL to post to.
    * @param toPost JSONObject of data to POST.
-   * @return JSONObject representing the response. If the route returns a null
-   * body, the object will be empty.
+   * @return JSONObject representing the response. If the route returns a null body, the object will
+   *         be empty.
    * @throws RESTException
    */
   @Override
-  public JSONAware doPostCall(String url, JSONObject toPost, HashMap<String, String> headers) throws RESTException {
+  public JSONAware doPostCall(String url, JSONObject toPost, HashMap<String, String> headers)
+      throws RESTException {
     logger.debug("Attempting to POST: " + url + ", payload: " + toPost.toJSONString());
     throw new UnsupportedOperationException("Not done yet!");
 

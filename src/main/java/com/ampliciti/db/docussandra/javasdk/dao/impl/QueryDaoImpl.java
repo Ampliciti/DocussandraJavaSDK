@@ -43,9 +43,9 @@ public class QueryDaoImpl extends DaoParent implements QueryDao {
     String queryJSON = SDKUtils.createJSON(query);
     HashMap<String, String> headers = new HashMap();
     headers.put("limit", String.valueOf(query.getLimit()));
-    JSONArray response =
-        (JSONArray) restDao.doPostCall(RestUtils.createFullURL(getBaseURL(), query.getTableAsObject()) + "/queries",
-            (JSONObject) parser.parse(queryJSON), headers);
+    JSONArray response = (JSONArray) restDao.doPostCall(
+        RestUtils.createFullURL(getBaseURL(), query.getTableAsObject()) + "/queries",
+        (JSONObject) parser.parse(queryJSON), headers);
     return r.readValue(response.toJSONString());
 
   }

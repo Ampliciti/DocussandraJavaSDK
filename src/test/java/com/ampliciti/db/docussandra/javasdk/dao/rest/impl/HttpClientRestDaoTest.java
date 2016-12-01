@@ -27,17 +27,15 @@ public class HttpClientRestDaoTest {
 
   public HttpClientRestDaoTest() {
     config = TestUtils.establishTestServer();
-    //instance = new HttpClientRestDao(config);
+    // instance = new HttpClientRestDao(config);
     instance = new AndroidRestDao(config);
   }
 
   @BeforeClass
-  public static void setUpClass() {
-  }
+  public static void setUpClass() {}
 
   @AfterClass
-  public static void tearDownClass() {
-  }
+  public static void tearDownClass() {}
 
   @Before
   public void setUp() {
@@ -57,10 +55,11 @@ public class HttpClientRestDaoTest {
     System.out.println("doGetCall");
     DatabaseDaoImpl dbDao = new DatabaseDaoImpl(config);
     dbDao.create(TestUtils.getTestDb());
-    //JSONObject expResult = null;
-    JSONObject result = instance.doGetCall(RestUtils.createFullURL(config.getBaseURL(), TestUtils.getTestDb().getId()));
+    // JSONObject expResult = null;
+    JSONObject result = instance
+        .doGetCall(RestUtils.createFullURL(config.getBaseURL(), TestUtils.getTestDb().getId()));
     assertNotNull(result);
-    
+
   }
 
   /**

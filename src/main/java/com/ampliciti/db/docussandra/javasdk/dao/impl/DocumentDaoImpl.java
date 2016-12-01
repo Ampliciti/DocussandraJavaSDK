@@ -44,8 +44,9 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao {
       throws RESTException, ParseException, IOException {
     JSONParser parser = new JSONParser();
     String documentJson = SDKUtils.createJSON(entity.getObject());
-    JSONObject response = (JSONObject) restDao.doPostCall(RestUtils.createFullURL(getBaseURL(), table) + "/documents",
-        (JSONObject) parser.parse(documentJson));
+    JSONObject response =
+        (JSONObject) restDao.doPostCall(RestUtils.createFullURL(getBaseURL(), table) + "/documents",
+            (JSONObject) parser.parse(documentJson));
     return r.readValue(response.toJSONString());
   }
 
@@ -98,7 +99,8 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao {
       throw new IllegalArgumentException(
           "Identifier not precise enough. Needs Database and Table. " + identifier.toString());
     }
-    JSONObject response = restDao.doGetCall(RestUtils.createFullURL(getBaseURL(), identifier) + "/");
+    JSONObject response =
+        restDao.doGetCall(RestUtils.createFullURL(getBaseURL(), identifier) + "/");
     return rQuery.readValue(response.toJSONString());
   }
 
@@ -106,7 +108,8 @@ public class DocumentDaoImpl extends DaoParent implements DocumentDao {
   public void update(Document entity) throws RESTException, ParseException, IOException {
     JSONParser parser = new JSONParser();
     String documentJson = SDKUtils.createJSON(entity.getObject());
-    restDao.doPutCall(RestUtils.createFullURL(getBaseURL(), entity), (JSONObject) parser.parse(documentJson));
+    restDao.doPutCall(RestUtils.createFullURL(getBaseURL(), entity),
+        (JSONObject) parser.parse(documentJson));
   }
 
 }

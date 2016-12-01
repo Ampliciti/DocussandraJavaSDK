@@ -20,7 +20,7 @@ public class DaoParent {
    * Our RestDao for all calls.
    */
   protected final RestDao restDao;
-  
+
   /**
    * Constructor.
    *
@@ -55,6 +55,7 @@ public class DaoParent {
 
   /**
    * Config for our SDK.
+   * 
    * @return the config
    */
   public SDKConfig getConfig() {

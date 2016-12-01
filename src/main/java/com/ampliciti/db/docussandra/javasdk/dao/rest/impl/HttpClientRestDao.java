@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * RestDao that uses Apache HTTP client to make the calls.
+ * 
  * @author Jeffrey DeYoung
  */
 public class HttpClientRestDao implements RestDao {
@@ -47,9 +48,9 @@ public class HttpClientRestDao implements RestDao {
    * Our http client.
    */
   public HttpClient client;
-  
-  public HttpClientRestDao(SDKConfig config){
-        client = HttpClientBuilder.create().build();
+
+  public HttpClientRestDao(SDKConfig config) {
+    client = HttpClientBuilder.create().build();
     // if (base64Encode) {
     // this.authToken = new String(Base64.encodeBase64(authToken.getBytes()));
     // } else {
@@ -64,8 +65,8 @@ public class HttpClientRestDao implements RestDao {
    * Does an http GET call.
    *
    * @param url to GET
-   * @return JSONObject Representing the response. If the route returns no body,
-   * the object will be empty.
+   * @return JSONObject Representing the response. If the route returns no body, the object will be
+   *         empty.
    * @throws RESTException
    */
   @Override
@@ -106,8 +107,8 @@ public class HttpClientRestDao implements RestDao {
    *
    * @param url URL to put to.
    * @param toPost JSONObject of data to PUT.
-   * @return JSONObject representing the response. If the route returns no body
-   * the object will be empty.
+   * @return JSONObject representing the response. If the route returns no body the object will be
+   *         empty.
    * @throws RESTException
    */
   @Override
@@ -125,7 +126,9 @@ public class HttpClientRestDao implements RestDao {
       HttpResponse response = client.execute(request);
       int responseCode = response.getStatusLine().getStatusCode();
       if (responseCode < 200 || responseCode >= 300) {
-        throw new RESTException("Error when doing a PUT call against: " + url + ". JSON put: " + toPost.toJSONString(), response);
+        throw new RESTException(
+            "Error when doing a PUT call against: " + url + ". JSON put: " + toPost.toJSONString(),
+            response);
       }
       if (response.getEntity() != null) {
         responseString = IOUtils.toString(response.getEntity().getContent());
@@ -143,7 +146,7 @@ public class HttpClientRestDao implements RestDao {
       request.reset();
     }
   }
-  
+
   /**
    * Does an http DELETE call.
    *
@@ -177,8 +180,8 @@ public class HttpClientRestDao implements RestDao {
    *
    * @param url URL to post to.
    * @param toPost JSONObject of data to POST.
-   * @return JSONObject representing the response. If the route returns a null
-   * body, the object will be empty.
+   * @return JSONObject representing the response. If the route returns a null body, the object will
+   *         be empty.
    * @throws RESTException
    */
   @Override
@@ -196,7 +199,8 @@ public class HttpClientRestDao implements RestDao {
       HttpResponse response = client.execute(request);
       int responseCode = response.getStatusLine().getStatusCode();
       if (responseCode < 200 || responseCode >= 300) {
-        throw new RESTException("Error when doing a POST call agaist: " + url + ". JSON posted: " + toPost.toJSONString(), response);
+        throw new RESTException("Error when doing a POST call agaist: " + url + ". JSON posted: "
+            + toPost.toJSONString(), response);
       }
       if (response.getEntity() != null) {
         responseString = IOUtils.toString(response.getEntity().getContent());
@@ -224,12 +228,13 @@ public class HttpClientRestDao implements RestDao {
    *
    * @param url URL to post to.
    * @param toPost JSONObject of data to POST.
-   * @return JSONObject representing the response. If the route returns a null
-   * body, the object will be empty.
+   * @return JSONObject representing the response. If the route returns a null body, the object will
+   *         be empty.
    * @throws RESTException
    */
   @Override
-  public JSONAware doPostCall(String url, JSONObject toPost, HashMap<String, String> headers) throws RESTException {
+  public JSONAware doPostCall(String url, JSONObject toPost, HashMap<String, String> headers)
+      throws RESTException {
     logger.debug("Attempting to POST: " + url + ", payload: " + toPost.toJSONString());
     HttpPost request = new HttpPost(url);
     request.setConfig(rc);
@@ -249,7 +254,8 @@ public class HttpClientRestDao implements RestDao {
       HttpResponse response = client.execute(request);
       int responseCode = response.getStatusLine().getStatusCode();
       if (responseCode < 200 || responseCode >= 300) {
-        throw new RESTException("Error when doing a POST call against: " + url + ". JSON posted: " + toPost.toJSONString(), response);
+        throw new RESTException("Error when doing a POST call against: " + url + ". JSON posted: "
+            + toPost.toJSONString(), response);
       }
       if (response.getEntity() != null) {
         responseString = IOUtils.toString(response.getEntity().getContent());
