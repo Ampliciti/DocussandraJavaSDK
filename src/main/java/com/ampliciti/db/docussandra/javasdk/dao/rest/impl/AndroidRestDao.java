@@ -4,6 +4,7 @@ import com.ampliciti.db.docussandra.javasdk.SDKConfig;
 import com.ampliciti.db.docussandra.javasdk.dao.rest.RestDao;
 import com.ampliciti.db.docussandra.javasdk.exceptions.RESTException;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -57,12 +58,12 @@ public class AndroidRestDao implements RestDao {
       con = (HttpURLConnection) obj.openConnection();
       con.setRequestMethod("GET");
       con.setRequestProperty("User-Agent", USER_AGENT);
-      con.setRequestProperty("Content-Type", "application/json");      
+      con.setRequestProperty("Content-Type", "application/json");
       if (config.getSecToken() != null) {
         con.setRequestProperty("Authorization", "Bearer " + config.getSecToken());
       }
 
-      int responseCode = con.getResponseCode();      
+      int responseCode = con.getResponseCode();
       if (responseCode < 200 || responseCode >= 300) {
         throw new RESTException("Error when doing a GET call agaist: " + url, null, responseCode);
       }
@@ -79,10 +80,9 @@ public class AndroidRestDao implements RestDao {
         return new JSONObject();
       }
     } catch (IOException e) {
-      throw new RESTException("Problem contacting REST service for POST", e);
-    }
-    finally{
-      if(con != null){
+      throw new RESTException("Problem contacting REST service for GET", e);
+    } finally {
+      if (con != null) {
         con.disconnect();
       }
     }
@@ -100,7 +100,45 @@ public class AndroidRestDao implements RestDao {
   @Override
   public JSONObject doPutCall(String url, JSONObject toPost) throws RESTException {
     logger.debug("Attempting to PUT: " + url + ", payload: " + toPost.toJSONString());
-    throw new UnsupportedOperationException("Not done yet!");
+    HttpURLConnection con = null;
+    try {
+      URL obj = new URL(url);
+      con = (HttpURLConnection) obj.openConnection();
+      con.setRequestMethod("PUT");
+      con.setRequestProperty("User-Agent", USER_AGENT);
+      con.setRequestProperty("Content-Type", "application/json");
+      if (config.getSecToken() != null) {
+        con.setRequestProperty("Authorization", "Bearer " + config.getSecToken());
+      }
+      con.setDoOutput(true);
+      try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
+        wr.writeBytes(toPost.toJSONString());
+        wr.flush();
+      }
+
+      int responseCode = con.getResponseCode();
+      if (responseCode < 200 || responseCode >= 300) {
+        throw new RESTException("Error when doing a PUT call agaist: " + url, null, responseCode);
+      }
+      String response = parseResponse(con.getInputStream());
+      if (response.length() != 0) {
+        try {
+          logger.debug("Result from PUT call: " + response);
+          JSONParser parser = new JSONParser();
+          return (JSONObject) parser.parse(response);
+        } catch (ParseException pe) {
+          throw new RESTException("Could not parse JSON: " + response, pe);
+        }
+      } else {
+        return new JSONObject();
+      }
+    } catch (IOException e) {
+      throw new RESTException("Problem contacting REST service for PUT", e);
+    } finally {
+      if (con != null) {
+        con.disconnect();
+      }
+    }
   }
 
   /**
@@ -154,7 +192,7 @@ public class AndroidRestDao implements RestDao {
    * @param is InputString to parse.
    * @return String based on that InputStream.
    */
-  private String parseResponse(InputStream is) throws IOException{
+  private String parseResponse(InputStream is) throws IOException {
     BufferedReader in = null;
     try {
       in = new BufferedReader(

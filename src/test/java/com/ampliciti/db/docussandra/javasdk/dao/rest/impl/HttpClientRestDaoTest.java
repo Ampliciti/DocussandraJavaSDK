@@ -2,13 +2,16 @@ package com.ampliciti.db.docussandra.javasdk.dao.rest.impl;
 
 import com.ampliciti.db.docussandra.javasdk.RestUtils;
 import com.ampliciti.db.docussandra.javasdk.SDKConfig;
+import com.ampliciti.db.docussandra.javasdk.SDKUtils;
 import com.ampliciti.db.docussandra.javasdk.dao.impl.DatabaseDaoImpl;
 import com.ampliciti.db.docussandra.javasdk.dao.rest.RestDao;
 import com.ampliciti.db.docussandra.javasdk.exceptions.RESTException;
 import com.ampliciti.docussandra.javasdk.testhelper.TestUtils;
+import com.pearson.docussandra.domain.objects.Database;
 import java.util.HashMap;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -88,17 +91,18 @@ public class HttpClientRestDaoTest {
    * Test of doPutCall method, of class HttpClientRestDao.
    */
   @Test
-  @Ignore
   public void testDoPutCall() throws Exception {
     System.out.println("doPutCall");
-    String url = "";
-    JSONObject toPost = null;
-    HttpClientRestDao instance = null;
-    JSONObject expResult = null;
+        DatabaseDaoImpl dbDao = new DatabaseDaoImpl(config);
+    dbDao.create(TestUtils.getTestDb());
+    JSONParser parser = new JSONParser();
+    Database updated = TestUtils.getTestDb();
+    updated.setDescription("New descript...");
+    String url = RestUtils.createFullURL(config.getBaseURL(), TestUtils.getTestDb().getId());
+    JSONObject toPost = (JSONObject) parser.parse(SDKUtils.createJSON(updated));    
     JSONObject result = instance.doPutCall(url, toPost);
-    assertEquals(expResult, result);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
+    assertNotNull(result);
+            
   }
 
   /**
