@@ -1,5 +1,6 @@
 package com.ampliciti.db.docussandra.javasdk.dao.impl.parent;
 
+
 import com.ampliciti.db.docussandra.javasdk.SDKConfig;
 import com.ampliciti.db.docussandra.javasdk.dao.rest.RestDao;
 import com.ampliciti.db.docussandra.javasdk.dao.rest.impl.HttpClientRestDao;
@@ -9,7 +10,7 @@ import com.ampliciti.db.docussandra.javasdk.dao.rest.impl.HttpClientRestDao;
  *
  * @author https://github.com/JeffreyDeYoung
  */
-public abstract class DaoParent {
+public class DaoParent {
 
   /**
    * Config for our SDK.
@@ -20,7 +21,7 @@ public abstract class DaoParent {
    * Our RestDao for all calls.
    */
   protected final RestDao restDao;
-
+  
   /**
    * Constructor.
    *
